@@ -1,55 +1,39 @@
 import type { ChatMessage, ChatRequest, ChatResponse } from '@/types';
+import { infer } from '@/lib/ai';
+import { buildSystemMessages } from '@/lib/ai/prompts';
 
 /**
  * Chat service.
  *
  * Handles conversational interactions between the farmer and the AI.
- * Manages conversation context and delegates inference to the AI layer.
- *
- * TODO:
- * - Implement conversation context management
- * - Integrate with AI inference module
- * - Add conversation persistence
- * - Implement token limits and message trimming
- * - Add rate limiting per conversation
+ * Delegates inference to the AI layer via the InferenceRouter, which
+ * tries Ollama (local/offline) first and falls back to the cloud
+ * provider if Ollama is unavailable.
  */
 
 /**
  * Processes a chat request and returns the AI response.
  *
- * @param request - The chat request payload
- * @returns The chat response with the AI's reply
+ * Prepends the FarmPal chat system prompt to the conversation history,
+ * then calls `infer()` which routes through the registered providers in
+ * priority order (Ollama → cloud).
  *
- * TODO: Implement actual chat logic.
- *       - Retrieve or create conversation context
- *       - Call infer() from the AI layer
- *       - Store the new messages
- *       - Generate follow-up suggestions
+ * @param request - The validated chat request payload.
+ * @returns The assistant's reply wrapped in a ChatResponse.
+ * @throws AIServiceError if no AI provider is available.
  */
 export async function processChatMessage(
   request: ChatRequest,
 ): Promise<ChatResponse> {
-  const { messages } = request;
-
-  // Placeholder: echo the last user message as a confirmation
-  // TODO: Replace with actual AI inference
-  const lastUserMessage = [...messages]
-    .reverse()
-    .find((m) => m.role === 'user');
+  const messagesWithSystem = buildSystemMessages('chat', request.messages);
+  const content = await infer(messagesWithSystem, { task: 'chat' });
 
   const reply: ChatMessage = {
     id: crypto.randomUUID(),
-    content: `Received your message. AI response pending implementation. You said: "${lastUserMessage?.content ?? '...'}"`,
+    content,
     role: 'assistant',
     createdAt: new Date().toISOString(),
   };
 
-  return {
-    message: reply,
-    suggestions: [
-      'Tell me more about the symptoms',
-      'Which crop is affected?',
-      'When did you first notice this?',
-    ],
-  };
+  return { message: reply };
 }
