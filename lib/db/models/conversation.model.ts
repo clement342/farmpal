@@ -10,13 +10,18 @@ export interface MessageSubDocument {
 }
 
 /**
+ * Possible states of a conversation session.
+ */
+export type ConversationStatus = 'ACTIVE' | 'COMPLETED' | 'ABANDONED';
+
+/**
  * Mongoose document interface for a Conversation.
  */
 export interface ConversationDocument extends Document {
   messages: MessageSubDocument[];
   cropId?: string;
   cropName?: string;
-  resolved: boolean;
+  status: ConversationStatus;
   diagnosisId?: string;
   createdAt: Date;
   updatedAt: Date;
@@ -44,7 +49,12 @@ const ConversationSchema = new Schema<ConversationDocument>(
     },
     cropId: { type: String, index: true },
     cropName: { type: String },
-    resolved: { type: Boolean, default: false, index: true },
+    status: {
+      type: String,
+      default: 'ACTIVE',
+      enum: ['ACTIVE', 'COMPLETED', 'ABANDONED'],
+      index: true,
+    },
     diagnosisId: { type: String, index: true },
   },
   {
@@ -53,7 +63,7 @@ const ConversationSchema = new Schema<ConversationDocument>(
   },
 );
 
-ConversationSchema.index({ updatedAt: -1 });
+ConversationSchema.index({ status: 1, updatedAt: -1 });
 ConversationSchema.index({ createdAt: -1 });
 
 /**

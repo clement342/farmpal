@@ -7,21 +7,22 @@ import { AppError } from '@/utils/errors';
 /**
  * POST /api/diagnose
  *
- * Initiates a crop disease diagnosis. If the system needs more
- * information, it returns follow-up questions. Once sufficient
- * information is gathered, it returns the diagnosis.
+ * Initiates or continues a crop disease diagnosis conversation.
+ *
+ * If `conversationId` is omitted a new conversation is created.
+ * If provided the existing conversation is resumed with the new message.
  *
  * Body:
- *   { symptoms: string, cropId: string, imageUrls?: string[], context?: Record<string, string> }
+ *   { symptoms: string, cropId: string, conversationId?: string, imageUrls?: string[], context?: Record<string, string> }
  *
  * Response:
- *   { success: true, data: { requiresClarification: boolean, followUpQuestions?: string[], diagnosis?: Diagnosis } }
+ *   { success: true, data: { conversationId: string, status: "ACTIVE"|"COMPLETED", response: { status: "follow_up"|"diagnosis", ... } } }
  */
 export async function POST(request: NextRequest) {
   try {
     const body = await parseBody(request);
-    const response = await handleDiagnosisRequest(body);
-    return successResponse(response, 'Diagnosis request processed');
+    const result = await handleDiagnosisRequest(body);
+    return successResponse(result, 'Diagnosis request processed');
   } catch (error) {
     if (error instanceof AppError) {
       return errorResponse(error.message, error.code, error.statusCode);
