@@ -9,8 +9,16 @@
  *   3. Parse the raw provider output via `parseDiagnosisResponse()`
  *   4. Map the parsed output to `DiagnosisResponse` via `mapToDiagnosisResponse()`
  *
- * The service layer only sees `generateDiagnosis()` — none of the above
- * steps are visible outside this class.
+ * The service layer only sees `generateDiagnosis()` and `streamDiagnosis()` —
+ * none of the above steps are visible outside this class.
+ *
+ * ## Streaming
+ *
+ * `streamDiagnosis()` returns an `AsyncGenerator` that yields raw text chunks
+ * as they become available. Currently the provider infrastructure returns the
+ * full response at once, so the generator yields a single chunk. When the
+ * provider layer gains true streaming support, this method can yield chunks
+ * incrementally — no service or controller changes required.
  *
  * ## Adding a new AI provider
  *
@@ -20,7 +28,6 @@
  *
  * TODO:
  * - Add configurable temperature / maxTokens via constructor options.
- * - Add support for multi-turn conversations (pass conversation history).
  * - Add telemetry / tracing for adapter latency.
  *
  * @module
@@ -72,6 +79,39 @@ export class DiagnosisAIAdapter {
     }
 
     return mapToDiagnosisResponse(result.data);
+  }
+
+  /**
+   * Streams a diagnosis response from the AI provider.
+   *
+   * Yields raw text chunks as they become available. When the provider
+   * layer gains true streaming support, chunks will arrive incrementally.
+   * Currently yields the complete response as a single chunk (wrapping
+   * the non-streaming `infer()` call).
+   *
+   * The caller is responsible for:
+   *   - Collecting chunks into the complete text
+   *   - Parsing the complete text via `parseDiagnosisResponse()`
+   *   - Handling persistence after the generator exhausts
+   *
+   * @param request           - The diagnosis request.
+   * @param crop              - Optional crop document for context.
+   * @param existingMessages  - Prior conversation history (multi-turn).
+   * @yields Raw text chunks from the AI provider.
+   */
+  async *streamDiagnosis(
+    request: DiagnosisRequest,
+    crop?: Crop,
+    existingMessages?: ChatMessage[],
+  ): AsyncGenerator<string> {
+    const messages = this.buildRequestMessages(request, crop, existingMessages);
+
+    const rawText = await infer(messages, {
+      task: 'diagnosis',
+      temperature: 0.3,
+    });
+
+    yield rawText;
   }
 
   /**
@@ -129,4 +169,20 @@ export async function generateDiagnosis(
   existingMessages?: ChatMessage[],
 ): Promise<DiagnosisResponse> {
   return defaultAdapter.generateDiagnosis(request, crop, existingMessages);
+}
+
+/**
+ * Streams a diagnosis from the AI provider, yielding raw text chunks.
+ *
+ * @param request           - Diagnosis request payload.
+ * @param crop              - Optional crop context.
+ * @param existingMessages  - Prior conversation history (multi-turn).
+ * @yields Raw text chunks.
+ */
+export async function* streamDiagnosis(
+  request: DiagnosisRequest,
+  crop?: Crop,
+  existingMessages?: ChatMessage[],
+): AsyncGenerator<string> {
+  yield* defaultAdapter.streamDiagnosis(request, crop, existingMessages);
 }

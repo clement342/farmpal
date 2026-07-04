@@ -1,7 +1,6 @@
 import type { DiagnosisRequest, ConversationDiagnosisResponse } from '@/types';
-import { createDiagnosis } from '@/services/diagnose.service';
+import { createDiagnosis, streamDiagnosis } from '@/services/diagnose.service';
 import { validateDiagnosisRequest, validateCropExists } from '@/lib/validation';
-
 
 /**
  * Diagnosis controller.
@@ -14,11 +13,10 @@ import { validateDiagnosisRequest, validateCropExists } from '@/lib/validation';
  */
 
 /**
- * Initiates or continues a crop disease diagnosis.
+ * Initiates or continues a crop disease diagnosis (non-streaming).
  *
  * @param body - The raw request body containing symptoms, crop info, and optional conversationId
  * @returns A conversation-aware diagnosis response
- * @throws NotFoundError if the referenced conversation does not exist
  */
 export async function handleDiagnosisRequest(
   body: unknown,
@@ -28,4 +26,23 @@ export async function handleDiagnosisRequest(
   await validateCropExists(request.cropId);
 
   return createDiagnosis(request);
+}
+
+/**
+ * Initiates or continues a crop disease diagnosis with streaming.
+ *
+ * Returns a `ReadableStream` that the route handler should return
+ * as the HTTP response with `Content-Type: text/event-stream`.
+ *
+ * @param body - The raw request body
+ * @returns A ReadableStream of SSE events
+ */
+export async function handleStreamDiagnosis(
+  body: unknown,
+): Promise<ReadableStream<Uint8Array>> {
+  const request: DiagnosisRequest = validateDiagnosisRequest(body);
+
+  await validateCropExists(request.cropId);
+
+  return streamDiagnosis(request);
 }

@@ -3,7 +3,9 @@ import type { Crop } from '@/types/crop';
 import { DiagnosisRepository, type CreateDiagnosisData } from '@/repositories/diagnosis.repository';
 import { ConversationRepository } from '@/repositories/conversation.repository';
 import { CropRepository } from '@/repositories/crop.repository';
-import { getDiagnosisAdapter, getAdapterProviderName } from '@/adapters/diagnosis-adapter.factory';
+import { getDiagnosisAdapter, getStreamDiagnosisAdapter, getAdapterProviderName } from '@/adapters/diagnosis-adapter.factory';
+import { parseDiagnosisResponse } from '@/lib/ai/parsers/diagnosis-response.parser';
+import { mapToDiagnosisResponse } from '@/adapters/diagnosis/mapper';
 import type { DiagnosisDocument } from '@/lib/db/models/diagnosis.model';
 import type { CropDocument } from '@/lib/db/models/crop.model';
 import { NotFoundError } from '@/utils/errors';
@@ -121,6 +123,144 @@ export async function createDiagnosis(
     status: 'ACTIVE',
     response,
   };
+}
+
+/**
+ * Initiates a streaming diagnosis conversation.
+ *
+ * Sets up or resumes a conversation, then returns a `ReadableStream`
+ * that yields SSE events (`chunk`, `result`, or `error`) as the AI
+ * generates its response. After the stream completes, the conversation
+ * and diagnosis (if reached) are persisted.
+ *
+ * The caller (route handler) should pipe this stream directly into the
+ * HTTP response with `Content-Type: text/event-stream`.
+ *
+ * @param request - The diagnosis request.
+ * @returns A ReadableStream of SSE-encoded events.
+ */
+export async function streamDiagnosis(
+  request: DiagnosisRequest,
+): Promise<ReadableStream<Uint8Array>> {
+  const crop = await cropRepository.findById(request.cropId);
+  const mappedCrop: Crop | undefined = crop ? mapCropDocument(crop) : undefined;
+
+  // -----------------------------------------------------------------------
+  // Resolve or create conversation
+  // -----------------------------------------------------------------------
+  let conversationId: string;
+  let existingMessages: ChatMessage[] = [];
+
+  if (request.conversationId) {
+    const existing = await conversationRepository.findById(request.conversationId);
+    if (!existing) throw new NotFoundError('Conversation');
+    conversationId = request.conversationId;
+    existingMessages = existing.messages.map(mapMessageSubDoc);
+  } else {
+    const created = await conversationRepository.createConversation({
+      messages: [],
+      cropId: request.cropId,
+      cropName: crop?.name,
+    });
+    conversationId = String(created._id);
+  }
+
+  await conversationRepository.appendMessage(conversationId, {
+    role: 'user',
+    content: request.symptoms,
+  });
+
+  // -----------------------------------------------------------------------
+  // Create the stream
+  // -----------------------------------------------------------------------
+  const streamAdapter = await getStreamDiagnosisAdapter();
+  const aiProvider = getAdapterProviderName();
+
+  let fullText = '';
+
+  return new ReadableStream<Uint8Array>({
+    async start(controller) {
+      try {
+        for await (const chunk of streamAdapter(request, mappedCrop, existingMessages)) {
+          fullText += chunk;
+          controller.enqueue(encodeSSE('chunk', { text: chunk }));
+        }
+
+        // --- Generation complete — parse and persist ---
+        const parsed = parseDiagnosisResponse(fullText);
+
+        if (!parsed.success) {
+          controller.enqueue(encodeSSE('error', { message: parsed.error.message }));
+          controller.close();
+          return;
+        }
+
+        const response = mapToDiagnosisResponse(parsed.data);
+
+        if (response.status === 'diagnosis') {
+          const topCause = response.diagnosis.possibleCauses[0];
+
+          await conversationRepository.appendMessage(conversationId, {
+            role: 'assistant',
+            content: response.diagnosis.reasoning,
+          });
+
+          const diagnosisData: CreateDiagnosisData = {
+            diseaseName: topCause.name,
+            cropName: crop?.name ?? 'Unknown',
+            cropId: request.cropId,
+            confidence: topCause.confidence,
+            reasoning: response.diagnosis.reasoning,
+            severity: mapUrgencyToSeverity(response.diagnosis.urgency),
+            immediateActions: response.diagnosis.recommendations
+              .filter((r) => r.category === 'immediate_action')
+              .map((r) => r.text),
+            preventiveMeasures: response.diagnosis.recommendations
+              .filter((r) => r.category === 'preventive')
+              .map((r) => r.text),
+            extensionOfficerAdvice: response.diagnosis.extensionOfficerAdvice,
+            symptoms: request.symptoms,
+            conversationId,
+            aiProvider,
+          };
+
+          const diagnosisDoc = await diagnosisRepository.create(diagnosisData);
+          await conversationRepository.completeConversation(conversationId, String(diagnosisDoc._id));
+
+          controller.enqueue(encodeSSE('result', {
+            conversationId,
+            status: 'COMPLETED',
+            response,
+          }));
+        } else {
+          await conversationRepository.appendMessage(conversationId, {
+            role: 'assistant',
+            content: response.question,
+          });
+
+          controller.enqueue(encodeSSE('result', {
+            conversationId,
+            status: 'ACTIVE',
+            response,
+          }));
+        }
+      } catch (err) {
+        controller.enqueue(encodeSSE('error', {
+          message: err instanceof Error ? err.message : 'An unexpected error occurred during streaming',
+        }));
+      } finally {
+        controller.close();
+      }
+    },
+  });
+}
+
+/**
+ * Encodes a streaming event as an SSE-format Uint8Array.
+ */
+function encodeSSE(type: string, data: unknown): Uint8Array {
+  const payload = `data: ${JSON.stringify({ type, ...(data as Record<string, unknown>) })}\n\n`;
+  return new TextEncoder().encode(payload);
 }
 
 /**
