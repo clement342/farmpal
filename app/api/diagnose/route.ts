@@ -15,7 +15,7 @@ import { AppError } from '@/utils/errors';
  *   { symptoms: string, cropId: string, imageUrls?: string[], context?: Record<string, string> }
  *
  * Response:
- *   { success: true, data: { requiresClarification: boolean, followUpQuestions?: string[], diagnosis?: Diagnosis } }
+ *   { success: true, data: { status: "follow_up", question: string, options?: string[] } | { status: "diagnosis", diagnosis: DiagnosisResult } }
  */
 export async function POST(request: NextRequest) {
   try {

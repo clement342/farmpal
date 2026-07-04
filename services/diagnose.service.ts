@@ -3,7 +3,7 @@ import type { Crop } from '@/types/crop';
 import { DiagnosisRepository, type CreateDiagnosisData } from '@/repositories/diagnosis.repository';
 import { ConversationRepository } from '@/repositories/conversation.repository';
 import { CropRepository } from '@/repositories/crop.repository';
-import { generateDiagnosis } from '@/adapters/mock-ai/diagnosis.adapter';
+import { getDiagnosisAdapter, getAdapterProviderName } from '@/adapters/diagnosis-adapter.factory';
 import type { DiagnosisDocument } from '@/lib/db/models/diagnosis.model';
 import type { CropDocument } from '@/lib/db/models/crop.model';
 
@@ -16,13 +16,11 @@ import type { CropDocument } from '@/lib/db/models/crop.model';
  * 3. Persists the conversation and diagnosis result
  * 4. Returns the structured response
  *
- * The service depends on an AI adapter interface, not a concrete
- * implementation. Swapping from mock to real AI only requires
- * changing the adapter import.
+ * The service uses an adapter factory to resolve the AI provider at
+ * runtime. Set `USE_MOCK_AI=true` to use the mock adapter for
+ * development/testing; otherwise the real AI adapter is used.
  *
  * TODO:
- * - Replace import from mock adapter with a configurable adapter factory
- *   so the AI provider can be chosen at runtime (local vs cloud).
  * - Add request telemetry and logging.
  * - Add request tracing / correlation ID.
  */
@@ -43,12 +41,9 @@ export async function createDiagnosis(
   // Look up the crop for context
   const crop = await cropRepository.findById(request.cropId);
 
-  // Delegate diagnosis generation to the AI adapter
-  // TODO:
-  // Replace mocked adapter with AIProvider.generateDiagnosis()
-  // once the AI provider layer is integrated.
-  // The adapter should be injected via constructor or factory,
-  // not hard-imported, to support runtime provider selection.
+  // Resolve the AI adapter at runtime (mock vs real AI)
+  const generateDiagnosis = await getDiagnosisAdapter();
+  const aiProvider = getAdapterProviderName();
   const mappedCrop: Crop | undefined = crop ? mapCropDocument(crop) : undefined;
   const response = await generateDiagnosis(request, mappedCrop);
 
@@ -90,7 +85,7 @@ export async function createDiagnosis(
       extensionOfficerAdvice: response.diagnosis.extensionOfficerAdvice,
       symptoms: request.symptoms,
       conversationId: String(conversation._id),
-      aiProvider: 'mock',
+      aiProvider,
     };
 
     await diagnosisRepository.create(data);
