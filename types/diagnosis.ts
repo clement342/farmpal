@@ -4,7 +4,50 @@
 export type SeverityLevel = 'low' | 'moderate' | 'high' | 'critical';
 
 /**
- * A single crop disease diagnosis.
+ * Urgency level communicated to the farmer.
+ */
+export type UrgencyLevel = 'low' | 'moderate' | 'high' | 'critical';
+
+/**
+ * A single possible cause within a diagnosis result.
+ */
+export interface PossibleCause {
+  /** Name of the disease or condition */
+  name: string;
+  /** Confidence score 0–1 */
+  confidence: number;
+  /** Brief explanation of why this is suspected */
+  reasoning: string;
+}
+
+/**
+ * A recommendation returned alongside a diagnosis.
+ */
+export interface Recommendation {
+  /** The recommendation text */
+  text: string;
+  /** Category for display purposes */
+  category: 'immediate_action' | 'preventive' | 'consultation';
+}
+
+/**
+ * The structured diagnosis result returned when the AI has enough information.
+ */
+export interface DiagnosisResult {
+  /** Possible causes ranked by confidence */
+  possibleCauses: PossibleCause[];
+  /** Summary reasoning for the diagnosis */
+  reasoning: string;
+  /** Actionable recommendations */
+  recommendations: Recommendation[];
+  /** Urgency level for the farmer */
+  urgency: UrgencyLevel;
+  /** When to consult an agricultural extension officer */
+  extensionOfficerAdvice?: string;
+}
+
+/**
+ * A single crop disease diagnosis (persisted record).
  */
 export interface Diagnosis {
   /** Unique identifier */
@@ -44,13 +87,22 @@ export interface DiagnosisRequest {
 }
 
 /**
- * Full response from the diagnosis pipeline.
+ * Response from the diagnosis pipeline.
+ *
+ * Supports two states:
+ * - `follow_up` — the AI needs more information before diagnosing
+ * - `diagnosis` — the AI has reached a conclusion
  */
-export interface DiagnosisResponse {
-  /** Whether the system needs more information */
-  requiresClarification: boolean;
-  /** Follow-up questions if clarification is needed */
-  followUpQuestions?: string[];
-  /** The diagnosis (present when clarification is not needed) */
-  diagnosis?: Diagnosis;
-}
+export type DiagnosisResponse =
+  | {
+      status: 'follow_up';
+      /** Follow-up question for the farmer */
+      question: string;
+      /** Predefined answer options (optional) */
+      options?: string[];
+    }
+  | {
+      status: 'diagnosis';
+      /** The structured diagnosis result */
+      diagnosis: DiagnosisResult;
+    };
