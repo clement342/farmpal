@@ -1,9 +1,11 @@
+import type { ChatMessage } from '@/types';
 import type { DiagnosisRequest, DiagnosisResponse } from '@/types/diagnosis';
 import type { Crop } from '@/types/crop';
 
 export type GenerateDiagnosisFn = (
   request: DiagnosisRequest,
   crop?: Crop,
+  existingMessages?: ChatMessage[],
 ) => Promise<DiagnosisResponse>;
 
 let cachedAdapter: GenerateDiagnosisFn | null = null;
