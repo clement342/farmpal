@@ -43,16 +43,22 @@ export class DiagnosisAIAdapter {
   /**
    * Generates a diagnosis response from the AI provider.
    *
-   * @param request - The diagnosis request containing symptoms and crop ID.
-   * @param crop    - Optional crop document for context injection.
+   * For single-turn use, pass the request with symptoms and optional crop.
+   * For multi-turn conversations, also pass `existingMessages` — the adapter
+   * appends the new user message to the existing history before sending.
+   *
+   * @param request           - The diagnosis request containing symptoms and crop ID.
+   * @param crop              - Optional crop document for context injection.
+   * @param existingMessages  - Prior conversation history (for multi-turn).
    * @returns A fully-formed DiagnosisResponse.
    * @throws DiagnosisResponseParseError if the AI output cannot be parsed.
    */
   async generateDiagnosis(
     request: DiagnosisRequest,
     crop?: Crop,
+    existingMessages?: ChatMessage[],
   ): Promise<DiagnosisResponse> {
-    const messages = this.buildRequestMessages(request, crop);
+    const messages = this.buildRequestMessages(request, crop, existingMessages);
 
     const rawText = await infer(messages, {
       task: 'diagnosis',
@@ -74,24 +80,29 @@ export class DiagnosisAIAdapter {
    * Includes:
    *   - The diagnosis system prompt (injected by buildSystemMessages)
    *   - Optional crop/region context
-   *   - The user's symptom description
+   *   - Prior conversation history (if continuing a conversation)
+   *   - The new user symptom description
    */
   private buildRequestMessages(
     request: DiagnosisRequest,
     crop?: Crop,
+    existingMessages?: ChatMessage[],
   ): ChatMessage[] {
     const cropContext = crop
       ? `Crop: ${crop.name}${crop.regions?.length ? `, Region: ${crop.regions.join(', ')}` : ''}`
       : undefined;
 
-    const userMessage: ChatMessage = {
+    const newMessage: ChatMessage = {
       id: crypto.randomUUID(),
       role: 'user',
       content: request.symptoms,
       createdAt: new Date().toISOString(),
     };
 
-    return buildSystemMessages('diagnosis', [userMessage], cropContext);
+    const history = existingMessages ?? [];
+    const allMessages = [...history, newMessage];
+
+    return buildSystemMessages('diagnosis', allMessages, cropContext);
   }
 }
 
@@ -107,13 +118,15 @@ const defaultAdapter = new DiagnosisAIAdapter();
  * Convenience function matching the `GenerateDiagnosisFn` signature
  * consumed by the adapter factory.
  *
- * @param request - Diagnosis request payload.
- * @param crop    - Optional crop context.
+ * @param request           - Diagnosis request payload.
+ * @param crop              - Optional crop context.
+ * @param existingMessages  - Prior conversation history (for multi-turn).
  * @returns A diagnosis response.
  */
 export async function generateDiagnosis(
   request: DiagnosisRequest,
   crop?: Crop,
+  existingMessages?: ChatMessage[],
 ): Promise<DiagnosisResponse> {
-  return defaultAdapter.generateDiagnosis(request, crop);
+  return defaultAdapter.generateDiagnosis(request, crop, existingMessages);
 }
