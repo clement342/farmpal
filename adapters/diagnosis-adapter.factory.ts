@@ -20,7 +20,7 @@ async function loadAdapter(): Promise<GenerateDiagnosisFn> {
     return mod.generateDiagnosis;
   }
   cachedProviderName = 'ai';
-  const mod = await import('@/adapters/ai/diagnosis.adapter');
+  const mod = await import('@/adapters/diagnosis/DiagnosisAIAdapter');
   return mod.generateDiagnosis;
 }
 
