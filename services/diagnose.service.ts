@@ -1,50 +1,266 @@
-import type { Diagnosis, DiagnosisRequest, DiagnosisResponse } from '@/types';
+import type { ChatMessage, Diagnosis, DiagnosisRequest, ConversationDiagnosisResponse } from '@/types';
+import type { Crop } from '@/types/crop';
+import { DiagnosisRepository, type CreateDiagnosisData } from '@/repositories/diagnosis.repository';
+import { ConversationRepository } from '@/repositories/conversation.repository';
+import { CropRepository } from '@/repositories/crop.repository';
+import { getDiagnosisAdapter, getStreamDiagnosisAdapter, getAdapterProviderName } from '@/adapters/diagnosis-adapter.factory';
+import { parseDiagnosisResponse } from '@/lib/ai/parsers/diagnosis-response.parser';
+import { mapToDiagnosisResponse } from '@/adapters/diagnosis/mapper';
+import type { DiagnosisDocument } from '@/lib/db/models/diagnosis.model';
+import type { CropDocument } from '@/lib/db/models/crop.model';
+import { NotFoundError } from '@/utils/errors';
+
+const diagnosisRepository = new DiagnosisRepository();
+const conversationRepository = new ConversationRepository();
+const cropRepository = new CropRepository();
 
 /**
- * Diagnosis service.
+ * Initiates or continues a diagnosis conversation.
  *
- * Orchestrates the crop disease diagnosis pipeline. Collects symptoms,
- * runs them through the AI clarification loop, and returns structured
- * diagnosis results with confidence scoring.
+ * If the request includes a `conversationId` the existing conversation
+ * is loaded and the new message is appended before calling the AI.
+ * Otherwise a new conversation is created.
  *
- * TODO:
- * - Implement the clarification loop (AI asks follow-up questions)
- * - Integrate with AI inference for diagnosis generation
- * - Add confidence calculation logic
- * - Implement severity assessment heuristics
- * - Add crop-specific knowledge base queries
- * - Store completed diagnoses in the database
- */
-
-/**
- * Initiates the diagnosis pipeline for the given symptoms.
+ * On a completed diagnosis the conversation is marked COMPLETED and
+ * the result is persisted. On a follow-up the conversation stays
+ * ACTIVE so the farmer can continue.
  *
- * If the system needs more information to reach a confident diagnosis,
- * it returns follow-up questions instead of a diagnosis.
- *
- * @param request - The diagnosis request payload
- * @returns A diagnosis response (either questions or a final diagnosis)
- *
- * TODO: Implement the full diagnosis pipeline.
- *       - Check if sufficient information is available
- *       - If not, return follow-up questions
- *       - If yes, generate and return the diagnosis
+ * @param request - The diagnosis request payload.
+ * @returns A conversation-aware diagnosis response.
+ * @throws NotFoundError if the conversationId does not exist.
  */
 export async function createDiagnosis(
   request: DiagnosisRequest,
-): Promise<DiagnosisResponse> {
-  // Placeholder: always ask for more information
-  // TODO: Replace with actual AI-driven triage
+): Promise<ConversationDiagnosisResponse> {
+  const crop = await cropRepository.findById(request.cropId);
+  const mappedCrop: Crop | undefined = crop ? mapCropDocument(crop) : undefined;
+
+  // -----------------------------------------------------------------------
+  // Resolve or create conversation
+  // -----------------------------------------------------------------------
+  let conversationId: string;
+  let existingMessages: ChatMessage[] = [];
+
+  if (request.conversationId) {
+    const existing = await conversationRepository.findById(request.conversationId);
+    if (!existing) {
+      throw new NotFoundError('Conversation');
+    }
+    conversationId = request.conversationId;
+    existingMessages = existing.messages.map(mapMessageSubDoc);
+  } else {
+    const created = await conversationRepository.createConversation({
+      messages: [],
+      cropId: request.cropId,
+      cropName: crop?.name,
+    });
+    conversationId = String(created._id);
+  }
+
+  // -----------------------------------------------------------------------
+  // Append user message to conversation
+  // -----------------------------------------------------------------------
+  await conversationRepository.appendMessage(conversationId, {
+    role: 'user',
+    content: request.symptoms,
+  });
+
+  // -----------------------------------------------------------------------
+  // Call AI adapter with full conversation history
+  // -----------------------------------------------------------------------
+  const generateDiagnosis = await getDiagnosisAdapter();
+  const aiProvider = getAdapterProviderName();
+  const response = await generateDiagnosis(request, mappedCrop, existingMessages);
+
+  // -----------------------------------------------------------------------
+  // Persist AI response and handle completion
+  // -----------------------------------------------------------------------
+  if (response.status === 'diagnosis') {
+    const topCause = response.diagnosis.possibleCauses[0];
+
+    await conversationRepository.appendMessage(conversationId, {
+      role: 'assistant',
+      content: response.diagnosis.reasoning,
+    });
+
+    const diagnosisData: CreateDiagnosisData = {
+      diseaseName: topCause.name,
+      cropName: crop?.name ?? 'Unknown',
+      cropId: request.cropId,
+      confidence: topCause.confidence,
+      reasoning: response.diagnosis.reasoning,
+      severity: mapUrgencyToSeverity(response.diagnosis.urgency),
+      immediateActions: response.diagnosis.recommendations
+        .filter((r) => r.category === 'immediate_action')
+        .map((r) => r.text),
+      preventiveMeasures: response.diagnosis.recommendations
+        .filter((r) => r.category === 'preventive')
+        .map((r) => r.text),
+      extensionOfficerAdvice: response.diagnosis.extensionOfficerAdvice,
+      symptoms: request.symptoms,
+      conversationId,
+      aiProvider,
+    };
+
+    const diagnosisDoc = await diagnosisRepository.create(diagnosisData);
+    await conversationRepository.completeConversation(conversationId, String(diagnosisDoc._id));
+
+    return {
+      conversationId,
+      status: 'COMPLETED',
+      response,
+    };
+  }
+
+  // Follow-up — leave conversation ACTIVE, persist AI question
+  await conversationRepository.appendMessage(conversationId, {
+    role: 'assistant',
+    content: response.question,
+  });
 
   return {
-    requiresClarification: true,
-    followUpQuestions: [
-      'Which part of the plant is affected?',
-      'When did you first notice the symptoms?',
-      'Are other plants in the area affected?',
-      'Have you applied any treatments?',
-    ],
+    conversationId,
+    status: 'ACTIVE',
+    response,
   };
+}
+
+/**
+ * Initiates a streaming diagnosis conversation.
+ *
+ * Sets up or resumes a conversation, then returns a `ReadableStream`
+ * that yields SSE events (`chunk`, `result`, or `error`) as the AI
+ * generates its response. After the stream completes, the conversation
+ * and diagnosis (if reached) are persisted.
+ *
+ * The caller (route handler) should pipe this stream directly into the
+ * HTTP response with `Content-Type: text/event-stream`.
+ *
+ * @param request - The diagnosis request.
+ * @returns A ReadableStream of SSE-encoded events.
+ */
+export async function streamDiagnosis(
+  request: DiagnosisRequest,
+): Promise<ReadableStream<Uint8Array>> {
+  const crop = await cropRepository.findById(request.cropId);
+  const mappedCrop: Crop | undefined = crop ? mapCropDocument(crop) : undefined;
+
+  // -----------------------------------------------------------------------
+  // Resolve or create conversation
+  // -----------------------------------------------------------------------
+  let conversationId: string;
+  let existingMessages: ChatMessage[] = [];
+
+  if (request.conversationId) {
+    const existing = await conversationRepository.findById(request.conversationId);
+    if (!existing) throw new NotFoundError('Conversation');
+    conversationId = request.conversationId;
+    existingMessages = existing.messages.map(mapMessageSubDoc);
+  } else {
+    const created = await conversationRepository.createConversation({
+      messages: [],
+      cropId: request.cropId,
+      cropName: crop?.name,
+    });
+    conversationId = String(created._id);
+  }
+
+  await conversationRepository.appendMessage(conversationId, {
+    role: 'user',
+    content: request.symptoms,
+  });
+
+  // -----------------------------------------------------------------------
+  // Create the stream
+  // -----------------------------------------------------------------------
+  const streamAdapter = await getStreamDiagnosisAdapter();
+  const aiProvider = getAdapterProviderName();
+
+  let fullText = '';
+
+  return new ReadableStream<Uint8Array>({
+    async start(controller) {
+      try {
+        for await (const chunk of streamAdapter(request, mappedCrop, existingMessages)) {
+          fullText += chunk;
+          controller.enqueue(encodeSSE('chunk', { text: chunk }));
+        }
+
+        // --- Generation complete — parse and persist ---
+        const parsed = parseDiagnosisResponse(fullText);
+
+        if (!parsed.success) {
+          controller.enqueue(encodeSSE('error', { message: parsed.error.message }));
+          controller.close();
+          return;
+        }
+
+        const response = mapToDiagnosisResponse(parsed.data);
+
+        if (response.status === 'diagnosis') {
+          const topCause = response.diagnosis.possibleCauses[0];
+
+          await conversationRepository.appendMessage(conversationId, {
+            role: 'assistant',
+            content: response.diagnosis.reasoning,
+          });
+
+          const diagnosisData: CreateDiagnosisData = {
+            diseaseName: topCause.name,
+            cropName: crop?.name ?? 'Unknown',
+            cropId: request.cropId,
+            confidence: topCause.confidence,
+            reasoning: response.diagnosis.reasoning,
+            severity: mapUrgencyToSeverity(response.diagnosis.urgency),
+            immediateActions: response.diagnosis.recommendations
+              .filter((r) => r.category === 'immediate_action')
+              .map((r) => r.text),
+            preventiveMeasures: response.diagnosis.recommendations
+              .filter((r) => r.category === 'preventive')
+              .map((r) => r.text),
+            extensionOfficerAdvice: response.diagnosis.extensionOfficerAdvice,
+            symptoms: request.symptoms,
+            conversationId,
+            aiProvider,
+          };
+
+          const diagnosisDoc = await diagnosisRepository.create(diagnosisData);
+          await conversationRepository.completeConversation(conversationId, String(diagnosisDoc._id));
+
+          controller.enqueue(encodeSSE('result', {
+            conversationId,
+            status: 'COMPLETED',
+            response,
+          }));
+        } else {
+          await conversationRepository.appendMessage(conversationId, {
+            role: 'assistant',
+            content: response.question,
+          });
+
+          controller.enqueue(encodeSSE('result', {
+            conversationId,
+            status: 'ACTIVE',
+            response,
+          }));
+        }
+      } catch (err) {
+        controller.enqueue(encodeSSE('error', {
+          message: err instanceof Error ? err.message : 'An unexpected error occurred during streaming',
+        }));
+      } finally {
+        controller.close();
+      }
+    },
+  });
+}
+
+/**
+ * Encodes a streaming event as an SSE-format Uint8Array.
+ */
+function encodeSSE(type: string, data: unknown): Uint8Array {
+  const payload = `data: ${JSON.stringify({ type, ...(data as Record<string, unknown>) })}\n\n`;
+  return new TextEncoder().encode(payload);
 }
 
 /**
@@ -52,11 +268,70 @@ export async function createDiagnosis(
  *
  * @param id - The diagnosis identifier
  * @returns The diagnosis record, or null if not found
- *
- * TODO: Implement database lookup.
  */
 export async function getDiagnosisById(id: string): Promise<Diagnosis | null> {
-  // TODO: Query diagnosis from the database
-  void id;
-  return null;
+  const doc = await diagnosisRepository.findById(id);
+  if (!doc) return null;
+  return mapDiagnosisDocument(doc);
+}
+
+/**
+ * Maps a Mongoose message sub-document to the shared ChatMessage type.
+ */
+function mapMessageSubDoc(doc: { role: string; content: string; createdAt?: Date }): ChatMessage {
+  return {
+    id: crypto.randomUUID(),
+    role: doc.role as ChatMessage['role'],
+    content: doc.content,
+    createdAt: doc.createdAt instanceof Date ? doc.createdAt.toISOString() : new Date().toISOString(),
+  };
+}
+
+/**
+ * Maps a Mongoose crop document to the shared Crop type.
+ */
+function mapCropDocument(doc: CropDocument): Crop {
+  return {
+    id: String(doc._id),
+    name: doc.name,
+    scientificName: doc.scientificName,
+    varieties: doc.varieties,
+    regions: doc.regions,
+    growthStages: doc.growthStages,
+    commonDiseaseIds: doc.commonDiseaseIds,
+    imageUrl: doc.imageUrl,
+  };
+}
+
+/**
+ * Maps urgency from the diagnosis result to the severity level
+ * used in the persisted Diagnosis record.
+ */
+function mapUrgencyToSeverity(urgency: string): 'low' | 'moderate' | 'high' | 'critical' {
+  switch (urgency) {
+    case 'critical': return 'critical';
+    case 'high':     return 'high';
+    case 'moderate': return 'moderate';
+    default:         return 'low';
+  }
+}
+
+/**
+ * Maps a Mongoose lean document to the shared Diagnosis type.
+ */
+function mapDiagnosisDocument(doc: DiagnosisDocument): Diagnosis {
+  return {
+    id: String(doc._id),
+    diseaseName: doc.diseaseName,
+    cropName: doc.cropName,
+    confidence: doc.confidence,
+    reasoning: doc.reasoning,
+    severity: doc.severity,
+    immediateActions: doc.immediateActions,
+    preventiveMeasures: doc.preventiveMeasures,
+    extensionOfficerAdvice: doc.extensionOfficerAdvice,
+    createdAt: doc.createdAt instanceof Date
+      ? doc.createdAt.toISOString()
+      : String(doc.createdAt),
+  };
 }

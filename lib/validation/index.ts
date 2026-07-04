@@ -1,3 +1,3 @@
 export { validateChatRequest } from './chat';
-export { validateDiagnosisRequest } from './diagnose';
+export { validateDiagnosisRequest, validateCropExists } from './diagnose';
 export { validateHistoryQuery } from './history';

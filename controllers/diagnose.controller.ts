@@ -1,37 +1,48 @@
-import type { DiagnosisRequest, DiagnosisResponse } from '@/types';
-import { createDiagnosis } from '@/services/diagnose.service';
-import { validateDiagnosisRequest } from '@/lib/validation';
-import { AIServiceError } from '@/utils/errors';
+import type { DiagnosisRequest, ConversationDiagnosisResponse } from '@/types';
+import { createDiagnosis, streamDiagnosis } from '@/services/diagnose.service';
+import { validateDiagnosisRequest, validateCropExists } from '@/lib/validation';
 
 /**
  * Diagnosis controller.
  *
  * Handles incoming diagnosis requests. Validates the input,
- * initiates the diagnosis pipeline, and returns the structured
- * response (either follow-up questions or a completed diagnosis).
+ * verifies the crop exists, and delegates to the diagnosis service.
+ *
+ * Controllers remain thin — no business logic, no database access,
+ * no AI calls.
  */
 
 /**
- * Initiates a crop disease diagnosis.
+ * Initiates or continues a crop disease diagnosis (non-streaming).
  *
- * @param body - The raw request body containing symptoms and crop info
- * @returns A diagnosis response with either questions or results
- * @throws AIServiceError if the AI service is unavailable
+ * @param body - The raw request body containing symptoms, crop info, and optional conversationId
+ * @returns A conversation-aware diagnosis response
  */
 export async function handleDiagnosisRequest(
   body: unknown,
-): Promise<DiagnosisResponse> {
-  // Validate input
+): Promise<ConversationDiagnosisResponse> {
   const request: DiagnosisRequest = validateDiagnosisRequest(body);
 
-  // TODO: Add logging for incoming diagnosis requests
-  // TODO: Add request tracing / correlation ID
+  await validateCropExists(request.cropId);
 
-  // Delegate to service
-  const response = await createDiagnosis(request);
+  return createDiagnosis(request);
+}
 
-  // TODO: Persist conversation state for clarification loop
-  // TODO: Emit telemetry event
+/**
+ * Initiates or continues a crop disease diagnosis with streaming.
+ *
+ * Returns a `ReadableStream` that the route handler should return
+ * as the HTTP response with `Content-Type: text/event-stream`.
+ *
+ * @param body - The raw request body
+ * @returns A ReadableStream of SSE events
+ */
+export async function handleStreamDiagnosis(
+  body: unknown,
+): Promise<ReadableStream<Uint8Array>> {
+  const request: DiagnosisRequest = validateDiagnosisRequest(body);
 
-  return response;
+  await validateCropExists(request.cropId);
+
+  return streamDiagnosis(request);
 }
