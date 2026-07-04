@@ -73,17 +73,35 @@ export interface Diagnosis {
 }
 
 /**
- * Request payload to initiate a diagnosis.
+ * Request payload to initiate or continue a diagnosis.
+ *
+ * If `conversationId` is omitted a new conversation is created.
+ * If provided the existing conversation is loaded and the new
+ * message is appended before calling the AI.
  */
 export interface DiagnosisRequest {
   /** Symptoms described by the farmer */
   symptoms: string;
   /** The affected crop */
   cropId: string;
+  /** Resume an existing conversation (optional — creates new if omitted) */
+  conversationId?: string;
   /** Optional image URLs for visual analysis */
   imageUrls?: string[];
   /** Additional context provided by the farmer */
   context?: Record<string, string>;
+}
+
+/**
+ * Response wrapper returned by the conversation-aware diagnosis endpoint.
+ */
+export interface ConversationDiagnosisResponse {
+  /** The conversation this diagnosis belongs to */
+  conversationId: string;
+  /** Current conversation status */
+  status: 'ACTIVE' | 'COMPLETED';
+  /** The diagnosis result (follow_up or completed diagnosis) */
+  response: DiagnosisResponse;
 }
 
 /**

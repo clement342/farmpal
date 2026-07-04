@@ -1,9 +1,11 @@
+import type { ChatMessage } from '@/types';
 import type { DiagnosisRequest, DiagnosisResponse } from '@/types/diagnosis';
 import type { Crop } from '@/types/crop';
 
 export type GenerateDiagnosisFn = (
   request: DiagnosisRequest,
   crop?: Crop,
+  existingMessages?: ChatMessage[],
 ) => Promise<DiagnosisResponse>;
 
 let cachedAdapter: GenerateDiagnosisFn | null = null;
@@ -20,7 +22,7 @@ async function loadAdapter(): Promise<GenerateDiagnosisFn> {
     return mod.generateDiagnosis;
   }
   cachedProviderName = 'ai';
-  const mod = await import('@/adapters/ai/diagnosis.adapter');
+  const mod = await import('@/adapters/diagnosis/DiagnosisAIAdapter');
   return mod.generateDiagnosis;
 }
 

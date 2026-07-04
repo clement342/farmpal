@@ -1,6 +1,11 @@
 import type { ChatMessage } from './chat';
 
 /**
+ * Possible states of a conversation session.
+ */
+export type ConversationStatus = 'ACTIVE' | 'COMPLETED' | 'ABANDONED';
+
+/**
  * A complete conversation session between the farmer and the AI.
  */
 export interface Conversation {
@@ -10,8 +15,10 @@ export interface Conversation {
   messages: ChatMessage[];
   /** The crop being discussed (if identified) */
   cropId?: string;
-  /** Whether a diagnosis was reached */
-  resolved: boolean;
+  /** Human-readable crop name */
+  cropName?: string;
+  /** Current status of the conversation */
+  status: ConversationStatus;
   /** Reference to the resulting diagnosis (if any) */
   diagnosisId?: string;
   /** ISO 8601 timestamp */
