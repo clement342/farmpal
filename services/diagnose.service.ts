@@ -1,4 +1,6 @@
 import type { Diagnosis, DiagnosisRequest, DiagnosisResponse } from '@/types';
+import { DiagnosisRepository, type CreateDiagnosisData } from '@/repositories/diagnosis.repository';
+import type { DiagnosisDocument } from '@/lib/db/models/diagnosis.model';
 
 /**
  * Diagnosis service.
@@ -7,14 +9,17 @@ import type { Diagnosis, DiagnosisRequest, DiagnosisResponse } from '@/types';
  * runs them through the AI clarification loop, and returns structured
  * diagnosis results with confidence scoring.
  *
+ * This service depends on the DiagnosisRepository for persistence and
+ * will eventually depend on the AI provider layer for inference.
+ *
  * TODO:
- * - Implement the clarification loop (AI asks follow-up questions)
- * - Integrate with AI inference for diagnosis generation
- * - Add confidence calculation logic
+ * - Integrate with AI inference for the clarification loop
+ * - Implement confidence calculation
  * - Implement severity assessment heuristics
  * - Add crop-specific knowledge base queries
- * - Store completed diagnoses in the database
  */
+
+const diagnosisRepository = new DiagnosisRepository();
 
 /**
  * Initiates the diagnosis pipeline for the given symptoms.
@@ -24,18 +29,28 @@ import type { Diagnosis, DiagnosisRequest, DiagnosisResponse } from '@/types';
  *
  * @param request - The diagnosis request payload
  * @returns A diagnosis response (either questions or a final diagnosis)
- *
- * TODO: Implement the full diagnosis pipeline.
- *       - Check if sufficient information is available
- *       - If not, return follow-up questions
- *       - If yes, generate and return the diagnosis
  */
 export async function createDiagnosis(
   request: DiagnosisRequest,
 ): Promise<DiagnosisResponse> {
+  // TODO:
+  // 1. Retrieve crop details from CropRepository for context
+  // 2. Call AI provider (inference layer) to triage the symptoms
+  // 3. If AI needs more information, return followUpQuestions
+  // 4. If AI can diagnose, construct the Diagnosis and persist via repository
+  //
+  // Example flow:
+  //   const crop = await cropRepository.findById(request.cropId);
+  //   const prompt = buildDiagnosisPrompt(request.symptoms, crop);
+  //   const aiResponse = await infer(prompt);
+  //   if (aiResponse.needsClarification) { return { requiresClarification: true, followUpQuestions }; }
+  //   const data: CreateDiagnosisData = { ... };
+  //   const diagnosis = await diagnosisRepository.create(data);
+
+  void diagnosisRepository;
+
   // Placeholder: always ask for more information
   // TODO: Replace with actual AI-driven triage
-
   return {
     requiresClarification: true,
     followUpQuestions: [
@@ -52,11 +67,30 @@ export async function createDiagnosis(
  *
  * @param id - The diagnosis identifier
  * @returns The diagnosis record, or null if not found
- *
- * TODO: Implement database lookup.
  */
 export async function getDiagnosisById(id: string): Promise<Diagnosis | null> {
-  // TODO: Query diagnosis from the database
-  void id;
-  return null;
+  const doc = await diagnosisRepository.findById(id);
+  if (!doc) return null;
+
+  return mapDiagnosisDocument(doc);
+}
+
+/**
+ * Maps a Mongoose lean document to the shared Diagnosis type.
+ */
+function mapDiagnosisDocument(doc: DiagnosisDocument): Diagnosis {
+  return {
+    id: String(doc._id),
+    diseaseName: doc.diseaseName,
+    cropName: doc.cropName,
+    confidence: doc.confidence,
+    reasoning: doc.reasoning,
+    severity: doc.severity,
+    immediateActions: doc.immediateActions,
+    preventiveMeasures: doc.preventiveMeasures,
+    extensionOfficerAdvice: doc.extensionOfficerAdvice,
+    createdAt: doc.createdAt instanceof Date
+      ? doc.createdAt.toISOString()
+      : String(doc.createdAt),
+  };
 }

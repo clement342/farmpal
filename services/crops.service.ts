@@ -1,4 +1,6 @@
 import type { Crop } from '@/types';
+import { CropRepository } from '@/repositories/crop.repository';
+import type { CropDocument } from '@/lib/db/models/crop.model';
 
 /**
  * Crops service.
@@ -7,23 +9,21 @@ import type { Crop } from '@/types';
  * supported crop types for the diagnosis system.
  *
  * TODO:
- * - Implement database queries for crop CRUD
- * - Add crop search by name or region
- * - Cache crop list for frequently accessed data
- * - Add crop-specific disease associations
+ * - Add caching for frequently accessed crop lists
+ * - Add crop-specific disease association queries
+ * - Add seed data population script
  */
+
+const cropRepository = new CropRepository();
 
 /**
  * Retrieves all supported crops.
  *
  * @returns An array of crop entries
- *
- * TODO: Query crops from the database.
- *       Consider adding caching for this read-heavy endpoint.
  */
 export async function getAllCrops(): Promise<Crop[]> {
-  // TODO: Fetch crops from the database
-  return [];
+  const docs = await cropRepository.findAll();
+  return docs.map(mapCropDocument);
 }
 
 /**
@@ -31,13 +31,11 @@ export async function getAllCrops(): Promise<Crop[]> {
  *
  * @param id - The crop identifier
  * @returns The crop entry, or null if not found
- *
- * TODO: Implement database lookup.
  */
 export async function getCropById(id: string): Promise<Crop | null> {
-  // TODO: Query crop from the database
-  void id;
-  return null;
+  const doc = await cropRepository.findById(id);
+  if (!doc) return null;
+  return mapCropDocument(doc);
 }
 
 /**
@@ -45,11 +43,24 @@ export async function getCropById(id: string): Promise<Crop | null> {
  *
  * @param query - The search string
  * @returns Matching crop entries
- *
- * TODO: Implement case-insensitive search.
  */
 export async function searchCrops(query: string): Promise<Crop[]> {
-  // TODO: Search crops by name in the database
-  void query;
-  return [];
+  const docs = await cropRepository.searchByName(query);
+  return docs.map(mapCropDocument);
+}
+
+/**
+ * Maps a Mongoose crop document to the shared Crop type.
+ */
+function mapCropDocument(doc: CropDocument): Crop {
+  return {
+    id: String(doc._id),
+    name: doc.name,
+    scientificName: doc.scientificName,
+    varieties: doc.varieties,
+    regions: doc.regions,
+    growthStages: doc.growthStages,
+    commonDiseaseIds: doc.commonDiseaseIds,
+    imageUrl: doc.imageUrl,
+  };
 }
