@@ -12,7 +12,7 @@
  */
 
 import type { DiagnosisResponse, DiagnosisResult, PossibleCause, Recommendation, UrgencyLevel } from '@/types';
-import type { ParsedDiagnosisResponse, RawDiagnosisSub, RawPossibleCause, RawRecommendation } from '@/lib/ai/parsers/diagnosis.parser';
+import type { ParsedDiagnosisResponse, RawDiagnosisSub, RawPossibleCause, RawRecommendation } from '@/lib/ai/parsers/diagnosis-response.parser';
 
 /**
  * Maps a parsed AI response to the application's DiagnosisResponse type.

@@ -10,10 +10,19 @@
  *   - Markdown code-fence stripping (```json ... ```)
  *   - Leading/trailing text removal
  *   - Structural validation (required fields present)
- *   - Meaningful typed errors
+ *   - Meaningful typed errors via ParseResult (no thrown exceptions)
  *
  * @module
  */
+
+/**
+ * Discriminated union representing either a successful parse or a
+ * typed failure. Use this instead of try/catch for predictable
+ * error handling.
+ */
+export type ParseResult<T> =
+  | { success: true; data: T }
+  | { success: false; error: DiagnosisResponseParseError };
 
 /**
  * The raw per-cause entry the AI may include in its diagnosis output.
@@ -55,14 +64,16 @@ export interface ParsedDiagnosisResponse {
 }
 
 /**
- * Errors that occur during parsing of AI responses.
+ * Typed error for parsing failures. Carries a machine-readable `code`
+ * so callers can handle specific failure modes without parsing the
+ * message string.
  */
-export class DiagnosisParseError extends Error {
+export class DiagnosisResponseParseError extends Error {
   readonly code: string;
 
   constructor(message: string, code = 'PARSE_ERROR') {
     super(message);
-    this.name = 'DiagnosisParseError';
+    this.name = 'DiagnosisResponseParseError';
     this.code = code;
   }
 }
@@ -76,51 +87,52 @@ export class DiagnosisParseError extends Error {
  *   - Fenced without:      ```\n{ ... }\n```
  *   - With leading/trailing prose: "Here is the result:\n{ ... }\nLet me know if..."
  *
+ * Returns a `ParseResult` rather than throwing, making error handling
+ * predictable and composable for the caller.
+ *
  * @param raw - The raw string returned by the AI provider.
- * @returns The parsed (but unvalidated) response.
- * @throws DiagnosisParseError if no JSON object can be found or the text
- *         cannot be parsed.
+ * @returns A ParseResult containing either the parsed response or a
+ *          typed error.
  */
-export function parseDiagnosisResponse(raw: string): ParsedDiagnosisResponse {
+export function parseDiagnosisResponse(
+  raw: string,
+): ParseResult<ParsedDiagnosisResponse> {
   if (!raw || raw.trim().length === 0) {
-    throw new DiagnosisParseError(
-      'AI returned an empty response',
-      'EMPTY_RESPONSE',
-    );
+    return failure('AI returned an empty response', 'EMPTY_RESPONSE');
   }
 
   const json = extractJson(raw);
+  if (!json.success) {
+    return json;
+  }
+
   let parsed: unknown;
 
   try {
-    parsed = JSON.parse(json);
+    parsed = JSON.parse(json.data);
   } catch (cause) {
-    throw new DiagnosisParseError(
+    return failure(
       `Failed to parse AI response as JSON: ${(cause as Error).message}`,
       'INVALID_JSON',
     );
   }
 
   if (typeof parsed !== 'object' || parsed === null) {
-    throw new DiagnosisParseError(
-      'AI response is not a JSON object',
-      'INVALID_STRUCTURE',
-    );
+    return failure('AI response is not a JSON object', 'INVALID_STRUCTURE');
   }
 
-  return parsed as ParsedDiagnosisResponse;
+  return { success: true, data: parsed as ParsedDiagnosisResponse };
 }
 
 /**
- * Strips markdown fences and surrounding prose, then returns the first
- * JSON object found in the text.
+ * Attempts to extract the first JSON object from raw AI text.
  *
- * @param text - Raw AI output.
- * @returns The JSON substring.
- * @throws DiagnosisParseError if no JSON object is found.
+ * Strips markdown code fences and surrounding prose before searching
+ * for the outermost `{ }` pair.
+ *
+ * @returns A ParseResult containing the JSON substring on success.
  */
-function extractJson(text: string): string {
-  // Try to extract from markdown code fences first
+function extractJson(text: string): ParseResult<string> {
   const fenceMatch = text.match(/```(?:json)?\s*\n?([\s\S]*?)```/);
   const candidate = fenceMatch ? fenceMatch[1].trim() : text.trim();
 
@@ -128,11 +140,18 @@ function extractJson(text: string): string {
   const end = candidate.lastIndexOf('}');
 
   if (start === -1 || end === -1 || end <= start) {
-    throw new DiagnosisParseError(
-      'No JSON object found in AI response',
-      'MISSING_JSON',
-    );
+    return failure('No JSON object found in AI response', 'MISSING_JSON');
   }
 
-  return candidate.slice(start, end + 1);
+  return { success: true, data: candidate.slice(start, end + 1) };
+}
+
+/**
+ * Convenience helper for creating failure results.
+ */
+function failure(message: string, code: string): ParseResult<never> {
+  return {
+    success: false,
+    error: new DiagnosisResponseParseError(message, code),
+  };
 }

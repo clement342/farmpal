@@ -31,7 +31,7 @@ import type { Crop } from '@/types/crop';
 import type { DiagnosisRequest, DiagnosisResponse } from '@/types/diagnosis';
 import { infer } from '@/lib/ai';
 import { buildSystemMessages } from '@/lib/ai/prompts';
-import { parseDiagnosisResponse, DiagnosisParseError } from '@/lib/ai/parsers/diagnosis.parser';
+import { parseDiagnosisResponse } from '@/lib/ai/parsers/diagnosis-response.parser';
 import { mapToDiagnosisResponse } from './mapper';
 
 /**
@@ -46,7 +46,7 @@ export class DiagnosisAIAdapter {
    * @param request - The diagnosis request containing symptoms and crop ID.
    * @param crop    - Optional crop document for context injection.
    * @returns A fully-formed DiagnosisResponse.
-   * @throws DiagnosisParseError if the AI output cannot be parsed.
+   * @throws DiagnosisResponseParseError if the AI output cannot be parsed.
    */
   async generateDiagnosis(
     request: DiagnosisRequest,
@@ -59,8 +59,13 @@ export class DiagnosisAIAdapter {
       temperature: 0.3,
     });
 
-    const parsed = parseDiagnosisResponse(rawText);
-    return mapToDiagnosisResponse(parsed);
+    const result = parseDiagnosisResponse(rawText);
+
+    if (!result.success) {
+      throw result.error;
+    }
+
+    return mapToDiagnosisResponse(result.data);
   }
 
   /**
