@@ -1,5 +1,7 @@
 import type { ChatMessage } from '@/types';
 import { AIServiceError } from '@/utils/errors';
+import { createLogger } from '../logger';
+import { withRetry, type RetryOptions } from '../retry';
 import type { AIProvider, CompletionOptions } from './provider.interface';
 
 // ---------------------------------------------------------------------------
@@ -62,6 +64,42 @@ interface AvailabilityCache {
 const AVAILABILITY_CACHE_TTL_MS = 30_000; // 30 seconds
 
 // ---------------------------------------------------------------------------
+// OllamaProviderOptions
+// ---------------------------------------------------------------------------
+
+/**
+ * Optional configuration for `OllamaProvider`.
+ *
+ * All fields are optional; sensible defaults are applied when omitted.
+ */
+export interface OllamaProviderOptions {
+  /**
+   * Abort timeout for the health probe (`GET /api/tags`) in milliseconds.
+   * @default 5_000
+   */
+  probeTimeoutMs?: number;
+
+  /**
+   * Abort timeout for chat completion requests (`POST /api/chat`) in milliseconds.
+   * Local models can be slow to generate — set this high enough that a large
+   * response doesn't time out mid-stream.
+   * @default 120_000 (2 minutes)
+   */
+  completionTimeoutMs?: number;
+
+  /**
+   * Retry configuration for chat completion requests.
+   * Pass `false` to disable retries entirely.
+   *
+   * Retries are **not** applied to the availability probe — a slow probe
+   * should simply return `false` so the router falls through quickly.
+   *
+   * @default { maxAttempts: 3, baseDelayMs: 300 }
+   */
+  retry?: Partial<RetryOptions> | false;
+}
+
+// ---------------------------------------------------------------------------
 // OllamaProvider
 // ---------------------------------------------------------------------------
 
@@ -106,13 +144,28 @@ export class OllamaProvider implements AIProvider {
 
   private readonly baseUrl: string;
   private readonly model: string;
+  private readonly probeTimeoutMs: number;
+  private readonly completionTimeoutMs: number;
+  private readonly retryOptions: RetryOptions | false;
   private availabilityCache: AvailabilityCache | null = null;
+  private readonly log = createLogger('ai:ollama');
 
-  constructor(baseUrl: string, model: string) {
+  /**
+   * @param baseUrl - Base URL of the Ollama server (e.g. `http://localhost:11434`).
+   * @param model   - Model tag to use (e.g. `gemma4:latest`).
+   * @param options - Optional timeout and retry configuration.
+   */
+  constructor(baseUrl: string, model: string, options: OllamaProviderOptions = {}) {
     // Strip trailing slash for consistent URL construction
     this.baseUrl = baseUrl.replace(/\/$/, '');
     this.model = model;
     this.name = `ollama-${model}`;
+    this.probeTimeoutMs = options.probeTimeoutMs ?? 5_000;
+    this.completionTimeoutMs = options.completionTimeoutMs ?? 120_000;
+    this.retryOptions =
+      options.retry === false
+        ? false
+        : { maxAttempts: 3, baseDelayMs: 300, label: `Ollama /api/chat (${model})`, ...options.retry };
   }
 
   // -------------------------------------------------------------------------
@@ -146,10 +199,15 @@ export class OllamaProvider implements AIProvider {
   /**
    * Sends a chat completion request to Ollama.
    *
+   * Applies configurable timeout and optional exponential-backoff retry.
+   * On network failure the availability cache is invalidated immediately
+   * so the router can fall through to the next provider without waiting
+   * for the TTL to expire.
+   *
    * @param messages - Conversation history (system + user/assistant turns).
    * @param options  - Optional generation parameters.
    * @returns The model's response text.
-   * @throws AIServiceError on non-2xx response or network failure.
+   * @throws AIServiceError on non-2xx response, network failure, or empty reply.
    */
   async complete(
     messages: ChatMessage[],
@@ -167,41 +225,79 @@ export class OllamaProvider implements AIProvider {
       },
     };
 
-    let response: Response;
-    try {
-      response = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
+    this.log.debug('Sending completion request', {
+      model: this.model,
+      messageCount: messages.length,
+      completionTimeoutMs: this.completionTimeoutMs,
+    });
+
+    const startMs = Date.now();
+
+    const attempt = async (): Promise<string> => {
+      let response: Response;
+      try {
+        response = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body),
+          signal: AbortSignal.timeout(this.completionTimeoutMs),
+        });
+      } catch (cause) {
+        // Mark provider as unavailable immediately so the next call skips it
+        this.invalidateCache();
+        throw new AIServiceError(
+          `Ollama request failed: ${cause instanceof Error ? cause.message : String(cause)}`,
+        );
+      }
+
+      if (!response.ok) {
+        const errorText = await response.text().catch(() => 'unknown error');
+        // 5xx errors are retryable (transient); 4xx are not
+        const err = new AIServiceError(`Ollama returned ${response.status}: ${errorText}`);
+        if (response.status < 500) {
+          // Attach a non-retryable marker so withRetry bails immediately
+          (err as AIServiceError & { retryable: boolean }).retryable = false;
+        }
+        throw err;
+      }
+
+      let data: OllamaChatResponse;
+      try {
+        data = (await response.json()) as OllamaChatResponse;
+      } catch {
+        throw new AIServiceError('Ollama returned a non-JSON response');
+      }
+
+      const content = data.message?.content;
+      if (typeof content !== 'string' || content.trim().length === 0) {
+        throw new AIServiceError('Ollama returned an empty or malformed completion');
+      }
+
+      return content.trim();
+    };
+
+    let result: string;
+    if (this.retryOptions === false) {
+      result = await attempt();
+    } else {
+      result = await withRetry(attempt, {
+        ...this.retryOptions,
+        isRetryable: (err) => {
+          // Honor the non-retryable marker set for 4xx responses
+          if (typeof (err as Record<string, unknown>).retryable === 'boolean') {
+            return (err as { retryable: boolean }).retryable;
+          }
+          return true;
+        },
       });
-    } catch (cause) {
-      // Mark provider as unavailable immediately so the next call skips it
-      this.invalidateCache();
-      throw new AIServiceError(
-        `Ollama request failed: ${cause instanceof Error ? cause.message : String(cause)}`,
-      );
     }
 
-    if (!response.ok) {
-      const errorText = await response.text().catch(() => 'unknown error');
-      throw new AIServiceError(
-        `Ollama returned ${response.status}: ${errorText}`,
-      );
-    }
+    this.log.info('Completion succeeded', {
+      model: this.model,
+      durationMs: Date.now() - startMs,
+    });
 
-    let data: OllamaChatResponse;
-    try {
-      data = (await response.json()) as OllamaChatResponse;
-    } catch {
-      throw new AIServiceError('Ollama returned a non-JSON response');
-    }
-
-    const content = data.message?.content;
-    if (typeof content !== 'string' || content.trim().length === 0) {
-      throw new AIServiceError('Ollama returned an empty or malformed completion');
-    }
-
-    return content.trim();
+    return result;
   }
 
   // -------------------------------------------------------------------------
@@ -213,14 +309,17 @@ export class OllamaProvider implements AIProvider {
    * Never throws — returns false on any error.
    */
   private async probe(): Promise<boolean> {
+    const startMs = Date.now();
     try {
       const response = await fetch(`${this.baseUrl}/api/tags`, {
         method: 'GET',
-        // Short timeout: if Ollama is down we should fail fast
-        signal: AbortSignal.timeout(5_000),
+        signal: AbortSignal.timeout(this.probeTimeoutMs),
       });
 
-      if (!response.ok) return false;
+      if (!response.ok) {
+        this.log.debug('Probe returned non-OK status', { status: response.status });
+        return false;
+      }
 
       const data = (await response.json()) as OllamaTagsResponse;
       const models: OllamaModelInfo[] = data?.models ?? [];
@@ -229,10 +328,22 @@ export class OllamaProvider implements AIProvider {
       // Ollama model names are case-insensitive and may include a digest
       // suffix (e.g. "gemma4:latest@sha256:..."), so we check with startsWith.
       const targetLower = this.model.toLowerCase();
-      return models.some((m) =>
+      const found = models.some((m) =>
         m.name.toLowerCase().startsWith(targetLower.split(':')[0]),
       );
-    } catch {
+
+      this.log.debug('Probe completed', {
+        available: found,
+        modelCount: models.length,
+        durationMs: Date.now() - startMs,
+      });
+
+      return found;
+    } catch (err) {
+      this.log.debug('Probe failed', {
+        error: err instanceof Error ? err.message : String(err),
+        durationMs: Date.now() - startMs,
+      });
       return false;
     }
   }
@@ -244,6 +355,7 @@ export class OllamaProvider implements AIProvider {
    */
   private invalidateCache(): void {
     this.availabilityCache = null;
+    this.log.debug('Availability cache invalidated');
   }
 
   /**

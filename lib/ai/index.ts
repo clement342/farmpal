@@ -128,5 +128,14 @@ export type { AIProvider } from './providers/provider.interface';
 export { ProviderRegistry } from './registry/provider.registry';
 export { InferenceRouter } from './router/inference.router';
 export { OllamaProvider } from './providers/ollama.provider';
+export type { OllamaProviderOptions } from './providers/ollama.provider';
 export { CloudProvider } from './providers/cloud.provider';
 export { aiConfig } from './config';
+
+// Observability utilities
+export { createLogger } from './logger';
+export type { Logger, LogLevel, LogEntry } from './logger';
+export { withRetry } from './retry';
+export type { RetryOptions } from './retry';
+export { checkOllamaConnectivity, checkCloudConnectivity } from './connectivity';
+export type { OllamaConnectivityReport, ProbeResult } from './connectivity';

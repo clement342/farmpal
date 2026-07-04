@@ -1,7 +1,10 @@
 import type { ChatMessage } from '@/types';
 import { AIServiceError } from '@/utils/errors';
+import { createLogger } from '../logger';
 import type { CompletionOptions } from '../providers/provider.interface';
 import type { ProviderRegistry } from '../registry/provider.registry';
+
+const log = createLogger('ai:router');
 
 // ---------------------------------------------------------------------------
 // InferenceRouter
@@ -82,6 +85,7 @@ export class InferenceRouter {
       }
 
       if (!available) {
+        log.debug('Provider unavailable, skipping', { provider: provider.name });
         continue;
       }
 
@@ -89,15 +93,18 @@ export class InferenceRouter {
 
       // --- Inference attempt ---
       try {
+        const startMs = Date.now();
         const result = await provider.complete(messages, options);
+        log.info('Provider completed request', {
+          provider: provider.name,
+          durationMs: Date.now() - startMs,
+        });
         return result;
       } catch (err) {
-        // Log the failure and try the next provider.
-        // In a production application, wire this to your structured logger.
-        console.error(
-          `[InferenceRouter] Provider "${provider.name}" failed:`,
-          err instanceof Error ? err.message : String(err),
-        );
+        log.error('Provider failed during completion', {
+          provider: provider.name,
+          error: err instanceof Error ? err.message : String(err),
+        });
         // Continue to next provider
       }
     }
