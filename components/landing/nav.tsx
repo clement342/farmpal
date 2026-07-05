@@ -43,7 +43,7 @@ export function Nav() {
             >
               GitHub
             </a>
-            <Button variant="primary" size="sm" href="#hero">
+            <Button variant="primary" size="sm" href="/diagnose">
               Start Diagnosis
             </Button>
           </div>
@@ -85,7 +85,7 @@ export function Nav() {
             >
               GitHub
             </a>
-            <Button variant="primary" size="sm" href="#hero" className="w-full mt-2">
+            <Button variant="primary" size="sm" href="/diagnose" className="w-full mt-2">
               Start Diagnosis
             </Button>
           </div>

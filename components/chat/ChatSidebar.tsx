@@ -58,8 +58,17 @@ export function ChatSidebar({ activeConversationId, onNewChat, open, onClose }: 
             ))}
           </div>
         ) : conversations.length === 0 ? (
-          <div className="p-4 text-center">
-            <p className="text-sm text-text-muted">No previous conversations</p>
+          <div className="p-6 text-center">
+            <div className="w-10 h-10 mx-auto mb-4 rounded-xl bg-surface border border-border-subtle flex items-center justify-center">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-text-muted">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+              </svg>
+            </div>
+            <p className="text-sm text-text-primary font-medium mb-1">Sync your history</p>
+            <p className="text-xs text-text-muted leading-relaxed">
+              Sign in to save and access your diagnosis history across devices.
+            </p>
           </div>
         ) : (
           <div className="space-y-1">

@@ -5,10 +5,11 @@ import { useState, useRef, useEffect, type KeyboardEvent } from 'react';
 interface ChatComposerProps {
   onSend: (message: string) => void;
   disabled: boolean;
+  loading?: boolean;
   placeholder?: string;
 }
 
-export function ChatComposer({ onSend, disabled, placeholder }: ChatComposerProps) {
+export function ChatComposer({ onSend, disabled, loading, placeholder }: ChatComposerProps) {
   const [value, setValue] = useState('');
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -59,7 +60,7 @@ export function ChatComposer({ onSend, disabled, placeholder }: ChatComposerProp
           className="flex items-center justify-center w-10 h-10 rounded-xl bg-accent text-black hover:bg-accent-hover transition-colors disabled:opacity-30 disabled:cursor-not-allowed shrink-0"
           aria-label="Send message"
         >
-          {disabled ? (
+          {loading ? (
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="animate-spin">
               <line x1="12" y1="2" x2="12" y2="6" />
               <line x1="12" y1="18" x2="12" y2="22" />

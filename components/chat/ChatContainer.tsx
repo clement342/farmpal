@@ -110,6 +110,7 @@ export function ChatContainer({ conversationId, crop }: ChatContainerProps) {
         <ChatComposer
           onSend={sendMessage}
           disabled={isDisabled}
+          loading={isStreaming}
           placeholder={
             selectedCrop
               ? 'Describe the symptoms you see...'

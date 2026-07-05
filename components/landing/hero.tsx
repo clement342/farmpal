@@ -31,7 +31,7 @@ export function Hero() {
             </p>
 
             <div className="mt-8 flex flex-col sm:flex-row gap-3">
-              <Button variant="primary" size="lg">
+              <Button variant="primary" size="lg" href="/diagnose">
                 Start Diagnosis
               </Button>
               <Button variant="secondary" size="lg" href="#features">
