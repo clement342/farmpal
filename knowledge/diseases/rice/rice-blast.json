@@ -1,0 +1,38 @@
+{
+  "id": "rice-blast",
+  "cropId": "rice",
+  "name": "Rice Blast",
+  "scientificName": "Pyricularia oryzae (Magnaporthe oryzae)",
+  "aliases": ["Leaf Blast", "Neck Blast", "Panicle Blast"],
+  "description": "The most destructive fungal disease of rice worldwide, affecting leaves, stems, and panicles. It causes lesions on all above-ground parts and can lead to complete yield loss.",
+  "symptoms": [
+    "Diamond-shaped lesions with gray centers and褐色 margins on leaves",
+    "Lesions on leaf sheaths and nodes",
+    "Neck rot preventing grain filling",
+    "Panicle branches breaking at infected nodes",
+    "White or tan lesions with dark borders on panicles"
+  ],
+  "causes": [
+    "Pyricularia oryzae fungus producing abundant spores",
+    "High humidity (>90%) and moderate temperatures (24-28°C)",
+    "Excessive nitrogen fertilization",
+    "Continuous rice cropping without rotation",
+    "Susceptible varieties grown in blast-prone areas"
+  ],
+  "severity": "critical",
+  "seasonality": ["Nursery stage", "Early tillering", "Heading stage"],
+  "treatments": [
+    "Apply tricyclazole or isoprothiolane fungicides at booting stage",
+    "Use systemic fungicides (triazoles) for neck blast control",
+    "Spray at first sign of leaf lesions in the nursery",
+    "Apply strobilurin fungicides at panicle initiation"
+  ],
+  "prevention": [
+    "Plant blast-resistant rice varieties",
+    "Reduce nitrogen fertilizer application at heading",
+    "Maintain proper plant spacing for air movement",
+    "Flood fields continuously to reduce disease pressure",
+    "Remove weed hosts and volunteer rice plants"
+  ],
+  "references": ["IRRI Rice Knowledge Bank", "AfricaRice Disease Management Guide"]
+}

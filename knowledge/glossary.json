@@ -1,0 +1,17 @@
+[
+  { "term": "Chlorosis", "definition": "Yellowing of leaves due to insufficient chlorophyll production, often caused by disease, nutrient deficiency, or environmental stress.", "category": "symptom" },
+  { "term": "Necrosis", "definition": "Death of plant tissue, appearing as brown or black dead areas on leaves, stems, or fruit.", "category": "symptom" },
+  { "term": "Lesion", "definition": "A localized area of diseased or damaged plant tissue, often discolored and irregularly shaped.", "category": "symptom" },
+  { "term": "Mosaic", "definition": "A pattern of light and dark green or yellow patches on leaves caused by viral infections.", "category": "symptom" },
+  { "term": "Vector", "definition": "An organism (typically insect) that transmits a pathogen from infected to healthy plants.", "category": "epidemiology" },
+  { "term": "Inoculum", "definition": "Pathogen material (spores, bacteria, virus particles) capable of causing infection in a susceptible host.", "category": "epidemiology" },
+  { "term": "Systemic", "definition": "A fungicide or insecticide that is absorbed and transported throughout the plant, providing internal protection.", "category": "treatment" },
+  { "term": "Contact", "definition": "A fungicide that remains on the plant surface and protects against infection but does not enter plant tissue.", "category": "treatment" },
+  { "term": "Roguing", "definition": "The removal and destruction of infected plants to prevent the spread of disease to healthy plants.", "category": "management" },
+  { "term": "Cultural Control", "definition": "Disease management practices that modify the growing environment, such as crop rotation, sanitation, and irrigation management.", "category": "management" },
+  { "term": "Biological Control", "definition": "Use of natural enemies (predators, parasites, pathogens) to control pests and diseases.", "category": "management" },
+  { "term": "Fungicide", "definition": "A chemical compound used to control fungal diseases.", "category": "treatment" },
+  { "term": "Insecticide", "definition": "A chemical compound used to control insect pests.", "category": "treatment" },
+  { "term": "Fruiting Body", "definition": "The reproductive structure of a fungus that produces and releases spores.", "category": "pathology" },
+  { "term": "Mycelium", "definition": "The vegetative part of a fungus, consisting of a network of fine white filaments (hyphae).", "category": "pathology" }
+]

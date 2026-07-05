@@ -1,0 +1,12 @@
+{
+  "id": "cassava",
+  "name": "Cassava",
+  "scientificName": "Manihot esculenta",
+  "aliases": ["Manioc", "Yuca", "Tapioca"],
+  "description": "Cassava is a drought-tolerant root crop grown extensively in tropical Africa. Its leaves and tubers are both susceptible to viral and bacterial diseases.",
+  "growingRegions": ["West Africa", "East Africa", "Central Africa", "Southeast Asia", "South America"],
+  "growthStages": ["Planting", "Sprouting", "Vegetative", "Root Bulking", "Maturity"],
+  "commonDiseaseIds": ["cassava-mosaic-disease", "cassava-brown-streak", "cassava-bacterial-blight"],
+  "commonPestIds": ["cassava-green-mite", "cassava-mealybug"],
+  "commonDeficiencyIds": ["potassium-deficiency", "magnesium-deficiency"]
+}

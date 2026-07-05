@@ -1,0 +1,35 @@
+{
+  "id": "nitrogen-deficiency",
+  "name": "Nitrogen Deficiency",
+  "aliases": ["N deficiency", "Chlorosis"],
+  "description": "Nitrogen is essential for chlorophyll production and vegetative growth. Deficiency causes uniform yellowing of older leaves and stunted growth across all crop types.",
+  "affectedCrops": ["maize", "rice", "cassava", "tomato", "beans", "yam", "pepper"],
+  "symptoms": [
+    "Uniform pale green to yellow color on older leaves",
+    "Yellowing starting at leaf tips and progressing backward",
+    "Stunted plant growth with thin stems",
+    "Reduced leaf size and overall plant vigor",
+    "Premature senescence of lower leaves",
+    "Delayed flowering and poor fruit development"
+  ],
+  "causes": [
+    "Insufficient nitrogen in soil",
+    "Leaching of nitrogen by heavy rainfall or irrigation",
+    "Low organic matter content in soil",
+    "High carbon-to-nitrogen ratio from crop residue incorporation",
+    "Sandy soils with poor nutrient retention"
+  ],
+  "treatments": [
+    "Apply nitrogen fertilizer (urea, CAN, NPK) at recommended rates",
+    "Foliar spray of urea solution (2%) for quick correction",
+    "Side-dress nitrogen during vegetative growth stage",
+    "Apply organic sources like well-decomposed manure"
+  ],
+  "prevention": [
+    "Conduct soil testing before planting",
+    "Apply balanced fertilizer based on crop requirements",
+    "Use split application of nitrogen for better efficiency",
+    "Incorporate organic matter into soil regularly",
+    "Practice crop rotation with nitrogen-fixing legumes"
+  ]
+}

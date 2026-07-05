@@ -1,0 +1,12 @@
+{
+  "id": "tomato",
+  "name": "Tomato",
+  "scientificName": "Solanum lycopersicum",
+  "aliases": ["Love Apple"],
+  "description": "Tomato is a widely cultivated vegetable crop belonging to the nightshade family. It is prone to several fungal and viral diseases that affect both leaves and fruit.",
+  "growingRegions": ["East Africa", "West Africa", "Southern Europe", "South America", "Central America"],
+  "growthStages": ["Seedling", "Transplanting", "Vegetative", "Flowering", "Fruit Set", "Ripening"],
+  "commonDiseaseIds": ["late-blight", "early-blight", "tomato-leaf-curl", "bacterial-wilt"],
+  "commonPestIds": ["aphids", "whitefly", "tomato-leaf-miner"],
+  "commonDeficiencyIds": ["calcium-deficiency", "potassium-deficiency"]
+}

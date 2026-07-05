@@ -1,0 +1,12 @@
+{
+  "id": "pepper",
+  "name": "Pepper",
+  "scientificName": "Capsicum annuum",
+  "aliases": ["Bell Pepper", "Chili Pepper", "Sweet Pepper"],
+  "description": "Pepper is a warm-season vegetable grown for its fruits, ranging from sweet bell peppers to hot chili varieties. It is susceptible to bacterial and fungal diseases.",
+  "growingRegions": ["West Africa", "East Africa", "Central America", "Southeast Asia", "Southern Europe"],
+  "growthStages": ["Seedling", "Transplanting", "Vegetative", "Flowering", "Fruit Development", "Maturity"],
+  "commonDiseaseIds": ["bacterial-wilt", "pepper-leaf-spot", "pepper-mosaic", "powdery-mildew"],
+  "commonPestIds": ["aphids", "thrips", "whitefly"],
+  "commonDeficiencyIds": ["calcium-deficiency", "magnesium-deficiency"]
+}

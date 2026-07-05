@@ -1,0 +1,12 @@
+{
+  "id": "beans",
+  "name": "Beans",
+  "scientificName": "Phaseolus vulgaris",
+  "aliases": ["Common Bean", "Kidney Bean", "Green Bean"],
+  "description": "Beans are a vital legume crop providing protein and soil nitrogen fixation. They are vulnerable to bacterial, fungal, and viral diseases affecting leaves and pods.",
+  "growingRegions": ["East Africa", "Central America", "South America", "Southeast Asia"],
+  "growthStages": ["Germination", "Seedling", "Vegetative", "Flowering", "Pod Formation", "Maturity"],
+  "commonDiseaseIds": ["common-bacterial-blight", "bean-rust", "bean-angular-leaf-spot", "bean-mosaic"],
+  "commonPestIds": ["aphids", "bean-fly", "thrips"],
+  "commonDeficiencyIds": ["nitrogen-deficiency", "iron-deficiency"]
+}

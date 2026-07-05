@@ -1,0 +1,29 @@
+{
+  "id": "aphids",
+  "name": "Aphids",
+  "scientificName": "Various species (Aphididae)",
+  "aliases": ["Plant Lice", "Greenfly", "Blackfly"],
+  "description": "Small sap-sucking insects that attack a wide range of crops. They cause direct damage through feeding and indirect damage by transmitting plant viruses.",
+  "affectedCrops": ["maize", "tomato", "pepper", "beans", "cassava"],
+  "symptoms": [
+    "Curling and yellowing of leaves",
+    "Stunted growth and reduced vigor",
+    "Sticky honeydew on leaves promoting sooty mold growth",
+    "Colonies of small soft-bodied insects on leaf undersides",
+    "Ants attending aphid colonies for honeydew"
+  ],
+  "lifecycle": ["Nymph", "Adult (winged and wingless forms)"],
+  "treatments": [
+    "Spray insecticidal soap or neem oil at first sighting",
+    "Apply systemic insecticides (imidacloprid) for heavy infestations",
+    "Use strong water spray to dislodge aphid colonies",
+    "Introduce natural predators like ladybugs and lacewings"
+  ],
+  "prevention": [
+    "Monitor crops regularly, especially during dry weather",
+    "Avoid excessive nitrogen fertilization",
+    "Use reflective mulches to repel aphids",
+    "Plant trap crops like mustard or sunflower",
+    "Conserve beneficial insects through reduced pesticide use"
+  ]
+}

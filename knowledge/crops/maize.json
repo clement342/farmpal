@@ -1,0 +1,12 @@
+{
+  "id": "maize",
+  "name": "Maize",
+  "scientificName": "Zea mays",
+  "aliases": ["Corn", "Indian Corn"],
+  "description": "Maize is a staple cereal grain cultivated throughout Africa, the Americas, and Asia. It is highly susceptible to fungal, viral, and bacterial diseases that can significantly reduce yield.",
+  "growingRegions": ["East Africa", "West Africa", "Southern Africa", "Central America", "Southeast Asia"],
+  "growthStages": ["Germination", "Vegetative", "Tasseling", "Silking", "Grain Fill", "Maturity"],
+  "commonDiseaseIds": ["northern-leaf-blight", "gray-leaf-spot", "maize-streak-virus", "fall-armyworm-damage"],
+  "commonPestIds": ["fall-armyworm", "maize-stem-borer", "aphids"],
+  "commonDeficiencyIds": ["nitrogen-deficiency", "potassium-deficiency"]
+}

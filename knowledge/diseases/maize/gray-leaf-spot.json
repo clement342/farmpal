@@ -1,0 +1,36 @@
+{
+  "id": "gray-leaf-spot",
+  "cropId": "maize",
+  "name": "Gray Leaf Spot",
+  "scientificName": "Cercospora zeae-maydis",
+  "aliases": ["GLS", "Cercospora Leaf Spot"],
+  "description": "A serious fungal disease causing rectangular, gray to brown lesions along leaf veins. It thrives in warm, humid conditions and can cause significant yield loss.",
+  "symptoms": [
+    "Rectangular, gray to tan lesions running parallel to leaf veins",
+    "Lesions with distinct褐色 margins",
+    "Lesions coalescing in severe infections causing leaf blight",
+    "Symptoms appearing first on lower leaves and progressing upward",
+    "Premature senescence of leaves"
+  ],
+  "causes": [
+    "Fungal spores in crop residue",
+    "Warm temperatures (22-30°C) with extended leaf wetness",
+    "High humidity (>90%) for prolonged periods",
+    "Reduced-till or no-till farming without residue management"
+  ],
+  "severity": "high",
+  "seasonality": ["Mid to late rainy season"],
+  "treatments": [
+    "Apply strobilurin fungicides (azoxystrobin) at tasseling stage",
+    "Use triazole fungicides (propiconazole, tebuconazole) for curative treatment",
+    "Apply fungicide mixture for broad-spectrum control"
+  ],
+  "prevention": [
+    "Plant resistant hybrids with GLS tolerance",
+    "Rotate with non-cereal crops for 1-2 years",
+    "Bury crop residue through deep plowing",
+    "Optimize plant density to reduce canopy humidity",
+    "Use balanced fertilization to avoid excessive nitrogen"
+  ],
+  "references": ["Purdue Extension Corn Disease Guide", "CIMMYT GLS Management"]
+}

@@ -1,0 +1,12 @@
+{
+  "id": "yam",
+  "name": "Yam",
+  "scientificName": "Dioscorea spp.",
+  "aliases": ["White Yam", "Yellow Yam", "Water Yam"],
+  "description": "Yam is a starchy tuber crop widely grown in West Africa. It requires trellising and is susceptible to viral diseases and tuber rots.",
+  "growingRegions": ["West Africa", "East Africa", "Southeast Asia", "Caribbean"],
+  "growthStages": ["Planting", "Sprouting", "Vine Growth", "Tuber Initiation", "Tuber Bulking", "Maturity"],
+  "commonDiseaseIds": ["yam-mosaic-virus", "yam-rot", "yam-leaf-spot"],
+  "commonPestIds": ["yam-beetle", "nematodes"],
+  "commonDeficiencyIds": ["potassium-deficiency", "nitrogen-deficiency"]
+}

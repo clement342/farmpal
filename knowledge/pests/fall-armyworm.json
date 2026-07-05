@@ -1,0 +1,29 @@
+{
+  "id": "fall-armyworm",
+  "name": "Fall Armyworm",
+  "scientificName": "Spodoptera frugiperda",
+  "aliases": ["FAW", "Armyworm"],
+  "description": "An invasive caterpillar pest that feeds on maize and other cereal crops. It causes characteristic window-pane damage on leaves and can devastate young plants.",
+  "affectedCrops": ["maize", "rice", "sorghum", "millet", "wheat"],
+  "symptoms": [
+    "Window-pane damage on young leaves (scraped surface)",
+    "Irregular holes and ragged edges on leaves",
+    "Frass (caterpillar droppings) visible in leaf whorls",
+    "Dead heart in severely infested young plants",
+    "Caterpillars with inverted Y-shaped marking on head"
+  ],
+  "lifecycle": ["Egg", "Larva (6 instars)", "Pupa", "Adult moth"],
+  "treatments": [
+    "Apply neem-based botanical insecticides early in infestation",
+    "Use Bacillus thuringiensis (Bt) biopesticide for larvae",
+    "Spray emamectin benzoate at 2-3 leaf stage if infestation is severe",
+    "Apply chlorantraniliprole as a soil drench for systemic protection"
+  ],
+  "prevention": [
+    "Early planting to avoid peak pest pressure",
+    "Scout fields weekly during vegetative growth",
+    "Conserve natural enemies (parasitic wasps, predators)",
+    "Push-pull strategy with Napier grass as trap crop",
+    "Intercrop with legumes to reduce pest establishment"
+  ]
+}
