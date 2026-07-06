@@ -1,0 +1,38 @@
+{
+  "id": "plantain-black-sigatoka",
+  "cropId": "plantain",
+  "name": "Black Sigatoka",
+  "scientificName": "Mycosphaerella fijiensis",
+  "aliases": ["Black Leaf Streak", "BLS"],
+  "description": "A devastating fungal leaf disease that affects plantains and bananas. It causes dark streaks and spots on leaves, leading to premature leaf death, reduced fruit fill, and significant yield losses across West Africa.",
+  "symptoms": [
+    "Small reddish-brown spots on lower leaf surfaces",
+    "Spots enlarging into dark brown or black streaks with yellow halos",
+    "Streaks coalescing into large necrotic lesions",
+    "Leaves turning yellow and dying prematurely",
+    "Bunches failing to fill properly, small and lightweight fruits"
+  ],
+  "causes": [
+    "Mycosphaerella fijiensis fungus",
+    "Prolonged leaf wetness from rain or dew",
+    "High humidity and warm temperatures (25-30°C)",
+    "Dense planting reducing air circulation",
+    "Continuous plantain cultivation in same area"
+  ],
+  "severity": "critical",
+  "seasonality": ["Rainy season", "Humid periods year-round"],
+  "treatments": [
+    "Apply systemic fungicides (triazoles, strobilurins) at early infection stage",
+    "Remove and destroy severely infected old leaves regularly",
+    "Spray protectant fungicides (mancozeb, chlorothalonil) during rainy season",
+    "Alternate fungicide classes to prevent resistance"
+  ],
+  "prevention": [
+    "Plant disease-free tissue culture plantain suckers",
+    "Remove old and diseased leaves during regular field sanitation",
+    "Maintain proper plant spacing for air circulation",
+    "Use resistant varieties where available (e.g., FHIA hybrids)",
+    "Drain excess water from fields to reduce humidity"
+  ],
+  "references": ["IITA Plantain and Banana Manual", "FAO Banana Disease Management", "NACGRAB Plantain Production Guide"]
+}

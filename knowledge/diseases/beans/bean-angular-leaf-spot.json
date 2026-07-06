@@ -1,0 +1,38 @@
+{
+  "id": "bean-angular-leaf-spot",
+  "cropId": "beans",
+  "name": "Bean Angular Leaf Spot",
+  "scientificName": "Phaeoisariopsis griseola",
+  "aliases": ["Angular Leaf Spot of Bean", "Bean Gray Leaf Spot"],
+  "description": "A fungal disease causing characteristic angular gray lesions on bean leaves. It is favored by cool, wet conditions and causes premature defoliation, leading to significant yield reduction.",
+  "symptoms": [
+    "Angular gray to brown lesions delimited by leaf veins",
+    "Lesions visible on both leaf surfaces",
+    "Dark gray fungal growth on lesion undersides",
+    "Leaves turning yellow and dropping prematurely",
+    "Pod lesions as reddish-brown spots"
+  ],
+  "causes": [
+    "Phaeoisariopsis griseola fungus",
+    "Cool temperatures (16-24°C) with high humidity",
+    "Extended leaf wetness from rain or heavy dew",
+    "Dense planting with poor air circulation",
+    "Seed-borne infection"
+  ],
+  "severity": "moderate",
+  "seasonality": ["Cool rainy periods", "Early growing season"],
+  "treatments": [
+    "Apply fungicides containing chlorothalonil or mancozeb",
+    "Spray copper-based fungicides at first symptoms",
+    "Use azoxystrobin for systemic control",
+    "Remove infected lower leaves"
+  ],
+  "prevention": [
+    "Plant resistant bean varieties",
+    "Use certified disease-free seeds",
+    "Space plants adequately for air circulation",
+    "Practice crop rotation with non-legume crops",
+    "Avoid overhead irrigation"
+  ],
+  "references": ["IITA Bean Foliar Disease Guide", "CIAT Angular Leaf Spot Management"]
+}

@@ -1,0 +1,30 @@
+{
+  "id": "rice-gall-midge",
+  "name": "Rice Gall Midge",
+  "scientificName": "Orseolia oryzivora / Orseolia oryzae",
+  "aliases": ["African Rice Gall Midge", "Silver Shoot", "Rice Shoot Fly"],
+  "description": "A small fly whose larvae cause formation of tubular galls (silver shoots) in place of normal rice tillers. It is a serious pest of rice in West Africa, causing yield losses of 20-80% in severe outbreaks.",
+  "affectedCrops": ["rice"],
+  "symptoms": [
+    "Tubular, hollow, onion-leaf-like galls (silver shoots)",
+    "Silver shoots emerging from leaf whorls instead of normal leaves",
+    "Stunted plant growth with many non-productive tillers",
+    "Reduced panicle number and yield",
+    "Galls are longer and lighter green than normal leaves"
+  ],
+  "lifecycle": ["Egg (laid on leaf surface)", "Larva (crawls to growing point, induces gall)", "Pupa (in gall)", "Adult fly (emerges from gall tip)"],
+  "treatments": [
+    "Apply systemic insecticides (imidacloprid) at first sign of silver shoots",
+    "Spray chlorpyrifos at early tillering stage",
+    "Remove and destroy silver shoots to reduce pest population",
+    "Use neem-based repellents as preventive spray"
+  ],
+  "prevention": [
+    "Plant resistant rice varieties (e.g., NERICA gall-midge tolerant lines)",
+    "Practice synchronized planting within communities to reduce pest buildup",
+    "Avoid continuous rice cropping — rotate with dryland crops",
+    "Drain fields for 3-5 days to suppress midge survival",
+    "Conserve natural enemies (platygasterid parasitoids)"
+  ],
+  "references": ["IITA Rice Gall Midge Guide", "Africa Rice Center Pest Management"]
+}

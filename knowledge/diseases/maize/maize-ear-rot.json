@@ -1,0 +1,39 @@
+{
+  "id": "maize-ear-rot",
+  "cropId": "maize",
+  "name": "Maize Ear Rot",
+  "scientificName": "Fusarium verticillioides / Aspergillus spp.",
+  "aliases": ["Ear Rot", "Corn Ear Rot", "Fusarium Ear Rot", "Gibberella Ear Rot"],
+  "description": "A fungal disease complex that rots maize ears, reducing grain yield and quality. Some ear rot fungi produce mycotoxins (fumonisins, aflatoxins) that are hazardous to human and livestock health. It is favored by wet conditions during silking and grain fill.",
+  "symptoms": [
+    "Pinkish-white or greenish mold on kernels",
+    "Kernels appearing discolored, shriveled, or decayed",
+    "Rot starting from ear tip and progressing downward",
+    "Premature husk death and ear drooping",
+    "Ears may show scattered infected kernels among healthy ones"
+  ],
+  "causes": [
+    "Fusarium verticillioides, Aspergillus flavus, Gibberella zeae fungi",
+    "Wet weather during silking and grain fill",
+    "Insect damage to ears creating entry points",
+    "Bird damage opening ears to fungal infection",
+    "Continuous maize cropping with infected residue"
+  ],
+  "severity": "high",
+  "seasonality": ["Late season (silking to harvest)", "Wet harvest periods"],
+  "treatments": [
+    "No effective in-season treatment once ear rot develops",
+    "Harvest infected fields early and separately",
+    "Dry harvested grain to below 15% moisture immediately",
+    "Sort and remove visibly infected kernels before storage"
+  ],
+  "prevention": [
+    "Plant hybrids with good husk cover and ear rot resistance",
+    "Control insect pests (corn earworm, stalk borer)",
+    "Avoid high plant densities that increase humidity",
+    "Harvest promptly at maturity and dry grain quickly",
+    "Practice crop rotation with non-cereal crops",
+    "Use balanced fertilization — avoid excess nitrogen"
+  ],
+  "references": ["CIMMYT Maize Mycotoxin Guide", "IITA Maize Ear Rot Management"]
+}

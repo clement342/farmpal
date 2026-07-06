@@ -1,0 +1,38 @@
+{
+  "id": "cowpea-rust",
+  "cropId": "cowpea",
+  "name": "Cowpea Rust",
+  "scientificName": "Uromyces vignae",
+  "aliases": ["Rust of Cowpea", "Cowpea Brown Rust"],
+  "description": "A fungal rust disease that produces brown pustules on cowpea leaves, stems, and pods. It is favored by moderate temperatures and high humidity, causing defoliation and significant yield reduction.",
+  "symptoms": [
+    "Small brown or reddish-brown pustules on lower leaf surfaces",
+    "Pustules rupturing to release powdery rust spores",
+    "Yellow halos surrounding pustules on upper leaf surfaces",
+    "Leaves turning yellow and dropping prematurely",
+    "Pod infection causing reduced seed quality"
+  ],
+  "causes": [
+    "Uromyces vignae fungus",
+    "Moderate temperatures (20-25°C) with high humidity",
+    "Extended leaf wetness periods",
+    "Dense plantings reducing air circulation",
+    "Survival on crop debris between seasons"
+  ],
+  "severity": "moderate",
+  "seasonality": ["Mid to late rainy season", "Cool humid periods"],
+  "treatments": [
+    "Apply fungicides containing tebuconazole or propiconazole",
+    "Spray mancozeb at 7-10 day intervals during humid periods",
+    "Use sulfur-based fungicides as preventive treatment",
+    "Remove severely infected leaves when practical"
+  ],
+  "prevention": [
+    "Plant rust-tolerant cowpea varieties",
+    "Maintain adequate plant spacing for ventilation",
+    "Remove and destroy crop residue after harvest",
+    "Practice crop rotation with non-host crops",
+    "Avoid overhead irrigation in the evening"
+  ],
+  "references": ["IITA Cowpea Rust Guide", "ICRISAT Legume Disease Management"]
+}

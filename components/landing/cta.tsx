@@ -17,7 +17,7 @@ export function CTA() {
               No setup, no account, no internet required. Start describing your symptoms and get answers instantly.
             </p>
             <div className="mt-8">
-              <Button variant="primary" size="lg">
+              <Button variant="primary" size="lg" href="/diagnose">
                 Start Diagnosis
               </Button>
             </div>

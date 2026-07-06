@@ -1,0 +1,40 @@
+{
+  "id": "yam-scale",
+  "cropId": "yam",
+  "name": "Yam Scale (Tuber Scale)",
+  "scientificName": "Aspidiella hartii",
+  "aliases": ["Yam Scale Insect", "Yam Tuber Scale", "Hart's Scale"],
+  "description": "A scale insect infestation of yam tubers, both in the field and during storage. Scales appear as small white or brown circular discs on the tuber surface, causing weight loss, shriveling, and reduced market value.",
+  "symptoms": [
+    "Small white to brown circular scales on tuber surface",
+    "Scales firmly attached to tuber skin",
+    "Tuber shriveling and weight loss",
+    "Discoloration beneath scales",
+    "Reduced sprouting in seed yams",
+    "Tubers becoming unmarketable in heavy infestations"
+  ],
+  "causes": [
+    "Aspidiella hartii scale insect",
+    "Infested seed yams used for planting",
+    "Poor storage conditions with low ventilation",
+    "Spread through infested soil and field debris",
+    "Uncontrolled movement of infested tubers"
+  ],
+  "severity": "moderate",
+  "seasonality": ["Post-harvest", "Storage period"],
+  "treatments": [
+    "Dip infested seed yams in insecticide solution (e.g., chlorpyrifos) before planting",
+    "Scrub tubers gently in water to remove scales before storage",
+    "Apply vegetable oil emulsion (2% neem oil) to stored tubers",
+    "Discard heavily infested tubers"
+  ],
+  "prevention": [
+    "Plant clean, scale-free yam setts",
+    "Treat seed yams with neem extract before planting",
+    "Cure yams properly before storage",
+    "Maintain good ventilation in storage structures",
+    "Inspect and remove infested tubers from storage regularly",
+    "Practice field rotation to reduce soil populations"
+  ],
+  "references": ["IITA Yam Pest Guide", "NACGRAB Yam Storage Pest Management"]
+}

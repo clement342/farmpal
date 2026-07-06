@@ -1,0 +1,39 @@
+{
+  "id": "cocoyam-root-rot",
+  "cropId": "cocoyam",
+  "name": "Cocoyam Root Rot",
+  "scientificName": "Pythium spp. / Phytophthora spp.",
+  "aliases": ["Cocoyam Corm Rot", "Root Rot of Cocoyam"],
+  "description": "A soil-borne disease causing decay of cocoyam roots and corms. It is favored by waterlogged conditions and can cause significant yield losses, especially in poorly drained soils.",
+  "symptoms": [
+    "Yellowing and wilting of leaves starting from older leaves",
+    "Stunted plant growth",
+    "Brown, water-soaked lesions on roots",
+    "Roots turning soft and disintegrating",
+    "Corm decay starting from the base",
+    "Foul odor from rotting corms"
+  ],
+  "causes": [
+    "Pythium and Phytophthora species",
+    "Waterlogged or poorly drained soils",
+    "Continuous cocoyam cultivation in same field",
+    "Excessive rainfall or over-irrigation",
+    "Contaminated planting material"
+  ],
+  "severity": "high",
+  "seasonality": ["Heavy rainfall periods", "Waterlogged fields"],
+  "treatments": [
+    "Improve drainage immediately in affected fields",
+    "Apply metalaxyl or fosetyl-aluminum to soil",
+    "Remove and destroy severely affected plants",
+    "Apply Trichoderma-based biocontrol to soil"
+  ],
+  "prevention": [
+    "Plant on ridges or raised beds to ensure drainage",
+    "Use disease-free cormels for planting",
+    "Practice crop rotation with cereals",
+    "Avoid over-irrigating fields",
+    "Incorporate organic matter to improve soil structure"
+  ],
+  "references": ["IITA Root Crop Disease Management", "NACGRAB Cocoyam Health Guide"]
+}

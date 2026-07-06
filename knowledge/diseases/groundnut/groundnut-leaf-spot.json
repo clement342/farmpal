@@ -1,0 +1,39 @@
+{
+  "id": "groundnut-leaf-spot",
+  "cropId": "groundnut",
+  "name": "Groundnut Leaf Spot (Cercospora)",
+  "scientificName": "Cercospora arachidicola (early) / Cercosporidium personatum (late)",
+  "aliases": ["Early Leaf Spot", "Late Leaf Spot", "Cercospora Leaf Spot", "Tikka Disease"],
+  "description": "Fungal leaf spot diseases that are among the most widespread and damaging groundnut diseases. Early leaf spot and late leaf spot occur in all groundnut-growing regions, causing premature defoliation and significant yield reduction.",
+  "symptoms": [
+    "Small circular brown to black spots on leaves (early leaf spot: upper surface)",
+    "Dark, nearly black spots on lower leaf surface (late leaf spot)",
+    "Yellow halos surrounding leaf spots",
+    "Spots coalescing causing large necrotic areas",
+    "Premature leaf drop starting from lower leaves",
+    "Reduced pod filling due to lost photosynthetic area"
+  ],
+  "causes": [
+    "Cercospora arachidicola (early leaf spot) and Cercosporidium personatum (late leaf spot)",
+    "Warm temperatures (25-30°C) with high humidity",
+    "Extended leaf wetness from rain, dew, or irrigation",
+    "Fungal survival on crop debris between seasons",
+    "Continuous groundnut cultivation without rotation"
+  ],
+  "severity": "high",
+  "seasonality": ["Mid to late rainy season", "Humid periods"],
+  "treatments": [
+    "Apply chlorothalonil or tebuconazole at first symptom appearance",
+    "Spray mancozeb at 10-14 day intervals during humid periods",
+    "Use propiconazole for both early and late leaf spot control",
+    "Apply sulfur-based fungicides in early stages"
+  ],
+  "prevention": [
+    "Plant resistant or tolerant groundnut varieties",
+    "Practice crop rotation with cereals or root crops",
+    "Remove and destroy crop residue after harvest",
+    "Maintain adequate plant spacing for air circulation",
+    "Use disease-free seeds treated with fungicide before planting"
+  ],
+  "references": ["ICRISAT Groundnut Disease Guide", "IITA Leaf Spot Management", "NAERLS Groundnut Production Guide"]
+}

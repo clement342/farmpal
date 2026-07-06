@@ -1,0 +1,37 @@
+{
+  "id": "okra-leaf-curl",
+  "cropId": "okra",
+  "name": "Okra Leaf Curl",
+  "scientificName": "Okra leaf curl virus (OLCV)",
+  "aliases": ["OLCV", "Okra Leaf Curl Disease"],
+  "description": "A viral disease causing characteristic upward curling of okra leaves, reduced growth, and poor yield. It is transmitted by whiteflies and is increasingly common in West Africa.",
+  "symptoms": [
+    "Upward curling of leaf margins",
+    "Leaf thickening and darkening of veins",
+    "Stunted plant growth",
+    "Reduced number and quality of pods",
+    "Plants may appear bushy with shortened internodes"
+  ],
+  "causes": [
+    "Okra leaf curl virus transmitted by whiteflies",
+    "High whitefly populations in the field",
+    "Dry season conditions favoring whitefly reproduction",
+    "Infected volunteer okra plants serving as inoculum sources"
+  ],
+  "severity": "high",
+  "seasonality": ["Dry season", "Hot periods"],
+  "treatments": [
+    "No cure once plant is infected",
+    "Remove and destroy infected plants early",
+    "Apply neem oil or insecticidal soap to control whiteflies",
+    "Use reflective mulches to repel whiteflies"
+  ],
+  "prevention": [
+    "Use whitefly-resistant okra varieties when available",
+    "Plant early to avoid peak whitefly populations",
+    "Intercrop with tall crops like maize to reduce whitefly landing",
+    "Apply botanical insecticides regularly as preventive measure",
+    "Maintain field hygiene and remove infected plants promptly"
+  ],
+  "references": ["IITA Vegetable Virology", "NAERLS Integrated Pest Management Guide"]
+}

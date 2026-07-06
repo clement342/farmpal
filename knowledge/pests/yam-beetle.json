@@ -1,0 +1,31 @@
+{
+  "id": "yam-beetle",
+  "name": "Yam Beetle (Yam Tuber Flea Beetle)",
+  "scientificName": "Heteroligus spp. / Prionoryctes spp.",
+  "aliases": ["Yam Tuber Beetle", "Yam Flea Beetle", "Yam Weevil"],
+  "description": "Beetles that damage yam tubers by creating holes and tunnels. Both adult beetles (feeding on tubers) and larvae (feeding on organic matter in soil) cause damage. Infested tubers have reduced market value and storage quality.",
+  "affectedCrops": ["yam"],
+  "symptoms": [
+    "Circular holes or pits on tuber surface",
+    "Shallow or deep tunnels within tubers",
+    "Dark, decaying tissue around feeding sites",
+    "Secondary rot organisms entering through beetle damage",
+    "Reduced tuber quality and marketability",
+    "Adult beetles may be found in soil near tubers at harvest"
+  ],
+  "lifecycle": ["Egg (laid in soil)", "Larva (feeds on organic matter)", "Pupa (in soil)", "Adult beetle (feeds on tubers)"],
+  "treatments": [
+    "Apply carbofuran or chlorpyrifos to soil at planting and during tuber initiation",
+    "Use neem cake as soil amendment to repel beetles",
+    "Handpick and destroy adult beetles when visible",
+    "Set light traps to catch nocturnal adult beetles"
+  ],
+  "prevention": [
+    "Practice crop rotation with non-host crops",
+    "Use yam mounds treated with organic repellents",
+    "Treat yam setts with wood ash or neem powder before planting",
+    "Avoid planting yam in fields with history of beetle infestation",
+    "Harvest promptly at maturity to reduce exposure"
+  ],
+  "references": ["IITA Yam Pest Guide", "NACGRAB Yam Pest Management"]
+}

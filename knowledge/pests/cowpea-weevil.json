@@ -1,0 +1,33 @@
+{
+  "id": "cowpea-weevil",
+  "name": "Cowpea Weevil (Cowpea Bruchid)",
+  "scientificName": "Callosobruchus maculatus",
+  "aliases": ["Cowpea Seed Beetle", "Bruchid", "Callosobruchus"],
+  "description": "A major storage pest of cowpea that develops inside stored seeds. Adult females lay eggs on pods or seeds, and larvae develop within, completely hollowing out seeds. It can cause total loss of stored cowpea within months.",
+  "affectedCrops": ["cowpea", "beans", "groundnut"],
+  "symptoms": [
+    "Small round exit holes on stored seeds",
+    "Eggs visible on seed surface as small white dots",
+    "Fine seed dust at bottom of storage containers",
+    "Seeds hollowed out and reduced to shells",
+    "Adults emerging and flying in storage containers",
+    "Seed weight and quality severely reduced"
+  ],
+  "lifecycle": ["Egg (glued to seed surface)", "Larva (4 instars, develops inside seed)", "Pupa (inside seed)", "Adult (emerges through round exit hole)"],
+  "treatments": [
+    "Mix stored cowpea with food-grade vegetable oil (5ml/kg seed)",
+    "Use hermetic storage methods (double bagging with Purdue Improved Cowpea Storage bags)",
+    "Apply food-grade diatomaceous earth to stored grain",
+    "Mix with neem leaf powder or neem oil (5-10ml/kg)",
+    "Freeze seeds at -18°C for 72 hours to kill all life stages"
+  ],
+  "prevention": [
+    "Harvest pods before they dry and split in the field",
+    "Dry seeds thoroughly (to <12% moisture) before storage",
+    "Store in airtight or hermetic containers",
+    "Treat seeds with botanical protectants (neem oil, chili pepper dust)",
+    "Clean storage area thoroughly before introducing new harvest",
+    "Store only completely dry, undamaged seeds"
+  ],
+  "references": ["IITA Stored Pest Guide", "ICRISAT Cowpea Post-Harvest Management"]
+}

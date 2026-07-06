@@ -1,0 +1,40 @@
+{
+  "id": "cassava-root-rot",
+  "cropId": "cassava",
+  "name": "Cassava Root Rot",
+  "scientificName": "Fusarium solani / Phytophthora spp. / Botryodiplodia theobromae",
+  "aliases": ["Cassava Tuber Rot", "Root Rot of Cassava", "Cassava Soft Rot"],
+  "description": "A soil-borne disease complex causing decay of cassava roots, both in the field and during storage. It is favored by waterlogged soils and can cause total yield loss in severely affected fields.",
+  "symptoms": [
+    "Yellowing and wilting of leaves",
+    "Vines dying back from tips",
+    "Roots showing brown water-soaked lesions",
+    "Internal root rot with discolored vascular tissue",
+    "Soft, foul-smelling decay of harvested roots",
+    "Plants may detach easily from soil when pulled"
+  ],
+  "causes": [
+    "Fusarium solani, Phytophthora spp., Botryodiplodia theobromae fungi",
+    "Waterlogged or poorly drained soils",
+    "Mechanical damage to roots during weeding",
+    "Termite and nematode damage creating entry points",
+    "Prolonged drought followed by heavy rainfall"
+  ],
+  "severity": "high",
+  "seasonality": ["Rainy season", "Waterlogged periods"],
+  "treatments": [
+    "Improve drainage in affected fields",
+    "Remove and destroy infected plants and roots",
+    "Harvest infected fields early to reduce spread",
+    "Apply lime to adjust soil pH"
+  ],
+  "prevention": [
+    "Plant on ridges or raised beds to ensure drainage",
+    "Use disease-free stem cuttings",
+    "Avoid damaging roots during field operations",
+    "Practice crop rotation with cereals or grasses",
+    "Harvest promptly at maturity",
+    "Avoid planting cassava in poorly drained fields"
+  ],
+  "references": ["IITA Cassava Root Disease Manual", "NASC Cassava Health Guide"]
+}

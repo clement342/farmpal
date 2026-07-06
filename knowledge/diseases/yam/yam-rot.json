@@ -1,0 +1,41 @@
+{
+  "id": "yam-rot",
+  "cropId": "yam",
+  "name": "Yam Rot (Soft Rot / Dry Rot)",
+  "scientificName": "Botryodiplodia theobromae / Fusarium spp. / Penicillium spp.",
+  "aliases": ["Yam Tuber Rot", "Wet Rot of Yam", "Post-Harvest Rot of Yam", "Yam Storage Rot"],
+  "description": "A complex of fungal and bacterial rots affecting yam tubers both in the field and during storage. They cause significant post-harvest losses, which can exceed 30% in traditional storage systems in West Africa.",
+  "symptoms": [
+    "Soft, water-soaked areas on tubers (wet rot)",
+    "Dry, sunken lesions on tuber surface (dry rot)",
+    "Internal discoloration spreading from outer tissue inward",
+    "Foul odor from rotting tubers",
+    "Brown or black fungal growth on tuber surface",
+    "Completely decayed tubers collapsing into a soft mass"
+  ],
+  "causes": [
+    "Botryodiplodia theobromae, Fusarium spp., Penicillium spp., Erwinia spp.",
+    "Mechanical damage during harvest and handling",
+    "Wounds from insect and nematode damage",
+    "High humidity and temperature during storage",
+    "Poor ventilation in storage structures",
+    "Harvesting immature yams with thin skin"
+  ],
+  "severity": "high",
+  "seasonality": ["Post-harvest", "Storage period"],
+  "treatments": [
+    "Remove and discard rotted tubers immediately to prevent spread",
+    "Sort healthy from infected tubers before storage",
+    "Cure tubers in a well-ventilated area for 1-2 weeks before storage",
+    "Apply wood ash or lime powder to cut surfaces"
+  ],
+  "prevention": [
+    "Harvest yams carefully to avoid bruising and cuts",
+    "Allow tubers to mature fully before harvest",
+    "Cure harvested yams at 30-35°C with ventilation for 7-10 days",
+    "Store in well-ventilated barns or yam sheds",
+    "Treat cut setts with wood ash before planting",
+    "Maintain good hygiene in storage structures"
+  ],
+  "references": ["IITA Yam Post-Harvest Guide", "NACGRAB Yam Storage Manual", "NAERLS Yam Production Guide"]
+}

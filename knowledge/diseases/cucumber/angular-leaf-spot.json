@@ -1,0 +1,38 @@
+{
+  "id": "angular-leaf-spot",
+  "cropId": "cucumber",
+  "name": "Angular Leaf Spot of Cucumber",
+  "scientificName": "Pseudomonas syringae pv. lachrymans",
+  "aliases": ["Bacterial Leaf Spot", "Cucumber Angular Leaf Spot"],
+  "description": "A bacterial disease causing angular water-soaked lesions on cucumber leaves. It is favored by cool, wet conditions and can cause significant defoliation and fruit spotting.",
+  "symptoms": [
+    "Angular water-soaked lesions on leaves, delimited by veins",
+    "Lesions turning tan to brown with age",
+    "White bacterial exudate on lesion undersides in wet weather",
+    "Lesions drying and falling out, leaving shot-hole appearance",
+    "Small water-soaked spots on fruit turning white and cracking"
+  ],
+  "causes": [
+    "Pseudomonas syringae pv. lachrymans bacteria",
+    "Cool temperatures (18-24°C) with wet conditions",
+    "Seed-borne bacteria serving as primary inoculum",
+    "Rain splash and overhead irrigation spreading bacteria",
+    "High humidity and free moisture on leaves"
+  ],
+  "severity": "moderate",
+  "seasonality": ["Cool rainy periods", "Early growing season"],
+  "treatments": [
+    "Apply copper-based bactericides at first symptoms",
+    "Remove and destroy infected leaves",
+    "Avoid overhead irrigation",
+    "Apply streptomycin where registered and available"
+  ],
+  "prevention": [
+    "Use certified disease-free seeds",
+    "Treat seeds with hot water (50°C for 30 min) before planting",
+    "Practice crop rotation with non-cucurbit crops",
+    "Avoid working in fields when leaves are wet",
+    "Space plants for good air circulation"
+  ],
+  "references": ["IITA Cucurbit Bacteriology Guide", "NAERLS Cucumber Seed Health Manual"]
+}

@@ -1,0 +1,37 @@
+{
+  "id": "cassava-mosaic-disease",
+  "cropId": "cassava",
+  "name": "Cassava Mosaic Disease",
+  "scientificName": "Cassava mosaic virus (CMV)",
+  "aliases": ["CMD", "Cassava Mosaic", "African Cassava Mosaic"],
+  "description": "A devastating viral disease of cassava causing distorted, yellow-mottled leaves and severe yield reduction. It is spread by whiteflies and through infected cuttings.",
+  "symptoms": [
+    "Yellow or pale green mosaic pattern on leaves",
+    "Leaf distortion, curling, and reduced size",
+    "Stunted plant growth with shortened internodes",
+    "Reduced tuber yield and quality",
+    "Plants may appear bushy with many weak stems"
+  ],
+  "causes": [
+    "Cassava mosaic geminivirus transmitted by whiteflies",
+    "Use of infected stem cuttings for planting",
+    "Whitefly populations spreading virus between plants",
+    "Presence of wild cassava relatives serving as reservoirs"
+  ],
+  "severity": "critical",
+  "seasonality": ["Dry season (whitefly peak)"],
+  "treatments": [
+    "No cure once plant is infected",
+    "Remove and burn severely infected plants",
+    "Use systemic insecticides to reduce whitefly populations",
+    "Roguing early-infected plants to reduce inoculum"
+  ],
+  "prevention": [
+    "Use certified disease-free stem cuttings",
+    "Plant resistant cassava varieties (e.g., TME series)",
+    "Rogue out infected plants early in the season",
+    "Remove alternative host plants near fields",
+    "Practice field sanitation and clean planting tools"
+  ],
+  "references": ["IITA Cassava Disease Manual", "NASC Cassava Seed Certification"]
+}

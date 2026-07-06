@@ -1,0 +1,33 @@
+{
+  "id": "fruit-fly",
+  "name": "Fruit Fly (Cucurbit Fruit Fly)",
+  "scientificName": "Dacus spp. / Bactrocera cucurbitae",
+  "aliases": ["Melon Fly", "Cucurbit Fruit Fly", "Pumpkin Fly"],
+  "description": "A major pest of cucurbit crops (watermelon, cucumber) whose larvae feed inside fruits. The female punctures fruit to lay eggs, causing rot, fruit drop, and total loss of affected fruits. It is a significant constraint to cucurbit production in West Africa.",
+  "affectedCrops": ["watermelon", "cucumber"],
+  "symptoms": [
+    "Small puncture marks on fruit surface (egg-laying sites)",
+    "Soft, sunken, discolored areas around punctures",
+    "Fruit rot starting from oviposition sites",
+    "Larvae (maggots) visible inside damaged fruits",
+    "Premature fruit drop",
+    "Foul odor from rotting fruits"
+  ],
+  "lifecycle": ["Egg (inserted into fruit)", "Larva (3 instars, feeds inside fruit)", "Pupa (in soil)", "Adult fly"],
+  "treatments": [
+    "Use protein bait sprays (mixing insecticide with protein attractant) spot-applied on crops",
+    "Set up pheromone traps or methyl eugenol traps for male annihilation",
+    "Remove and destroy infested fruits — bury deep (>50cm)",
+    "Apply neem-based repellents during fruit development",
+    "Bag fruits with paper bags or netting to prevent egg laying"
+  ],
+  "prevention": [
+    "Harvest fruits promptly at maturity",
+    "Practice field sanitation — remove all fallen and infested fruits",
+    "Use male annihilation technique with lure traps",
+    "Release sterile fruit flies in large-scale programs if available",
+    "Intercrop cucurbits with repellent plants (mint, basil)",
+    "Practice crop rotation with non-cucurbit crops"
+  ],
+  "references": ["IITA Cucurbit Fruit Fly Guide", "NAERLS Watermelon and Cucumber Pest Management"]
+}

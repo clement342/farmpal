@@ -1,0 +1,39 @@
+{
+  "id": "plantain-panama-disease",
+  "cropId": "plantain",
+  "name": "Panama Disease (Fusarium Wilt)",
+  "scientificName": "Fusarium oxysporum f. sp. cubense",
+  "aliases": ["Fusarium Wilt", "Panama Wilt", "Banana Wilt"],
+  "description": "A soil-borne fungal disease that causes wilting and death of plantains and bananas. Tropical Race 4 (TR4) is a severe strain threatening global production. The fungus persists in soil for decades.",
+  "symptoms": [
+    "Yellowing of lower leaves starting from leaf margins",
+    "Leaves collapsing at the petiole, hanging down around the stem",
+    "Vascular discoloration visible when cutting pseudostem cross-section",
+    "Reddish-brown streaks in vascular tissue",
+    "Plant death within weeks to months of first symptoms"
+  ],
+  "causes": [
+    "Fusarium oxysporum f. sp. cubense fungus",
+    "Soil-borne pathogen spreading through roots",
+    "Movement of infected soil, water, or plant material",
+    "Contaminated tools and equipment",
+    "Poor drainage and waterlogged conditions"
+  ],
+  "severity": "critical",
+  "seasonality": ["Throughout year", "Worse in wet conditions"],
+  "treatments": [
+    "No effective chemical treatment once infected",
+    "Remove and destroy entire infected plants including roots",
+    "Apply Trichoderma-based biocontrol to surrounding plants",
+    "Quarantine affected area to prevent spread"
+  ],
+  "prevention": [
+    "Use disease-free tissue culture plantlets",
+    "Avoid moving soil or plant material from infected areas",
+    "Disinfect tools and boots when moving between fields",
+    "Plant resistant varieties where available",
+    "Maintain good drainage in fields",
+    "Implement strict quarantine measures for TR4-affected areas"
+  ],
+  "references": ["FAO TR4 Management Guidelines", "IITA Fusarium Wilt Guide", "NACGRAB Plantain Health Manual"]
+}

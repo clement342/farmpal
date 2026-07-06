@@ -1,0 +1,12 @@
+{
+  "id": "watermelon",
+  "name": "Watermelon",
+  "scientificName": "Citrullus lanatus",
+  "aliases": ["Kankana (Hausa)", "Begu (Yoruba)", "Anyu (Igbo)", "Watermelon"],
+  "description": "Watermelon is a warm-season fruit crop grown for its large, juicy fruits. It belongs to the cucurbit family and is increasingly cultivated in Nigeria for both domestic consumption and commercial markets. It is susceptible to fungal and bacterial diseases affecting leaves and fruit.",
+  "growingRegions": ["West Africa", "East Africa", "Southern Africa", "South Asia", "North America", "Nigeria", "Ghana", "Cameroon", "Senegal", "Burkina Faso"],
+  "growthStages": ["Germination", "Seedling", "Vine Growth", "Flowering", "Fruit Set", "Fruit Development", "Ripening"],
+  "commonDiseaseIds": ["watermelon-powdery-mildew", "watermelon-downy-mildew", "watermelon-fusarium-wilt", "watermelon-anthracnose", "bacterial-fruit-blotch"],
+  "commonPestIds": ["aphids", "whitefly", "thrips", "fruit-fly"],
+  "commonDeficiencyIds": ["nitrogen-deficiency", "potassium-deficiency", "calcium-deficiency"]
+}

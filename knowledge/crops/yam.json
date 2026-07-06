@@ -1,0 +1,12 @@
+{
+  "id": "yam",
+  "name": "Yam",
+  "scientificName": "Dioscorea spp.",
+  "aliases": ["White Yam", "Yellow Yam", "Water Yam", "Ji (Igbo)", "Isu (Yoruba)", "Doya (Hausa)", "Gbongbe (Tiv)"],
+  "description": "Yam is a starchy tuber crop widely grown in West Africa. It requires trellising and is susceptible to viral diseases and tuber rots. Nigeria is the world's largest yam producer, and yam holds significant cultural and economic value across the country.",
+  "growingRegions": ["West Africa", "East Africa", "Southeast Asia", "Caribbean", "Nigeria", "Ghana", "Cote d'Ivoire", "Benin", "Togo"],
+  "growthStages": ["Planting", "Sprouting", "Vine Growth", "Tuber Initiation", "Tuber Bulking", "Maturity"],
+  "commonDiseaseIds": ["yam-mosaic-virus", "yam-rot", "yam-leaf-spot", "yam-blight", "yam-scale"],
+  "commonPestIds": ["yam-beetle", "nematodes", "termites"],
+  "commonDeficiencyIds": ["potassium-deficiency", "nitrogen-deficiency", "magnesium-deficiency"]
+}

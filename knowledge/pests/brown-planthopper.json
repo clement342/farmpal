@@ -1,0 +1,33 @@
+{
+  "id": "brown-planthopper",
+  "name": "Brown Planthopper",
+  "scientificName": "Nilaparvata lugens",
+  "aliases": ["BPH", "Rice Brown Planthopper", "Rice Hopper"],
+  "description": "A sap-sucking insect pest of rice that causes direct damage through feeding and indirect damage by transmitting viral diseases (rice ragged stunt virus, rice grassy stunt virus). Heavy infestations cause \"hopper burn\" — rice fields turning brown as plants die.",
+  "affectedCrops": ["rice"],
+  "symptoms": [
+    "Orange-brown insects at base of rice stems",
+    "Honeydew production supporting sooty mold growth",
+    "Plants turning yellow, then brown, beginning in circular patches",
+    "Hopper burn: large areas of dead, brown plants",
+    "Stunted growth and reduced tillering",
+    "Wilting and plant death in severe infestations"
+  ],
+  "lifecycle": ["Egg (inserted into leaf sheath)", "Nymph (5 instars)", "Adult (winged or wingless)"],
+  "treatments": [
+    "Apply systemic insecticides (imidacloprid, thiamethoxam) at early infestation",
+    "Use neem oil and insecticidal soap for light infestations",
+    "Drain fields partially to reduce planthopper habitat",
+    "Spray buprofezin for nymph control",
+    "Avoid broad-spectrum insecticides that kill natural enemies"
+  ],
+  "prevention": [
+    "Plant resistant rice varieties (carrying BPH resistance genes)",
+    "Use balanced nitrogen fertilization — avoid excess",
+    "Avoid dense planting to improve air circulation",
+    "Conserve natural enemies (spiders, mirid bugs)",
+    "Practice intermittent irrigation rather than continuous flooding",
+    "Monitor weekly during tillering to flowering stages"
+  ],
+  "references": ["IITA Rice Planthopper Guide", "Africa Rice Center Integrated Pest Management"]
+}

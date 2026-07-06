@@ -1,0 +1,37 @@
+{
+  "id": "okra-mosaic-virus",
+  "cropId": "okra",
+  "name": "Okra Mosaic Virus",
+  "scientificName": "Okra mosaic virus (OMV)",
+  "aliases": ["OMV", "Okra Mosaic", "Okra Yellow Mosaic"],
+  "description": "A viral disease causing mosaic patterns on okra leaves, leading to reduced photosynthesis and stunted growth. It is transmitted by insect vectors including beetles and aphids.",
+  "symptoms": [
+    "Yellow and green mosaic pattern on leaves",
+    "Leaf distortion and curling",
+    "Reduced leaf size and stunted plant growth",
+    "Poor pod development and deformed fruits",
+    "Plants may show general chlorosis"
+  ],
+  "causes": [
+    "Okra mosaic virus transmitted by beetles and aphids",
+    "Use of infected seeds",
+    "Presence of wild okra relatives as virus reservoirs",
+    "High insect vector populations"
+  ],
+  "severity": "high",
+  "seasonality": ["Wet season (vector peak)", "Early growing season"],
+  "treatments": [
+    "No curative treatment for viral infection",
+    "Remove and destroy severely infected plants",
+    "Control vector populations with neem-based sprays",
+    "Rogue early-infected plants"
+  ],
+  "prevention": [
+    "Use certified virus-free seeds",
+    "Plant resistant or tolerant varieties",
+    "Control insect vectors with appropriate insecticides",
+    "Remove weed hosts from field borders",
+    "Avoid planting near other okra fields with disease history"
+  ],
+  "references": ["IITA Vegetable Disease Guide", "NAERLS Okra Production Manual"]
+}

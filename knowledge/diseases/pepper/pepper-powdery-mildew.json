@@ -1,0 +1,36 @@
+{
+  "id": "pepper-powdery-mildew",
+  "cropId": "pepper",
+  "name": "Pepper Powdery Mildew",
+  "scientificName": "Leveillula taurica",
+  "aliases": ["Powdery Mildew of Pepper", "Pepper White Mold"],
+  "description": "A fungal disease causing white powdery growth on pepper leaves, primarily on older leaves. It reduces photosynthesis and can cause premature defoliation, affecting fruit development and yield.",
+  "symptoms": [
+    "White powdery fungal growth on upper leaf surfaces",
+    "Yellowing and browning of affected leaf tissue",
+    "Leaf curling and distortion",
+    "Premature leaf drop",
+    "Reduced fruit size and yield"
+  ],
+  "causes": [
+    "Leveillula taurica fungus",
+    "Moderate temperatures (20-28°C) with high humidity",
+    "Dense canopy with poor air circulation",
+    "Overhead irrigation keeping foliage wet"
+  ],
+  "severity": "moderate",
+  "seasonality": ["Mid to late growing season", "Warm humid periods"],
+  "treatments": [
+    "Apply sulfur-based fungicides at first signs",
+    "Spray neem oil solution (5ml/L water) weekly",
+    "Use potassium bicarbonate as organic treatment",
+    "Apply myclobutanil for severe infections"
+  ],
+  "prevention": [
+    "Space plants adequately for air circulation",
+    "Avoid overhead irrigation — use drip irrigation",
+    "Remove lower leaves to improve air flow",
+    "Avoid excessive nitrogen fertilization"
+  ],
+  "references": ["IITA Pepper Disease Guide", "NAERLS Pepper Production Guide"]
+}

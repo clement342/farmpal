@@ -1,0 +1,12 @@
+{
+  "id": "pepper",
+  "name": "Pepper",
+  "scientificName": "Capsicum annuum",
+  "aliases": ["Bell Pepper", "Chili Pepper", "Sweet Pepper", "Tattasai (Hausa)", "Ata (Yoruba)", "Ose (Igbo)", "Pepper"],
+  "description": "Pepper is a warm-season vegetable grown for its fruits, ranging from sweet bell peppers to hot chili varieties. It is susceptible to bacterial and fungal diseases. In Nigeria, pepper is an essential ingredient in soups, stews, and sauces across all regions.",
+  "growingRegions": ["West Africa", "East Africa", "Central America", "Southeast Asia", "Southern Europe", "Nigeria", "Ghana", "Ethiopia", "Uganda"],
+  "growthStages": ["Seedling", "Transplanting", "Vegetative", "Flowering", "Fruit Development", "Maturity"],
+  "commonDiseaseIds": ["pepper-bacterial-wilt", "pepper-leaf-spot", "pepper-mosaic", "pepper-powdery-mildew", "pepper-anthracnose"],
+  "commonPestIds": ["aphids", "thrips", "whitefly", "fruitworm"],
+  "commonDeficiencyIds": ["calcium-deficiency", "magnesium-deficiency", "nitrogen-deficiency"]
+}

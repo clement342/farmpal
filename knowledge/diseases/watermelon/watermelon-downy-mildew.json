@@ -1,0 +1,38 @@
+{
+  "id": "watermelon-downy-mildew",
+  "cropId": "watermelon",
+  "name": "Watermelon Downy Mildew",
+  "scientificName": "Pseudoperonospora cubensis",
+  "aliases": ["Downy Mildew of Watermelon", "Cucurbit Downy Mildew"],
+  "description": "A destructive foliar disease of watermelon causing angular yellow lesions on leaves. It spreads rapidly in humid conditions and can defoliate entire fields within days.",
+  "symptoms": [
+    "Angular yellow to light green lesions on upper leaf surfaces",
+    "Purple-gray fuzzy growth on corresponding lower leaf surfaces",
+    "Lesions turning brown and necrotic with age",
+    "Rapid leaf death and defoliation",
+    "Poor fruit development due to loss of foliage"
+  ],
+  "causes": [
+    "Pseudoperonospora cubensis (oomycete)",
+    "Cool to moderate temperatures (15-25°C)",
+    "High humidity (>90%) with leaf wetness",
+    "Wind-borne spores traveling long distances",
+    "Rainy weather and heavy dews"
+  ],
+  "severity": "critical",
+  "seasonality": ["Cool rainy periods", "High humidity seasons"],
+  "treatments": [
+    "Apply fungicides containing metalaxyl or mancozeb at first symptoms",
+    "Spray chlorothalonil at 7-day intervals during favorable conditions",
+    "Use systemic fungicides like fosetyl-aluminum",
+    "Alternate fungicide classes to prevent resistance"
+  ],
+  "prevention": [
+    "Plant resistant or tolerant watermelon varieties",
+    "Avoid overhead irrigation",
+    "Maintain adequate plant spacing for ventilation",
+    "Remove and destroy volunteer cucurbits",
+    "Practice crop rotation with non-cucurbits"
+  ],
+  "references": ["IITA Downy Mildew Guide", "NAERLS Watermelon Health Management"]
+}

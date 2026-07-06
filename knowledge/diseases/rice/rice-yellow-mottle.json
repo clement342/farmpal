@@ -1,0 +1,37 @@
+{
+  "id": "rice-yellow-mottle",
+  "cropId": "rice",
+  "name": "Rice Yellow Mottle Virus",
+  "scientificName": "Rice yellow mottle virus (RYMV)",
+  "aliases": ["RYMV", "Yellow Mottle"],
+  "description": "A serious viral disease of rice in Africa, causing yellow mottling, stunting, and poor grain filling. It is mechanically transmitted by leaf contact and beetles.",
+  "symptoms": [
+    "Yellow to pale green mottling on leaves",
+    "Stunted plant growth with reduced tillering",
+    "Delayed flowering and poor panicle exsertion",
+    "Sterile spikelets and shriveled grains",
+    "Leaves may become necrotic in severe infections"
+  ],
+  "causes": [
+    "Rice yellow mottle virus mechanically transmitted",
+    "Beetle vectors (Sesselia pusilla, Chaetocnema spp.)",
+    "Direct plant-to-plant contact in dense stands",
+    "Contaminated farm tools and equipment",
+    "Continuous rice cultivation with volunteer plants"
+  ],
+  "severity": "high",
+  "seasonality": ["Vegetative growth stage", "Early tillering"],
+  "treatments": [
+    "No chemical cure for viral infection",
+    "Remove and destroy infected plants",
+    "Control beetle vectors with insecticides where practical"
+  ],
+  "prevention": [
+    "Plant RYMV-tolerant rice varieties",
+    "Avoid mechanical damage during weeding operations",
+    "Clean tools between fields to prevent mechanical transmission",
+    "Practice field hygiene and remove volunteer rice",
+    "Rotate with non-cereal crops"
+  ],
+  "references": ["AfricaRice RYMV Management", "WARDA Rice Virology Manual"]
+}

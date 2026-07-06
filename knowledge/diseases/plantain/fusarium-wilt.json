@@ -1,0 +1,37 @@
+{
+  "id": "plantain-fusarium-wilt",
+  "cropId": "plantain",
+  "name": "Fusarium Wilt of Plantain",
+  "scientificName": "Fusarium oxysporum f. sp. cubense (subtropical race)",
+  "aliases": ["Fusarium Wilt", "Panama Disease Subtropical Race"],
+  "description": "A vascular wilt disease of plantain caused by Fusarium oxysporum. It affects the plant's water-conducting tissue, causing wilting and eventual death. Subtropical race is less aggressive than TR4 but still economically damaging.",
+  "symptoms": [
+    "Yellowing of older leaves starting from margins",
+    "Leaf petioles splitting at the base",
+    "Internal vascular discoloration (reddish-brown)",
+    "Progressive wilting from older to younger leaves",
+    "Pseudostem splitting and plant collapse"
+  ],
+  "causes": [
+    "Fusarium oxysporum f. sp. cubense",
+    "Soil-borne pathogen entering through root tips",
+    "Waterlogged or compacted soils stressing plants",
+    "Spread through contaminated tools and irrigation water"
+  ],
+  "severity": "high",
+  "seasonality": ["Wet season", "Poorly drained areas"],
+  "treatments": [
+    "No effective chemical cure",
+    "Remove infected plants and apply lime to affected area",
+    "Apply Trichoderma and mycorrhizal inoculants",
+    "Improve drainage in affected fields"
+  ],
+  "prevention": [
+    "Plant resistant plantain varieties",
+    "Use disease-free planting material",
+    "Improve soil drainage and avoid waterlogging",
+    "Practice crop rotation with non-host crops",
+    "Quarantine affected fields and restrict movement of soil"
+  ],
+  "references": ["IITA Fusarium Management", "FAO Plantain Production Guide"]
+}

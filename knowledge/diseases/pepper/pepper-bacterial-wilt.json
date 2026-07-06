@@ -1,0 +1,39 @@
+{
+  "id": "pepper-bacterial-wilt",
+  "cropId": "pepper",
+  "name": "Pepper Bacterial Wilt",
+  "scientificName": "Ralstonia solanacearum",
+  "aliases": ["Bacterial Wilt of Pepper", "Southern Bacterial Wilt", "Pepper Wilt"],
+  "description": "A soil-borne bacterial disease causing rapid wilting and death of pepper plants. It is particularly severe in warm, humid conditions and affects all solanaceous crops.",
+  "symptoms": [
+    "Sudden wilting of leaves during hot part of day",
+    "Plants failing to recover overnight",
+    "Lower leaves yellowing before upper leaves wilt",
+    "Vascular discoloration (brown streaks in stem)",
+    "Bacterial ooze from cut stems suspended in water",
+    "Plant death within days of first symptoms"
+  ],
+  "causes": [
+    "Ralstonia solanacearum bacteria",
+    "Warm temperatures (28-35°C) with high soil moisture",
+    "Poorly drained soils",
+    "Continuous solanaceous crop cultivation",
+    "Root damage from transplanting, weeding, or nematodes"
+  ],
+  "severity": "critical",
+  "seasonality": ["Warm rainy season", "High soil moisture periods"],
+  "treatments": [
+    "No effective chemical cure once infected",
+    "Remove and destroy infected plants with surrounding soil",
+    "Improve drainage in affected areas",
+    "Solarize soil before next planting"
+  ],
+  "prevention": [
+    "Practice crop rotation with non-solanaceous crops (3+ years)",
+    "Plant in well-drained soils or raised beds",
+    "Use grafted pepper onto resistant rootstocks",
+    "Disinfect farm tools between fields",
+    "Avoid damaging roots during field operations"
+  ],
+  "references": ["IITA Pepper Disease Guide", "NAERLS Pepper Production Manual"]
+}

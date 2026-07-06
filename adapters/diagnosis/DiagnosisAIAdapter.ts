@@ -40,6 +40,7 @@ import { infer } from '@/lib/ai';
 import { buildSystemMessages } from '@/lib/ai/prompts';
 import { parseDiagnosisResponse } from '@/lib/ai/parsers/diagnosis-response.parser';
 import { mapToDiagnosisResponse } from './mapper';
+import { knowledgeService } from '@/services/knowledge.service';
 
 /**
  * Human-readable identifier persisted in diagnosis records.
@@ -128,10 +129,26 @@ export class DiagnosisAIAdapter {
     crop?: Crop,
     existingMessages?: ChatMessage[],
   ): ChatMessage[] {
-    const cropContext = crop
-      ? `Crop: ${crop.name}${crop.regions?.length ? `, Region: ${crop.regions.join(', ')}` : ''}`
-      : undefined;
+    // ── Build crop context ───────────────────────────────────────
+    const parts: string[] = [];
 
+    if (crop) {
+      const regionStr = crop.regions?.length
+        ? `, Region: ${crop.regions.join(', ')}`
+        : '';
+      parts.push(`Crop: ${crop.name}${regionStr}`);
+    }
+
+    // ── Inject offline knowledge for RAG ─────────────────────────
+    const cropId = crop?.id ?? request.cropId;
+    const knowledgeContext = knowledgeService.buildContext(cropId, request.symptoms);
+    if (knowledgeContext) {
+      parts.push(knowledgeContext);
+    }
+
+    const extraContext = parts.length > 0 ? parts.join('\n\n') : undefined;
+
+    // ── Build messages ───────────────────────────────────────────
     const newMessage: ChatMessage = {
       id: crypto.randomUUID(),
       role: 'user',
@@ -142,7 +159,7 @@ export class DiagnosisAIAdapter {
     const history = existingMessages ?? [];
     const allMessages = [...history, newMessage];
 
-    return buildSystemMessages('diagnosis', allMessages, cropContext);
+    return buildSystemMessages('diagnosis', allMessages, extraContext);
   }
 }
 

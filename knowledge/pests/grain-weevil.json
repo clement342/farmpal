@@ -1,0 +1,33 @@
+{
+  "id": "grain-weevil",
+  "name": "Grain Weevil",
+  "scientificName": "Sitophilus zeamais / Sitophilus oryzae",
+  "aliases": ["Maize Weevil", "Rice Weevil", "Granary Weevil", "Storage Weevil"],
+  "description": "A major storage pest of cereal grains, particularly maize and rice. Adult weevils bore into grains to lay eggs, and larvae develop inside kernels, causing weight loss, reduced germination, and complete grain destruction in severe infestations.",
+  "affectedCrops": ["maize", "rice"],
+  "symptoms": [
+    "Small round holes in grain kernels",
+    "Fine grain dust at bottom of storage containers",
+    "Adult weevils visible crawling on grain surface",
+    "Reduced grain weight and quality",
+    "Heating and moisture buildup in stored grain",
+    "Complete grain hollowing in severe infestation"
+  ],
+  "lifecycle": ["Egg (laid inside grain)", "Larva (develops inside kernel)", "Pupa (inside kernel)", "Adult (emerges from hole)"],
+  "treatments": [
+    "Mix grain with food-grade diatomaceous earth at storage",
+    "Apply neem leaf powder or neem oil to stored grain",
+    "Use hermetic storage bags (GrainPro, Purdue Improved Crop Storage bags)",
+    "Apply phosphine fumigation for severe infestations in sealed storage",
+    "Freeze infested grain at -18°C for 48 hours"
+  ],
+  "prevention": [
+    "Dry grain thoroughly (<13% moisture) before storage",
+    "Clean storage containers thoroughly before filling",
+    "Store in airtight or hermetic containers",
+    "Inspect stored grain regularly for early detection",
+    "Treat grain with botanical protectants (neem, chili pepper)",
+    "Store off the ground on pallets away from walls"
+  ],
+  "references": ["IITA Post-Harvest Pest Guide", "NAERLS Grain Storage Manual"]
+}

@@ -1,0 +1,31 @@
+{
+  "id": "rice-water-weevil",
+  "name": "Rice Water Weevil",
+  "scientificName": "Lissorhoptrus oryzophilus",
+  "aliases": ["Rice Weevil Aquatic", "Rice Root Weevil"],
+  "description": "A semiaquatic weevil whose larvae feed on rice roots, causing reduced plant vigor, stunting, and yield loss. Adult weevils feed on leaves but the primary damage is from larval root feeding.",
+  "affectedCrops": ["rice"],
+  "symptoms": [
+    "Adult leaf feeding scars as longitudinal lines on leaves",
+    "Larvae feeding on roots causing root pruning",
+    "Stunted plant growth and reduced tillering",
+    "Plants appearing nutrient-stressed even with adequate fertilizer",
+    "Reduced panicle number and grain yield",
+    "Plants easily uprooted due to reduced root system"
+  ],
+  "lifecycle": ["Egg (laid in leaf sheath below water)", "Larva (feeds on roots in soil)", "Pupa (in cocoon on roots)", "Adult weevil"],
+  "treatments": [
+    "Apply carbofuran granules early in the season at flooding",
+    "Use neem cake as soil amendment before planting",
+    "Drain fields for 3-5 days to reduce larval survival",
+    "Apply chlorantraniliprole as seed treatment"
+  ],
+  "prevention": [
+    "Delay flooding for 2-3 weeks after planting to reduce weevil attraction",
+    "Use seed treatments with neonicotinoids",
+    "Practice crop rotation with dryland crops",
+    "Maintain field sanitation to reduce overwintering sites",
+    "Plant early to avoid peak weevil activity"
+  ],
+  "references": ["IITA Rice Pest Guide", "NAERLS Rice Production Manual"]
+}

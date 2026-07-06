@@ -1,0 +1,37 @@
+{
+  "id": "late-blight",
+  "cropId": "tomato",
+  "name": "Late Blight",
+  "scientificName": "Phytophthora infestans",
+  "aliases": ["Tomato Late Blight", "Late Blight of Tomato"],
+  "description": "A destructive water mold disease of tomato that spreads rapidly in cool, wet conditions. It affects leaves, stems, and fruit, and can destroy entire fields within days.",
+  "symptoms": [
+    "Water-soaked pale green lesions on leaves expanding rapidly",
+    "White fuzzy growth (sporulation) on undersides of lesions",
+    "Brown to black lesions on stems and petioles",
+    "Brown, firm, greasy-looking lesions on fruit",
+    "Rapid wilting and death of foliage in severe cases"
+  ],
+  "causes": [
+    "Phytophthora infestans pathogen surviving in infected plant debris",
+    "Cool temperatures (10-20°C) with high humidity",
+    "Extended periods of leaf wetness from rain or dew",
+    "Overhead irrigation and dense canopy"
+  ],
+  "severity": "critical",
+  "seasonality": ["Cool rainy seasons", "Periods of high humidity"],
+  "treatments": [
+    "Apply copper-based fungicides as preventive spray",
+    "Use systemic fungicides (metalaxyl, mefenoxam) for curative action",
+    "Apply chlorothalonil or mancozeb at 5-7 day intervals in wet weather",
+    "Remove and destroy infected plant debris"
+  ],
+  "prevention": [
+    "Plant resistant or tolerant tomato varieties",
+    "Avoid overhead irrigation — use drip irrigation",
+    "Ensure proper plant spacing for air circulation",
+    "Mulch around plants to prevent soil splash",
+    "Rotate with non-solanaceous crops for 3-4 years"
+  ],
+  "references": ["CIP Late Blight Management Guide", "AVRDC Tomato Disease Handbook"]
+}

@@ -1,0 +1,12 @@
+{
+  "id": "cucumber",
+  "name": "Cucumber",
+  "scientificName": "Cucumis sativus",
+  "aliases": ["Kokamba (Hausa)", "Kankana (Yoruba)", "Kukumba (Igbo)", "Cucumber"],
+  "description": "Cucumber is a warm-season vegetable of the cucurbit family grown for its crisp fruits. It is increasingly popular in Nigerian urban markets and home gardens. Cucumbers are susceptible to fungal, bacterial, and viral diseases.",
+  "growingRegions": ["West Africa", "East Africa", "South Asia", "Southeast Asia", "Middle East", "Nigeria", "Ghana", "Cameroon", "Egypt", "Sudan"],
+  "growthStages": ["Germination", "Seedling", "Vine Growth", "Flowering", "Fruit Set", "Fruit Development", "Harvest"],
+  "commonDiseaseIds": ["cucumber-powdery-mildew", "cucumber-downy-mildew", "cucumber-mosaic-virus", "angular-leaf-spot", "gummy-stem-blight"],
+  "commonPestIds": ["aphids", "whitefly", "thrips", "fruit-fly"],
+  "commonDeficiencyIds": ["nitrogen-deficiency", "potassium-deficiency", "calcium-deficiency"]
+}

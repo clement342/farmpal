@@ -1,0 +1,41 @@
+{
+  "id": "rice-sheath-blight",
+  "cropId": "rice",
+  "name": "Rice Sheath Blight",
+  "scientificName": "Rhizoctonia solani (anamorph) / Thanatephorus cucumeris (teleomorph)",
+  "aliases": ["Sheath Blight of Rice", "Rice Sheath Rot"],
+  "description": "A soil-borne fungal disease causing lesions on rice leaf sheaths. It is most severe in dense, high-nitrogen, and continuously cropped rice fields. Sheath blight is one of the most destructive rice diseases in intensive production systems.",
+  "symptoms": [
+    "Oval or irregular green-gray water-soaked lesions on leaf sheaths",
+    "Lesions with dark brown borders and gray centers",
+    "Lesions enlarging and coalescing, forming large blighted areas",
+    "Infection spreading to leaf blades causing leaf dieback",
+    "White fungal mycelium visible on sheaths in humid conditions",
+    "Small brown sclerotia on infected sheaths"
+  ],
+  "causes": [
+    "Rhizoctonia solani fungus",
+    "High relative humidity (>95%) and warm temperatures (28-32°C)",
+    "Dense crop canopy from high seeding rates",
+    "Excessive nitrogen fertilization",
+    "Continuous rice cropping with infected residue",
+    "Flooded conditions favoring disease development"
+  ],
+  "severity": "high",
+  "seasonality": ["Late tillering to heading stage", "Dense canopy periods"],
+  "treatments": [
+    "Apply fungicides containing azoxystrobin or trifloxystrobin",
+    "Spray propiconazole or tebuconazole at booting stage",
+    "Use validamycin as a biocontrol alternative",
+    "Reduce plant density in severely affected fields"
+  ],
+  "prevention": [
+    "Use moderate seeding rates to avoid excessive canopy density",
+    "Apply balanced nitrogen — split applications to avoid excess",
+    "Practice crop rotation with non-cereal crops",
+    "Drain fields periodically where possible",
+    "Plant moderately resistant rice varieties",
+    "Remove and manage crop residue between seasons"
+  ],
+  "references": ["IITA Rice Disease Guide", "Africa Rice Sheath Blight Management"]
+}

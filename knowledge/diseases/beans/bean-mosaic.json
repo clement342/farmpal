@@ -1,0 +1,38 @@
+{
+  "id": "bean-mosaic",
+  "cropId": "beans",
+  "name": "Bean Common Mosaic Virus",
+  "scientificName": "Bean common mosaic virus (BCMV)",
+  "aliases": ["BCMV", "Bean Mosaic", "Common Mosaic of Bean"],
+  "description": "A seed-borne viral disease causing mosaic patterns, leaf distortion, and stunting in common beans. It is transmitted by aphids and through infected seeds, reducing yield and seed quality.",
+  "symptoms": [
+    "Light and dark green mosaic pattern on leaves",
+    "Leaf distortion, blistering, and downward curling",
+    "Stunted plant growth with shortened internodes",
+    "Vein banding and chlorosis",
+    "Pods showing mottling or discoloration",
+    "Seeds from infected plants may show discoloration"
+  ],
+  "causes": [
+    "Bean common mosaic virus (BCMV), a potyvirus",
+    "Seed-borne virus in infected seeds (primary source)",
+    "Transmitted by aphid vectors (Myzus persicae, Aphis fabae)",
+    "Mechanical transmission through contaminated tools"
+  ],
+  "severity": "moderate",
+  "seasonality": ["Throughout growing season", "Aphid activity periods"],
+  "treatments": [
+    "No curative treatment for viral infection",
+    "Remove and destroy infected plants",
+    "Control aphid vectors with neem oil or insecticidal soap",
+    "Use reflective mulches to repel aphids"
+  ],
+  "prevention": [
+    "Use certified virus-free bean seeds",
+    "Plant BCMV-resistant bean varieties",
+    "Rogue infected plants as soon as symptoms appear",
+    "Control weeds that serve as virus reservoirs",
+    "Remove and destroy crop debris after harvest"
+  ],
+  "references": ["IITA Bean Virology Guide", "CIAT Bean Virus Management"]
+}

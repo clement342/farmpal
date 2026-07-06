@@ -1,0 +1,36 @@
+{
+  "id": "zinc-deficiency",
+  "name": "Zinc Deficiency",
+  "aliases": ["Zn deficiency", "White bud", "Little leaf"],
+  "description": "Zinc is essential for enzyme function, hormone production, and protein synthesis. Deficiency causes stunted growth, short internodes, and chlorotic bands in cereals. It is common in flooded rice and high-phosphorus soils.",
+  "affectedCrops": ["maize", "rice", "cassava", "beans", "groundnut"],
+  "symptoms": [
+    "Interveinal chlorosis on young leaves with broad yellow bands",
+    "Shortened internodes giving rosette or bunched appearance",
+    "Small, narrowed leaves (little leaf)",
+    "White bud in maize (white or pale yellow emerging leaves)",
+    "Delayed maturity and poor grain fill",
+    "Brown spots on leaves and stems"
+  ],
+  "causes": [
+    "Low available zinc in soil",
+    "High soil pH (alkaline conditions) reducing zinc availability",
+    "Excessive phosphorus application inducing zinc deficiency",
+    "Flooded conditions in rice reducing zinc uptake",
+    "Highly weathered tropical soils low in zinc"
+  ],
+  "treatments": [
+    "Apply zinc sulfate (ZnSO4) at 10-25 kg/ha as soil application",
+    "Foliar spray of zinc sulfate (0.5% solution) for quick correction",
+    "Zn-EDTA chelate as foliar spray for efficient uptake",
+    "Seed treatment with zinc sulfate (1-2% solution) before planting"
+  ],
+  "prevention": [
+    "Incorporate zinc in basal fertilizer program",
+    "Maintain balanced phosphorus fertilization",
+    "Use zinc-fortified NPK fertilizers",
+    "Improve soil organic matter content",
+    "Plant zinc-efficient crop varieties"
+  ],
+  "references": ["IITA Zinc Management Guide", "NAERLS Micronutrient Manual"]
+}

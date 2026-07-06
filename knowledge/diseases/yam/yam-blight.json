@@ -1,0 +1,38 @@
+{
+  "id": "yam-blight",
+  "cropId": "yam",
+  "name": "Yam Blight (Leaf Blight)",
+  "scientificName": "Rhizoctonia solani / Sclerotium rolfsii",
+  "aliases": ["Yam Leaf Blight", "Yam Blight Disease", "Rhizoctonia Blight of Yam"],
+  "description": "A fungal disease causing rapid browning and death of yam leaves and stems. It can spread quickly during warm, wet weather, causing significant defoliation and yield loss.",
+  "symptoms": [
+    "Water-soaked spots on leaves turning brown rapidly",
+    "Rapid browning and necrosis of entire leaves",
+    "Blight progressing from lower leaves upward",
+    "Stem lesions with white fungal growth near soil",
+    "Premature vine death in severe infections"
+  ],
+  "causes": [
+    "Rhizoctonia solani and Sclerotium rolfsii fungi",
+    "Warm temperatures (28-35°C) with high humidity",
+    "Waterlogged or poorly drained soils",
+    "Dense foliage with poor air circulation",
+    "High soil organic matter with surface debris"
+  ],
+  "severity": "high",
+  "seasonality": ["Rainy season", "Warm, wet periods"],
+  "treatments": [
+    "Apply fungicides containing carbendazim or mancozeb",
+    "Spray copper oxychloride at first symptoms",
+    "Apply Trichoderma-based biocontrol to soil",
+    "Improve drainage in affected fields"
+  ],
+  "prevention": [
+    "Ensure good field drainage",
+    "Space yam mounds adequately for air circulation",
+    "Provide trellising to keep vines off the ground",
+    "Remove and destroy infected plant debris",
+    "Practice crop rotation with non-host crops"
+  ],
+  "references": ["IITA Yam Disease Management", "NACGRAB Yam Health Guide"]
+}
