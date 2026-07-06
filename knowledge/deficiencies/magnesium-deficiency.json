@@ -1,0 +1,35 @@
+{
+  "id": "magnesium-deficiency",
+  "name": "Magnesium Deficiency",
+  "aliases": ["Mg deficiency", "Interveinal chlorosis"],
+  "description": "Magnesium is the central atom of the chlorophyll molecule and essential for photosynthesis. Deficiency causes characteristic interveinal chlorosis on older leaves, commonly seen in acidic, leached tropical soils.",
+  "affectedCrops": ["cassava", "yam", "tomato", "pepper", "cocoyam", "groundnut", "maize", "plantain", "banana"],
+  "symptoms": [
+    "Yellow interveinal chlorosis on older leaves (green veins, yellow tissue between)",
+    "Leaf margins may remain green or turn purple in some crops",
+    "Leaf edges curling upward",
+    "Premature leaf drop",
+    "Reduced root development and storage organ size",
+    "Reduced fruit quality"
+  ],
+  "causes": [
+    "Insufficient magnesium in soil",
+    "Acidic, sandy soils with low cation exchange capacity",
+    "Excessive potassium application competing with magnesium uptake",
+    "High rainfall leaching magnesium from soil",
+    "Acidic soil pH limiting magnesium availability"
+  ],
+  "treatments": [
+    "Apply dolomitic lime (calcium-magnesium carbonate) to acidic soils",
+    "Foliar spray of magnesium sulfate (Epsom salt) solution (2%)",
+    "Apply magnesium sulfate (kieserite) as soil application",
+    "Use potassium magnesium sulfate (K-Mag) for balanced supply"
+  ],
+  "prevention": [
+    "Maintain soil pH at 6.0-7.0 with dolomitic lime",
+    "Use balanced fertilization — avoid excessive potassium",
+    "Incorporate organic matter to improve nutrient retention",
+    "Include magnesium in regular fertilizer program"
+  ],
+  "references": ["IITA Soil Fertility Guide", "NAERLS Magnesium Deficiency Manual"]
+}

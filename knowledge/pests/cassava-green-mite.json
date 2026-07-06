@@ -1,0 +1,32 @@
+{
+  "id": "cassava-green-mite",
+  "name": "Cassava Green Mite",
+  "scientificName": "Mononychellus tanajoa",
+  "aliases": ["CGM", "Cassava Green Spider Mite", "Green Cassava Mite"],
+  "description": "A destructive spider mite that feeds on cassava leaves, causing chlorotic spots and defoliation. It was accidentally introduced to Africa from South America and is now a major pest in cassava-growing regions.",
+  "affectedCrops": ["cassava"],
+  "symptoms": [
+    "Yellowish chlorotic spots on young leaves",
+    "Leaves curling and becoming distorted",
+    "Bronzing of leaf undersides",
+    "Premature leaf drop starting from top of plant",
+    "Fine webbing on leaf undersides",
+    "Stunted growth and reduced root yield"
+  ],
+  "lifecycle": ["Egg", "Larva", "Nymph (protonymph, deutonymph)", "Adult"],
+  "treatments": [
+    "Apply sulfur-based acaricides (not during hot weather)",
+    "Use neem oil or insecticidal soap every 5-7 days",
+    "Introduce predatory mites (Typhlodromalus aripo, T. manihoti) as biocontrol",
+    "Spray abamectin for severe infestations",
+    "Avoid broad-spectrum insecticides that kill natural enemies"
+  ],
+  "prevention": [
+    "Plant mite-resistant cassava varieties",
+    "Conserve and introduce predatory mites from IITA biological control program",
+    "Maintain soil moisture to reduce mite stress on plants",
+    "Avoid drought stress through mulching",
+    "Monitor young leaves regularly for early detection"
+  ],
+  "references": ["IITA Cassava Mite Management", "NASC Cassava Pest Control Guide"]
+}

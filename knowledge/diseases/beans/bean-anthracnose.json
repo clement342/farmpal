@@ -1,0 +1,40 @@
+{
+  "id": "bean-anthracnose",
+  "cropId": "beans",
+  "name": "Bean Anthracnose",
+  "scientificName": "Colletotrichum lindemuthianum",
+  "aliases": ["Anthracnose of Common Bean", "Bean Pod Spot"],
+  "description": "A seed-borne fungal disease causing sunken dark lesions on bean stems, leaves, and pods. It is most severe in cool, wet conditions and can cause significant yield losses in susceptible varieties.",
+  "symptoms": [
+    "Dark brown to black sunken lesions on cotyledons and stems of seedlings",
+    "Brown circular spots on leaves with dark borders",
+    "Veins on lower leaf surfaces turning dark",
+    "Pod lesions as circular or oval sunken spots with reddish-brown borders",
+    "Pink spore masses in lesion centers under humid conditions",
+    "Seed discoloration and shriveling"
+  ],
+  "causes": [
+    "Colletotrichum lindemuthianum fungus",
+    "Seed-borne infection serving as primary inoculum",
+    "Cool temperatures (17-24°C) with high humidity",
+    "Extended leaf and pod wetness",
+    "Rain splash dispersing spores"
+  ],
+  "severity": "high",
+  "seasonality": ["Cool wet periods", "Early to mid growing season"],
+  "treatments": [
+    "Apply fungicides containing chlorothalonil or mancozeb at first symptoms",
+    "Spray azoxystrobin or pyraclostrobin for systemic control",
+    "Use copper-based fungicides as preventive treatment",
+    "Remove and destroy infected plant parts"
+  ],
+  "prevention": [
+    "Use certified disease-free bean seeds",
+    "Plant resistant bean varieties",
+    "Treat seeds with fungicide before planting",
+    "Practice crop rotation with non-legume crops (3+ years)",
+    "Avoid overhead irrigation",
+    "Remove and destroy crop residue after harvest"
+  ],
+  "references": ["IITA Bean Anthracnose Guide", "CIAT Bean Disease Management"]
+}

@@ -1,0 +1,31 @@
+{
+  "id": "termites",
+  "name": "Termites",
+  "scientificName": "Various species (Isoptera: Macrotermes, Microtermes, Odontotermes)",
+  "aliases": ["White Ants", "Termite", "Garuru (Hausa)"],
+  "description": "Social insects that feed on dead and living plant material. They are particularly damaging to cassava and yam in West Africa, attacking both growing crops and stored products, especially during dry periods.",
+  "affectedCrops": ["cassava", "yam", "groundnut", "cocoyam", "maize"],
+  "symptoms": [
+    "Mud tunnels or sheets on stems and plant bases",
+    "Stem girdling and dieback",
+    "Plants wilting and collapsing suddenly",
+    "Tubers and roots with feeding damage",
+    "Earthen mounds visible in and around fields"
+  ],
+  "lifecycle": ["Egg", "Nymph", "Worker", "Soldier", "Winged reproductive (alate)", "King/Queen"],
+  "treatments": [
+    "Apply chlorpyrifos or imidacloprid to soil at planting",
+    "Drench termite mounds with insecticide solution",
+    "Use bait stations containing fipronil near active mounds",
+    "Remove and destroy severely infested plants"
+  ],
+  "prevention": [
+    "Remove termite mounds from fields before planting",
+    "Incorporate neem cake into soil as repellent",
+    "Maintain soil moisture through irrigation and mulching",
+    "Remove crop residues that serve as termite food",
+    "Plant tolerant or resistant crop varieties",
+    "Practice crop rotation with non-preferred crops"
+  ],
+  "references": ["IITA Termite Management", "NAERLS Soil Pest Control Guide"]
+}

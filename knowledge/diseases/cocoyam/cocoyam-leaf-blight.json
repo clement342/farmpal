@@ -1,0 +1,40 @@
+{
+  "id": "cocoyam-leaf-blight",
+  "cropId": "cocoyam",
+  "name": "Cocoyam Leaf Blight",
+  "scientificName": "Phytophthora colocasiae",
+  "aliases": ["Taro Leaf Blight", "Cocoyam Blight"],
+  "description": "A devastating fungal-like disease causing large brown lesions on cocoyam leaves. It can destroy entire leaf canopies within days under favorable conditions, severely reducing corm yield.",
+  "symptoms": [
+    "Water-soaked circular spots on leaves, starting from margins",
+    "Spots rapidly enlarging into large brown necrotic lesions",
+    "Yellow halos surrounding necrotic areas",
+    "Leaves collapsing and hanging down",
+    "Complete defoliation in severe infections",
+    "Rot can spread to petioles and corms"
+  ],
+  "causes": [
+    "Phytophthora colocasiae (oomycete pathogen)",
+    "Warm temperatures (22-28°C) with high humidity",
+    "Rain splash dispersing spores",
+    "Standing water and poor drainage",
+    "Dense plantings with poor air circulation"
+  ],
+  "severity": "critical",
+  "seasonality": ["Rainy season", "Wet, humid conditions"],
+  "treatments": [
+    "Apply copper-based fungicides (copper oxychloride) at first symptoms",
+    "Spray metalaxyl or mancozeb at 7-10 day intervals",
+    "Remove and destroy severely infected leaves",
+    "Apply systemic fungicides like fosetyl-aluminum"
+  ],
+  "prevention": [
+    "Plant resistant or tolerant cocoyam varieties",
+    "Use disease-free planting material",
+    "Ensure good field drainage",
+    "Space plants adequately for air circulation",
+    "Practice crop rotation with non-host crops",
+    "Remove volunteer plants and crop debris"
+  ],
+  "references": ["IITA Root Crop Disease Guide", "NACGRAB Cocoyam Production Manual"]
+}

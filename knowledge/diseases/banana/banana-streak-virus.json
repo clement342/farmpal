@@ -1,0 +1,38 @@
+{
+  "id": "banana-streak-virus",
+  "cropId": "banana",
+  "name": "Banana Streak Virus",
+  "scientificName": "Banana streak virus (BSV)",
+  "aliases": ["BSV", "Banana Streak Disease"],
+  "description": "A viral disease that causes yellow or golden streaks on banana leaves. BSV is integrated into the genome of some banana varieties and can activate under stress. It reduces plant vigor and fruit yield.",
+  "symptoms": [
+    "Yellow or golden chlorotic streaks parallel to leaf veins",
+    "Streaks turning brown or necrotic with age",
+    "Leaf distortion and reduced leaf area",
+    "Stunted plant growth and reduced bunch weight",
+    "Pseudostem cracking and splitting in some cases"
+  ],
+  "causes": [
+    "Banana streak virus (BSV), a badnavirus",
+    "Virus integrated in host genome can activate spontaneously",
+    "Transmission by mealybugs",
+    "Stress conditions triggering latent infections",
+    "Use of infected planting material"
+  ],
+  "severity": "moderate",
+  "seasonality": ["Stress periods (drought, temperature extremes)"],
+  "treatments": [
+    "No cure for viral infection",
+    "Remove and destroy infected plants showing severe symptoms",
+    "Improve growing conditions to reduce plant stress",
+    "Control mealybug vectors with appropriate insecticides"
+  ],
+  "prevention": [
+    "Use virus-indexed tissue culture planting material",
+    "Avoid stress conditions (drought, nutrient deficiency)",
+    "Control mealybug populations",
+    "Plant tolerant banana varieties",
+    "Field inspection and removal of infected plants"
+  ],
+  "references": ["IITA Banana Virology Manual", "NACGRAB Virus-Free Banana Guide"]
+}

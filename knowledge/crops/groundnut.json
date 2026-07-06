@@ -1,0 +1,12 @@
+{
+  "id": "groundnut",
+  "name": "Groundnut",
+  "scientificName": "Arachis hypogaea",
+  "aliases": ["Peanut", "Gyada (Hausa)", "Epa (Yoruba)", "Okpa (Igbo)", "Groundnut"],
+  "description": "Groundnut is an important oilseed and legume crop grown extensively in the northern states of Nigeria. It is consumed as food, processed into oil, and used for livestock feed. Groundnut is susceptible to fungal diseases, viral infections, and insect pests.",
+  "growingRegions": ["West Africa", "East Africa", "Central Africa", "South Asia", "Southeast Asia", "South America", "Nigeria", "Senegal", "Mali", "Sudan", "Ghana"],
+  "growthStages": ["Germination", "Seedling", "Vegetative", "Flowering", "Pegging", "Pod Development", "Maturity"],
+  "commonDiseaseIds": ["groundnut-rosette-virus", "groundnut-leaf-spot", "groundnut-rust", "groundnut-stem-rot", "aflatoxin-contamination"],
+  "commonPestIds": ["aphids", "thrips", "termites", "pod-borer"],
+  "commonDeficiencyIds": ["calcium-deficiency", "phosphorus-deficiency", "iron-deficiency", "potassium-deficiency"]
+}

@@ -1,0 +1,35 @@
+{
+  "id": "cocoyam-mosaic",
+  "cropId": "cocoyam",
+  "name": "Cocoyam Mosaic",
+  "scientificName": "Cocoyam mosaic virus (CoMV)",
+  "aliases": ["Cocoyam Virus Disease", "Taro Mosaic"],
+  "description": "A viral disease causing mosaic patterns and leaf distortion in cocoyam. It is transmitted by aphids and through infected planting material, reducing photosynthesis and corm yield.",
+  "symptoms": [
+    "Light green to yellow mosaic patterns on leaves",
+    "Leaf distortion and crinkling",
+    "Reduced leaf size and stunted plant growth",
+    "Chlorotic spots along leaf veins",
+    "Reduced corm size and overall yield"
+  ],
+  "causes": [
+    "Cocoyam mosaic virus (CoMV)",
+    "Transmitted by aphid vectors",
+    "Use of infected cormels for planting",
+    "Alternative weed hosts harboring the virus"
+  ],
+  "severity": "moderate",
+  "seasonality": ["Throughout growing season", "Aphid peak periods"],
+  "treatments": [
+    "No curative treatment for viral infection",
+    "Remove and destroy severely infected plants",
+    "Control aphid vectors with neem oil or insecticidal soap"
+  ],
+  "prevention": [
+    "Use virus-free planting material",
+    "Control aphid populations in and around fields",
+    "Remove weed hosts near cocoyam fields",
+    "Rogue out infected plants early"
+  ],
+  "references": ["IITA Cocoyam Virology Guide", "NACGRAB Virus-Free Cocoyam Guide"]
+}

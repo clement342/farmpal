@@ -1,0 +1,40 @@
+{
+  "id": "groundnut-stem-rot",
+  "cropId": "groundnut",
+  "name": "Groundnut Stem Rot (Sclerotium)",
+  "scientificName": "Sclerotium rolfsii",
+  "aliases": ["Southern Blight", "White Mold", "Stem Rot of Groundnut", "Sclerotium Wilt"],
+  "description": "A soil-borne fungal disease causing stem rot, wilting, and plant death in groundnut. It is favored by warm temperatures and high soil moisture, forming characteristic white fungal growth and sclerotia on infected tissues.",
+  "symptoms": [
+    "Yellowing and wilting of individual branches or entire plant",
+    "White fungal mycelium visible on stems near soil line",
+    "Small tan to brown seed-like sclerotia on infected tissue",
+    "Stem lesions with shredded appearance",
+    "Pod rot and seed discoloration",
+    "Plant death in circular patches in the field"
+  ],
+  "causes": [
+    "Sclerotium rolfsii fungi",
+    "Warm soil temperatures (25-35°C)",
+    "High soil moisture and poor drainage",
+    "Excessive plant residues on soil surface",
+    "Continuous groundnut cultivation"
+  ],
+  "severity": "high",
+  "seasonality": ["Warm rainy season", "High soil moisture periods"],
+  "treatments": [
+    "Apply fungicides containing tebuconazole or flutolanil to soil at pegging stage",
+    "Remove and destroy infected plants with surrounding soil",
+    "Apply Trichoderma-based biocontrol to soil",
+    "Improve drainage in affected areas"
+  ],
+  "prevention": [
+    "Practice crop rotation with cereals or grasses",
+    "Ensure well-drained fields and avoid waterlogging",
+    "Plant on ridges or raised beds to improve drainage",
+    "Deep plow to bury crop debris",
+    "Reduce plant density for better aeration",
+    "Use tolerant varieties where available"
+  ],
+  "references": ["ICRISAT Soil-borne Disease Guide", "IITA Groundnut Health Manual"]
+}

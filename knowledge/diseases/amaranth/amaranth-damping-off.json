@@ -1,0 +1,39 @@
+{
+  "id": "amaranth-damping-off",
+  "cropId": "amaranth",
+  "name": "Amaranth Damping-Off",
+  "scientificName": "Pythium spp. / Rhizoctonia solani",
+  "aliases": ["Seedling Rot", "Damping-Off of Amaranth", "Amaranth Seedling Blight"],
+  "description": "A soil-borne disease affecting amaranth seedlings, causing pre- and post-emergence damping off. It is a major constraint in nursery and direct-seeded amaranth production.",
+  "symptoms": [
+    "Seeds rotting before emergence (pre-emergence damping-off)",
+    "Seedlings collapsing at soil line with water-soaked stems",
+    "Roots turning brown and rotting",
+    "White or brown fungal growth on affected seedlings",
+    "Patchy emergence and stand loss"
+  ],
+  "causes": [
+    "Pythium spp. and Rhizoctonia solani fungi",
+    "Waterlogged or poorly drained seedbeds",
+    "Overhead irrigation creating wet conditions",
+    "Overcrowded seedbeds with poor air circulation",
+    "Contaminated soil or nursery trays"
+  ],
+  "severity": "high",
+  "seasonality": ["Nursery and early transplant stage", "Rainy season"],
+  "treatments": [
+    "Remove and destroy affected seedlings immediately",
+    "Improve drainage in seedbeds",
+    "Drench soil with copper oxychloride or metalaxyl",
+    "Apply Trichoderma-based biocontrol to soil"
+  ],
+  "prevention": [
+    "Use well-drained nursery beds or seed trays",
+    "Avoid overwatering and ensure proper drainage",
+    "Solarize nursery soil before planting",
+    "Space seeds adequately to reduce crowding",
+    "Use disease-free planting medium",
+    "Treat seeds with fungicide before planting"
+  ],
+  "references": ["IITA Seedling Disease Guide", "NAERLS Amaranth Nursery Management"]
+}

@@ -47,7 +47,7 @@ export function ChatComposer({ onSend, disabled, loading, placeholder }: ChatCom
             onChange={(e) => setValue(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder={placeholder || 'Describe the symptoms you see...'}
-            disabled={disabled}
+            disabled={disabled || undefined}
             rows={1}
             className="w-full resize-none rounded-xl border border-border-subtle bg-surface px-4 py-2.5 pr-12 text-sm text-text-primary placeholder-text-muted focus:outline-none focus:border-accent/50 focus:ring-1 focus:ring-accent/20 transition-colors disabled:opacity-50"
             aria-label="Describe symptoms"

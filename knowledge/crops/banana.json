@@ -1,0 +1,12 @@
+{
+  "id": "banana",
+  "name": "Banana",
+  "scientificName": "Musa acuminata",
+  "aliases": ["Sweet Banana", "Ogede wewe (Yoruba)", "Ayaba (Hausa)", "Unere (Igbo)", "Banana"],
+  "description": "Banana is a tropical fruit crop grown for its sweet, soft fruits. It is widely cultivated in backyards and small farms across Nigeria. Bananas are susceptible to the same pests and diseases as plantains, requiring careful management.",
+  "growingRegions": ["West Africa", "Central Africa", "East Africa", "Southeast Asia", "Caribbean", "Nigeria", "Uganda", "Cameroon", "Ghana", "Ethiopia"],
+  "growthStages": ["Sucker Planting", "Vegetative", "Flowering", "Bunch Development", "Fruit Ripening", "Harvest"],
+  "commonDiseaseIds": ["banana-black-sigatoka", "banana-panama-disease", "banana-bunchy-top", "banana-fusarium-wilt", "banana-streak-virus"],
+  "commonPestIds": ["banana-weevil", "nematodes", "thrips"],
+  "commonDeficiencyIds": ["potassium-deficiency", "nitrogen-deficiency", "iron-deficiency"]
+}

@@ -1,0 +1,38 @@
+{
+  "id": "maize-rust",
+  "cropId": "maize",
+  "name": "Maize Rust (Common Rust)",
+  "scientificName": "Puccinia sorghi",
+  "aliases": ["Common Rust", "Corn Rust", "Southern Rust"],
+  "description": "A fungal disease producing reddish-brown pustules on maize leaves. Common rust is favored by moderate temperatures while southern rust prefers warmer conditions. Both can cause significant yield loss when infections are severe.",
+  "symptoms": [
+    "Small reddish-brown pustules on both leaf surfaces",
+    "Pustules rupturing to release powdery rust spores",
+    "Yellow chlorotic halos surrounding pustules",
+    "Leaves turning yellow and dying prematurely",
+    "Reduced grain fill due to lost photosynthetic leaf area"
+  ],
+  "causes": [
+    "Puccinia sorghi (common rust) or Puccinia polysora (southern rust)",
+    "Moderate to warm temperatures (16-28°C)",
+    "High humidity and leaf wetness",
+    "Wind-borne spores traveling long distances",
+    "Susceptible maize varieties"
+  ],
+  "severity": "moderate",
+  "seasonality": ["Mid to late growing season", "Warm humid periods"],
+  "treatments": [
+    "Apply fungicides containing azoxystrobin or pyraclostrobin",
+    "Spray tebuconazole or propiconazole at first signs",
+    "Use mancozeb as a protectant fungicide",
+    "Apply sulfur-based fungicides for mild infections"
+  ],
+  "prevention": [
+    "Plant rust-resistant maize hybrids",
+    "Avoid excessive nitrogen fertilization",
+    "Ensure adequate plant spacing for air circulation",
+    "Practice crop rotation",
+    "Monitor fields regularly during favorable weather"
+  ],
+  "references": ["CIMMYT Maize Disease Handbook", "IITA Maize Rust Guide"]
+}

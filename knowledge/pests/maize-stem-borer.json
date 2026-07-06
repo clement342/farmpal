@@ -1,0 +1,33 @@
+{
+  "id": "maize-stem-borer",
+  "name": "Maize Stem Borer",
+  "scientificName": "Busseola fusca / Chilo partellus",
+  "aliases": ["Stem Borer", "Maize Stalk Borer", "Spotted Stem Borer"],
+  "description": "Caterpillar pests that bore into maize stems, causing dead heart, stem breakage, and reduced yield. They are among the most economically damaging pests of maize in Africa, with yield losses ranging from 10% to 80%.",
+  "affectedCrops": ["maize"],
+  "symptoms": [
+    "Small holes and frass in leaf whorls",
+    "Row of holes across unfolded leaves (shot-hole damage)",
+    "Dead heart in young plants",
+    "Stems with borer entry holes and tunnels",
+    "Stem breakage and lodging",
+    "Reduced ear size and grain fill"
+  ],
+  "lifecycle": ["Egg", "Larva (6-7 instars)", "Pupa", "Adult moth"],
+  "treatments": [
+    "Apply granular insecticides (carbofuran) into leaf whorls at early infestation",
+    "Spray neem-based insecticides at vegetative stage",
+    "Use Bacillus thuringiensis (Bt) formulations",
+    "Apply chlorantraniliprole as foliar spray for severe infestations",
+    "Crush larvae in whorls by hand in small plots"
+  ],
+  "prevention": [
+    "Plant early to avoid peak stem borer populations",
+    "Use push-pull strategy with Napier grass border",
+    "Intercrop maize with legumes",
+    "Destroy crop residues after harvest",
+    "Plant tolerant maize varieties",
+    "Conserve natural enemies (parasitic wasps)"
+  ],
+  "references": ["IITA Stem Borer Management", "CIMMYT Maize Pest Guide"]
+}

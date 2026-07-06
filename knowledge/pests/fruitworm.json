@@ -1,0 +1,32 @@
+{
+  "id": "fruitworm",
+  "name": "Tomato Fruitworm (Corn Earworm)",
+  "scientificName": "Helicoverpa zea / Helicoverpa armigera",
+  "aliases": ["Corn Earworm", "Old World Bollworm", "Cotton Bollworm", "Tomato Fruitworm"],
+  "description": "A polyphagous caterpillar pest that feeds on fruits of tomato, pepper, and other crops. The larvae bore into fruits, causing direct damage, fruit rot, and making produce unmarketable.",
+  "affectedCrops": ["tomato", "pepper", "maize", "beans", "okra"],
+  "symptoms": [
+    "Small entry holes on fruit surface",
+    "Larvae feeding inside fruits causing tunnels",
+    "Accumulated frass near entry holes",
+    "Fruit rot and premature fruit drop",
+    "Secondary fungal infection developing at feeding sites",
+    "Damaged fruits becoming unmarketable"
+  ],
+  "lifecycle": ["Egg (laid singly on leaves/fruit)", "Larva (6 instars)", "Pupa (in soil)", "Adult moth"],
+  "treatments": [
+    "Apply Bacillus thuringiensis (Bt) when larvae are young",
+    "Spray spinosad or emamectin benzoate at fruit set",
+    "Use neem-based insecticides every 5-7 days during fruiting",
+    "Apply chlorantraniliprole for extended control",
+    "Handpick and destroy infested fruits"
+  ],
+  "prevention": [
+    "Monitor with pheromone traps to time insecticide applications",
+    "Plant early to avoid peak pest pressure",
+    "Intercrop with basil or marigold as repellent plants",
+    "Conserve natural enemies (trichogramma wasps, predatory bugs)",
+    "Remove volunteer crop plants between seasons"
+  ],
+  "references": ["IITA Fruitworm Guide", "NAERLS Tomato and Pepper Pest Management"]
+}

@@ -1,0 +1,40 @@
+{
+  "id": "tomato-bacterial-wilt",
+  "cropId": "tomato",
+  "name": "Tomato Bacterial Wilt",
+  "scientificName": "Ralstonia solanacearum",
+  "aliases": ["Southern Wilt", "Bacterial Wilt of Tomato", "Tomato Wilt"],
+  "description": "A destructive soil-borne bacterial disease causing rapid wilting and death of tomato plants. It is widespread in tropical regions including Nigeria, and affects a wide range of crops in the solanaceae family.",
+  "symptoms": [
+    "Sudden wilting of leaves starting from younger leaves during heat of day",
+    "Plants failing to recover overnight",
+    "Vascular discoloration (brown streaks in stem)",
+    "Bacterial ooze visible when cut stem is placed in water",
+    "Roots appearing healthy while vascular tissue is degraded"
+  ],
+  "causes": [
+    "Ralstonia solanacearum bacteria",
+    "Soil-borne pathogen surviving in soil for years",
+    "Warm temperatures (28-35°C)",
+    "High soil moisture and poor drainage",
+    "Continuous solanaceous crop cultivation",
+    "Root damage from transplanting or weeding"
+  ],
+  "severity": "critical",
+  "seasonality": ["Warm rainy season", "High soil moisture periods"],
+  "treatments": [
+    "No effective chemical cure once plants are infected",
+    "Remove and destroy infected plants with surrounding soil",
+    "Apply lime to affected areas to raise soil pH",
+    "Solarize soil during hot dry season"
+  ],
+  "prevention": [
+    "Use grafted tomato plants onto resistant rootstocks",
+    "Practice long crop rotation (4+ years) with non-solanaceous crops",
+    "Plant in well-drained fields or raised beds",
+    "Use resistant tomato varieties where available",
+    "Disinfect tools and equipment between fields",
+    "Avoid planting in fields with history of bacterial wilt"
+  ],
+  "references": ["IITA Tomato Bacterial Wilt Guide", "NAERLS Tomato Health Management"]
+}

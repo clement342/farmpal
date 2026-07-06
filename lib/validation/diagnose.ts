@@ -1,6 +1,7 @@
 import type { DiagnosisRequest } from '@/types';
 import { ValidationError } from '@/utils/errors';
 import { CropRepository } from '@/repositories/crop.repository';
+import { knowledgeService } from '@/services/knowledge.service';
 
 const cropRepository = new CropRepository();
 
@@ -51,15 +52,19 @@ export function validateDiagnosisRequest(data: unknown): DiagnosisRequest {
 /**
  * Validates that the cropId corresponds to an existing crop.
  *
- * Separated from the main validator so the controller can call it
- * without requiring database access in purely synchronous validation.
+ * Checks both MongoDB (seeded crops) and the offline knowledge base
+ * so that crops added as static JSON are immediately available for
+ * diagnosis without a database seed step.
  *
  * @param cropId - The crop identifier to verify
- * @throws NotFoundError if the crop does not exist
+ * @throws ValidationError if the crop does not exist in either source
  */
 export async function validateCropExists(cropId: string): Promise<void> {
-  const crop = await cropRepository.findById(cropId);
-  if (!crop) {
-    throw new ValidationError(`Crop with ID "${cropId}" not found`);
-  }
+  const dbCrop = await cropRepository.findById(cropId);
+  if (dbCrop) return;
+
+  const kbCrop = knowledgeService.getCrop(cropId);
+  if (kbCrop) return;
+
+  throw new ValidationError(`Crop with ID "${cropId}" not found`);
 }

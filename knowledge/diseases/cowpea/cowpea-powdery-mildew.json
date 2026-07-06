@@ -1,0 +1,37 @@
+{
+  "id": "cowpea-powdery-mildew",
+  "cropId": "cowpea",
+  "name": "Cowpea Powdery Mildew",
+  "scientificName": "Erysiphe polygoni",
+  "aliases": ["Powdery Mildew of Cowpea", "White Mold of Cowpea"],
+  "description": "A fungal disease that forms white powdery growth on cowpea leaves, stems, and pods. It reduces photosynthetic capacity and can cause premature defoliation in severe cases.",
+  "symptoms": [
+    "White powdery fungal growth on upper leaf surfaces",
+    "Yellowing and browning of affected leaves",
+    "Premature leaf drop and defoliation",
+    "Stunted growth and reduced pod production",
+    "Powdery growth may spread to stems and pods"
+  ],
+  "causes": [
+    "Erysiphe polygoni fungus",
+    "High humidity with moderate temperatures",
+    "Dense plantings reducing air circulation",
+    "High nitrogen levels promoting succulent growth"
+  ],
+  "severity": "moderate",
+  "seasonality": ["Late rainy season", "Cool humid periods"],
+  "treatments": [
+    "Apply sulfur-based fungicides at first sign of infection",
+    "Spray neem oil solution (5ml/L water) weekly",
+    "Use potassium bicarbonate as organic treatment (1 tbsp/L water)",
+    "Apply myclobutanil or trifloxystrobin for severe cases"
+  ],
+  "prevention": [
+    "Space plants adequately for air circulation",
+    "Avoid excessive nitrogen fertilizers",
+    "Remove and destroy infected plant debris",
+    "Plant resistant varieties where available",
+    "Practice crop rotation"
+  ],
+  "references": ["IITA Cowpea Disease Manual", "NAERLS Legume Production Guide"]
+}

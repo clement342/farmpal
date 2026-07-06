@@ -1,0 +1,41 @@
+{
+  "id": "cassava-bacterial-blight",
+  "cropId": "cassava",
+  "name": "Cassava Bacterial Blight",
+  "scientificName": "Xanthomonas axonopodis pv. manihotis",
+  "aliases": ["CBB", "Cassava Bacterial Blight", "Xanthomonas Blight of Cassava"],
+  "description": "A serious bacterial disease causing leaf spotting, blighting, stem cankers, and wilting in cassava. It is one of the most important bacterial diseases of cassava in Africa, causing significant yield losses especially during rainy seasons.",
+  "symptoms": [
+    "Angular water-soaked leaf spots with yellow halos",
+    "Leaf spots turning brown and necrotic",
+    "Leaf blighting and defoliation starting from lower leaves",
+    "Brown stem cankers with gum exudate",
+    "Wilting of shoots above cankered stem areas",
+    "Dieback of stem tips in severe infections",
+    "Bacterial ooze from cut stems in wet conditions"
+  ],
+  "causes": [
+    "Xanthomonas axonopodis pv. manihotis bacteria",
+    "Rain splash and wind dispersing bacteria",
+    "Use of infected stem cuttings for planting",
+    "Warm temperatures with high humidity and rainfall",
+    "Mechanical damage from farm tools providing entry points"
+  ],
+  "severity": "high",
+  "seasonality": ["Rainy season", "Wet, humid periods"],
+  "treatments": [
+    "Apply copper-based bactericides (copper oxychloride) at early symptoms",
+    "Remove and destroy severely infected plants",
+    "Prune and destroy affected branches below canker",
+    "Disinfect pruning tools with bleach solution between cuts"
+  ],
+  "prevention": [
+    "Use disease-free stem cuttings from healthy plants",
+    "Plant resistant cassava varieties (e.g., TME, TMS series)",
+    "Practice crop rotation with non-host crops",
+    "Rogue out infected plants early in the season",
+    "Avoid working in fields when plants are wet",
+    "Remove alternative weed hosts near fields"
+  ],
+  "references": ["IITA Cassava Bacterial Blight Guide", "NASC Cassava Seed Certification Manual"]
+}

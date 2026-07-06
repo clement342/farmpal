@@ -1,0 +1,37 @@
+{
+  "id": "banana-black-sigatoka",
+  "cropId": "banana",
+  "name": "Black Sigatoka (Black Leaf Streak)",
+  "scientificName": "Mycosphaerella fijiensis",
+  "aliases": ["Black Leaf Streak", "BLS", "Banana Black Sigatoka"],
+  "description": "A devastating fungal leaf disease affecting bananas worldwide. It causes dark streaks and spots on leaves, leading to premature leaf senescence and reduced fruit quality and yield.",
+  "symptoms": [
+    "Small reddish-brown spots visible on lower leaf surfaces",
+    "Spots developing into dark streaks with yellow halos",
+    "Lesions coalescing into large black necrotic areas",
+    "Leaves yellowing and dying prematurely",
+    "Bunches failing to fill properly with small fruits"
+  ],
+  "causes": [
+    "Mycosphaerella fijiensis fungus",
+    "Prolonged leaf wetness from frequent rain or dew",
+    "High humidity and warm temperatures",
+    "Poor air circulation in dense plantings"
+  ],
+  "severity": "critical",
+  "seasonality": ["Rainy season", "Year-round in humid tropics"],
+  "treatments": [
+    "Apply systemic fungicides (triazoles or strobilurins)",
+    "Regularly remove severely infected old leaves",
+    "Apply protectant fungicides during rainy periods",
+    "Alternate fungicide classes to manage resistance"
+  ],
+  "prevention": [
+    "Plant disease-free tissue culture bananas",
+    "Remove and destroy old infected leaves regularly",
+    "Ensure adequate plant spacing for ventilation",
+    "Use resistant varieties where available",
+    "Maintain proper field drainage"
+  ],
+  "references": ["IITA Banana Disease Manual", "NACGRAB Banana Production Guide"]
+}

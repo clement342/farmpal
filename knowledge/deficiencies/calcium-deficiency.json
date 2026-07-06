@@ -1,0 +1,36 @@
+{
+  "id": "calcium-deficiency",
+  "name": "Calcium Deficiency",
+  "aliases": ["Ca deficiency", "Blossom end rot", "Tip burn"],
+  "description": "Calcium is essential for cell wall structure and root development. Deficiency causes distorted new growth, blossom end rot in fruits, and poor root systems. It is common in acidic, leached tropical soils.",
+  "affectedCrops": ["tomato", "pepper", "watermelon", "cucumber", "groundnut", "rice"],
+  "symptoms": [
+    "Blossom end rot in tomato and pepper fruits (dark sunken area at fruit tip)",
+    "Death of growing points and terminal buds",
+    "Young leaves showing distortion, crinkling, and chlorosis",
+    "Poor root development with short, stubby roots",
+    "Fruit cracking and reduced storage quality",
+    "Tip burn in leafy vegetables"
+  ],
+  "causes": [
+    "Insufficient calcium in soil",
+    "Acidic soils (pH <5.5) with low calcium availability",
+    "Irregular watering causing calcium transport issues",
+    "High nitrogen or potassium levels competing with calcium uptake",
+    "Saline or sodic soils reducing calcium absorption"
+  ],
+  "treatments": [
+    "Apply agricultural lime (calcium carbonate) or gypsum (calcium sulfate)",
+    "Foliar spray of calcium chloride (0.5-1%) or calcium nitrate",
+    "Use calcium nitrate as a soluble calcium source",
+    "Maintain consistent soil moisture for calcium transport"
+  ],
+  "prevention": [
+    "Conduct soil testing and lime to raise pH to 6.0-6.5",
+    "Use dolomitic lime to supply both calcium and magnesium",
+    "Irrigate regularly and evenly to maintain consistent moisture",
+    "Avoid excessive nitrogen and potassium fertilization",
+    "Mulch to conserve soil moisture"
+  ],
+  "references": ["IITA Soil Fertility Guide", "NAERLS Calcium Management for Vegetables"]
+}

@@ -2,11 +2,11 @@
   "id": "rice",
   "name": "Rice",
   "scientificName": "Oryza sativa",
-  "aliases": ["Paddy Rice"],
-  "description": "Rice is a primary food staple across Asia and Africa. It requires standing water during growth and is vulnerable to fungal, bacterial, and viral diseases.",
-  "growingRegions": ["West Africa", "East Africa", "Southeast Asia", "South Asia", "East Asia"],
+  "aliases": ["Paddy Rice", "Shinkafa (Hausa)", "Osikapa (Igbo)", "Iresi (Yoruba)", "Rice"],
+  "description": "Rice is a primary food staple across Asia and Africa. It requires standing water during growth and is vulnerable to fungal, bacterial, and viral diseases. Rice consumption in Nigeria has grown rapidly, and domestic production is expanding across the country.",
+  "growingRegions": ["West Africa", "East Africa", "Southeast Asia", "South Asia", "East Asia", "Nigeria", "Mali", "Senegal", "Guinea", "Madagascar"],
   "growthStages": ["Nursery", "Transplanting", "Tillering", "Panicle Initiation", "Flowering", "Grain Filling", "Maturity"],
-  "commonDiseaseIds": ["rice-blast", "rice-yellow-mottle", "rice-bacterial-blight", "rice-sheath-blight"],
-  "commonPestIds": ["rice-stem-borer", "rice-gall-midge", "brown-planthopper"],
-  "commonDeficiencyIds": ["nitrogen-deficiency", "zinc-deficiency"]
+  "commonDiseaseIds": ["rice-blast", "rice-yellow-mottle", "rice-bacterial-blight", "rice-sheath-blight", "rice-brown-spot"],
+  "commonPestIds": ["rice-stem-borer", "rice-gall-midge", "brown-planthopper", "rice-water-weevil"],
+  "commonDeficiencyIds": ["nitrogen-deficiency", "zinc-deficiency", "phosphorus-deficiency", "iron-deficiency"]
 }

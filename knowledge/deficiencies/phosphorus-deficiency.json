@@ -1,0 +1,36 @@
+{
+  "id": "phosphorus-deficiency",
+  "name": "Phosphorus Deficiency",
+  "aliases": ["P deficiency", "Phosphate deficiency"],
+  "description": "Phosphorus is critical for energy transfer (ATP), root development, and flowering. Deficiency causes stunted growth, delayed maturity, and purple discoloration in many crops.",
+  "affectedCrops": ["maize", "rice", "beans", "cowpea", "groundnut", "tomato"],
+  "symptoms": [
+    "Dark green or bluish-green leaves with purple or red pigmentation",
+    "Stunted growth and reduced tillering in cereals",
+    "Poor root development",
+    "Delayed flowering and maturity",
+    "Smaller leaves with narrow appearance",
+    "Reduced grain or fruit yield"
+  ],
+  "causes": [
+    "Insufficient available phosphorus in soil",
+    "Highly acidic or alkaline soils (pH <5.5 or >7.5) locking up phosphorus",
+    "Low organic matter content",
+    "High aluminum or iron content in tropical soils fixing phosphorus",
+    "Cold or waterlogged soils reducing root activity"
+  ],
+  "treatments": [
+    "Apply phosphorus fertilizer (single superphosphate, triple superphosphate, DAP)",
+    "Use rock phosphate on acidic soils",
+    "Apply organic manure or compost to increase phosphorus availability",
+    "Foliar spray of mono-ammonium phosphate (MAP) solution"
+  ],
+  "prevention": [
+    "Conduct soil testing and maintain optimal pH (6.0-6.5)",
+    "Apply phosphorus based on soil test recommendations",
+    "Incorporate organic matter to improve phosphorus availability",
+    "Use mycorrhizal inoculants to enhance phosphorus uptake",
+    "Band-apply phosphorus near the root zone for efficiency"
+  ],
+  "references": ["IITA Soil Fertility Guide", "NAERLS Phosphorus Management"]
+}

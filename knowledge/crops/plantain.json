@@ -1,0 +1,12 @@
+{
+  "id": "plantain",
+  "name": "Plantain",
+  "scientificName": "Musa paradisiaca",
+  "aliases": ["Cooking Banana", "Agbade (Yoruba)", "Ogede (Yoruba)", "Ayaba (Hausa)", "Ji ogede (Igbo)"],
+  "description": "Plantain is a starchy banana variety that is typically cooked before eating. It is a major staple in West Africa, consumed as dodo (fried ripe plantain), porridge, and in various soups. Plantains are grown in humid tropical regions and are susceptible to several fungal and viral diseases.",
+  "growingRegions": ["West Africa", "Central Africa", "East Africa", "Southeast Asia", "Caribbean", "Nigeria", "Ghana", "Cameroon", "Cote d'Ivoire", "Uganda"],
+  "growthStages": ["Sucker Planting", "Vegetative", "Flowering", "Bunch Development", "Fruit Maturity", "Harvest"],
+  "commonDiseaseIds": ["plantain-black-sigatoka", "plantain-panama-disease", "plantain-bunchy-top", "plantain-fusarium-wilt", "banana-xanthomonas-wilt"],
+  "commonPestIds": ["banana-weevil", "nematodes", "thrips"],
+  "commonDeficiencyIds": ["potassium-deficiency", "nitrogen-deficiency", "magnesium-deficiency"]
+}

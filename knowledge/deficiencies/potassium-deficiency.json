@@ -1,0 +1,36 @@
+{
+  "id": "potassium-deficiency",
+  "name": "Potassium Deficiency",
+  "aliases": ["K deficiency", "Potash deficiency", "Margin scorch"],
+  "description": "Potassium regulates water balance, enzyme activation, and fruit quality. Deficiency typically appears as scorching or browning of leaf margins and reduced fruit quality.",
+  "affectedCrops": ["maize", "cassava", "yam", "tomato", "rice", "pepper", "okra", "plantain", "banana", "groundnut", "cocoyam", "watermelon", "cucumber"],
+  "symptoms": [
+    "Yellowing and scorching of leaf margins and tips (marginal necrosis)",
+    "Chlorosis starting from older leaves",
+    "Weak stems and lodging in cereals",
+    "Poor fruit development and small fruit size",
+    "Reduced disease resistance",
+    "Leaf crinkling and curling"
+  ],
+  "causes": [
+    "Insufficient potassium in soil",
+    "Sandy or leached soils",
+    "Excess nitrogen without balanced potassium",
+    "High-intensity cropping depleting soil potassium",
+    "Acidic soils limiting potassium availability"
+  ],
+  "treatments": [
+    "Apply potassium fertilizer (potassium chloride, potassium sulfate, NPK)",
+    "Foliar spray of potassium sulfate (1%) for foliar feeding",
+    "Apply wood ash as organic potassium source",
+    "Use potassium nitrate for both K and N supply"
+  ],
+  "prevention": [
+    "Conduct soil testing before planting",
+    "Apply balanced NPK fertilizer",
+    "Incorporate organic matter and crop residues",
+    "Use split applications of potassium on sandy soils",
+    "Maintain optimal soil pH (6.0-7.0)"
+  ],
+  "references": ["IITA Soil Fertility Guide", "NAERLS Nutrient Deficiency Manual"]
+}

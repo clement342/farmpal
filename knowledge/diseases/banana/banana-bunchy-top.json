@@ -1,0 +1,37 @@
+{
+  "id": "banana-bunchy-top",
+  "cropId": "banana",
+  "name": "Banana Bunchy Top Disease",
+  "scientificName": "Banana bunchy top virus (BBTV)",
+  "aliases": ["BBTV", "Bunchy Top of Banana"],
+  "description": "A severe viral disease that causes characteristic bunchy-top appearance in bananas. It is transmitted by the banana aphid and through infected planting material, causing significant yield losses.",
+  "symptoms": [
+    "Dark green streaks or Morse code-like marks on petioles",
+    "Leaves becoming narrow, erect, and brittle",
+    "Chlorotic and curled leaf margins",
+    "Leaves forming a rosette or bunchy appearance at stem apex",
+    "Plants failing to produce fruit bunches"
+  ],
+  "causes": [
+    "Banana bunchy top virus (BBTV)",
+    "Transmission by banana aphid (Pentalonia nigronervosa)",
+    "Use of infected suckers for planting",
+    "Infected volunteer plants near the field"
+  ],
+  "severity": "critical",
+  "seasonality": ["Year-round", "Aphid population peaks during wet season"],
+  "treatments": [
+    "No treatment available once infected",
+    "Remove and destroy entire infected plant including corm",
+    "Inject herbicide into pseudostem to kill corm before removal",
+    "Control aphid vectors with systemic insecticides or neem oil"
+  ],
+  "prevention": [
+    "Plant certified virus-free tissue culture banana plants",
+    "Regular field scouting and removal of infected plants",
+    "Control banana aphids using neem-based sprays",
+    "Remove wild banana plants that may harbor the virus",
+    "Intercrop with non-host crops"
+  ],
+  "references": ["IITA Banana Virology", "NACGRAB Disease-Free Planting Material Guide"]
+}

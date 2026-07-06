@@ -1,0 +1,32 @@
+{
+  "id": "thrips",
+  "name": "Thrips",
+  "scientificName": "Various species (Thripidae)",
+  "aliases": ["Flower Thrips", "Onion Thrips", "Melon Thrips"],
+  "description": "Tiny slender insects that feed by rasping plant tissue and sucking cell contents. They cause silvering, scarring, and distortion of leaves, flowers, and fruits, and some species transmit tospoviruses.",
+  "affectedCrops": ["tomato", "pepper", "cowpea", "groundnut", "plantain", "banana", "watermelon", "cucumber", "amaranth", "beans"],
+  "symptoms": [
+    "Silver or bronze streaks on leaves",
+    "Leaf distortion and curling",
+    "Flower drop and bud damage",
+    "Scarred or deformed fruits",
+    "Black specks (frass) on leaves",
+    "Tiny elongated insects visible with close inspection"
+  ],
+  "lifecycle": ["Egg", "Larva (2 instars)", "Prepupa", "Pupa", "Adult"],
+  "treatments": [
+    "Apply spinosad or abamectin at first signs of damage",
+    "Spray neem oil or insecticidal soap every 5-7 days",
+    "Use blue sticky traps for monitoring",
+    "Apply imidacloprid as soil drench for systemic control",
+    "Use predatory mites (Amblyseius cucumeris) for biological control"
+  ],
+  "prevention": [
+    "Remove weed hosts and crop debris",
+    "Use reflective mulches to repel thrips",
+    "Avoid excessive nitrogen fertilization",
+    "Maintain crop diversity to support natural enemies",
+    "Monitor regularly with sticky traps"
+  ],
+  "references": ["IITA Thrips Management", "NAERLS Vegetable Pest Guide"]
+}

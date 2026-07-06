@@ -1,0 +1,40 @@
+{
+  "id": "rice-bacterial-blight",
+  "cropId": "rice",
+  "name": "Rice Bacterial Blight",
+  "scientificName": "Xanthomonas oryzae pv. oryzae",
+  "aliases": ["Kresek Disease", "Bacterial Leaf Blight", "Rice BLB"],
+  "description": "The most serious bacterial disease of rice worldwide, causing leaf blighting and seedling wilt. It is favored by high rainfall, deep water, and high nitrogen fertilization. Bacterial blight can cause yield losses of up to 50% in susceptible varieties.",
+  "symptoms": [
+    "Water-soaked yellow stripes along leaf veins",
+    "Stripes turning white to gray with wavy margins",
+    "Lesions extending the entire leaf length in severe infections",
+    "Leaves drying and turning white or pale yellow",
+    "Kresek phase: seedling wilting and death within weeks of transplanting",
+    "Yellow bacterial exudate on lesions in wet mornings"
+  ],
+  "causes": [
+    "Xanthomonas oryzae pv. oryzae bacteria",
+    "Rain splash and floodwater dispersing bacteria",
+    "High nitrogen fertilization creating susceptible growth",
+    "Warm temperatures (25-34°C) with high humidity",
+    "Continuous rice cropping with infected crop residue"
+  ],
+  "severity": "high",
+  "seasonality": ["Kresek: nursery to early tillering", "Leaf blight: tillering to flowering"],
+  "treatments": [
+    "Apply copper-based bactericides at first symptoms",
+    "Reduce nitrogen application during disease development",
+    "Drain fields where possible to reduce spread",
+    "Spray streptomycin where registered and available"
+  ],
+  "prevention": [
+    "Plant resistant rice varieties",
+    "Use balanced nitrogen fertilization — avoid excess",
+    "Ensure proper field drainage",
+    "Remove and destroy crop residue after harvest",
+    "Use disease-free seeds",
+    "Avoid deep water in fields during susceptible stages"
+  ],
+  "references": ["IITA Rice Disease Guide", "Africa Rice Center Bacterial Blight Manual", "NAERLS Rice Production Guide"]
+}

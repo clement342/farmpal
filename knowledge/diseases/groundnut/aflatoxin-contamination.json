@@ -1,0 +1,43 @@
+{
+  "id": "aflatoxin-contamination",
+  "cropId": "groundnut",
+  "name": "Aflatoxin Contamination",
+  "scientificName": "Aspergillus flavus / Aspergillus parasiticus",
+  "aliases": ["Aflatoxin", "Groundnut Aflatoxin", "Mold Poisoning"],
+  "description": "A fungal contamination issue producing highly toxic aflatoxins in groundnut. It occurs both pre-harvest and post-harvest, caused by Aspergillus fungi. Aflatoxins are carcinogenic and pose serious health risks to humans and livestock.",
+  "symptoms": [
+    "Yellow-green mold growth on kernels (visible after shelling)",
+    "Discolored, shriveled, or damaged seeds",
+    "Mold may not always be visible — contamination can be invisible",
+    "Bitter taste in affected kernels",
+    "No visible plant symptoms in the field during growing season"
+  ],
+  "causes": [
+    "Aspergillus flavus and Aspergillus parasiticus fungi",
+    "Drought stress during pod development",
+    "High soil temperatures during pod fill",
+    "Insect damage to pods providing entry points",
+    "Delayed harvest leaving mature pods in soil",
+    "Improper drying (high moisture content at storage)",
+    "Poor storage conditions with high humidity and temperature"
+  ],
+  "severity": "critical",
+  "seasonality": ["End of season drought stress", "Post-harvest storage period"],
+  "treatments": [
+    "No treatment for contaminated seeds — discard affected batches",
+    "Dry groundnuts to below 8% moisture immediate after harvest",
+    "Sort and remove visibly damaged or moldy kernels",
+    "Use aflatoxin binders in animal feed (not for human consumption)"
+  ],
+  "prevention": [
+    "Irrigate during drought periods to reduce plant stress",
+    "Harvest at optimal maturity — do not delay harvest",
+    "Sun-dry groundnuts on clean mats or tarpaulins immediately after harvest",
+    "Dry to safe moisture level (<8%) within 48 hours of harvest",
+    "Store in clean, dry, well-ventilated conditions",
+    "Use resistant groundnut varieties (ICGV series with aflatoxin resistance)",
+    "Apply biocontrol (non-toxigenic Aspergillus strains) such as AflaSafe",
+    "Practice crop rotation to reduce soil inoculum"
+  ],
+  "references": ["IITA Aflatoxin Management Guide", "ICRISAT Groundnut Aflatoxin Control", "NAERLS Post-Harvest Management Manual"]
+}

@@ -1,0 +1,37 @@
+{
+  "id": "cassava-leaf-spot",
+  "cropId": "cassava",
+  "name": "Cassava Leaf Spot (Brown Leaf Spot)",
+  "scientificName": "Cercospora henningsii / Cercospora vicosae",
+  "aliases": ["Brown Leaf Spot", "Cercospora Leaf Spot of Cassava", "Cassava Blight"],
+  "description": "A fungal disease causing brown spots on cassava leaves, leading to premature defoliation. It is widespread in cassava-growing regions and can cause significant yield reduction when infections are severe.",
+  "symptoms": [
+    "Circular to irregular brown spots on older leaves",
+    "Spots with dark brown margins and lighter centers",
+    "Yellow halos surrounding leaf spots",
+    "Premature leaf drop starting from lower leaves",
+    "Severe defoliation exposing stems and reducing root bulking"
+  ],
+  "causes": [
+    "Cercospora henningsii and Cercospora vicosae fungi",
+    "Warm, humid weather favoring spore production",
+    "Dense plantings with poor air circulation",
+    "Continuous cassava cultivation in same field",
+    "Fungal survival on crop debris between seasons"
+  ],
+  "severity": "moderate",
+  "seasonality": ["Rainy season", "Humid periods"],
+  "treatments": [
+    "Apply copper-based fungicides or mancozeb at first symptoms",
+    "Spray benomyl or thiophanate-methyl for systemic control",
+    "Remove and destroy heavily infected leaves"
+  ],
+  "prevention": [
+    "Plant tolerant cassava varieties",
+    "Space plants adequately for air circulation",
+    "Remove and destroy crop debris after harvest",
+    "Practice crop rotation",
+    "Remove volunteer cassava plants between seasons"
+  ],
+  "references": ["IITA Cassava Foliar Disease Guide", "NASC Cassava Production Manual"]
+}

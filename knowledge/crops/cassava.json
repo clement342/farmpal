@@ -2,11 +2,11 @@
   "id": "cassava",
   "name": "Cassava",
   "scientificName": "Manihot esculenta",
-  "aliases": ["Manioc", "Yuca", "Tapioca"],
-  "description": "Cassava is a drought-tolerant root crop grown extensively in tropical Africa. Its leaves and tubers are both susceptible to viral and bacterial diseases.",
-  "growingRegions": ["West Africa", "East Africa", "Central Africa", "Southeast Asia", "South America"],
+  "aliases": ["Manioc", "Yuca", "Tapioca", "Ege (Igbo)", "Ege (Yoruba)", "Rogo (Hausa)", "Mbayi (Tiv)"],
+  "description": "Cassava is a drought-tolerant root crop grown extensively in tropical Africa. Its leaves and tubers are both susceptible to viral and bacterial diseases. Nigeria is the world's largest producer of cassava, and it is a critical food security crop across West Africa.",
+  "growingRegions": ["West Africa", "East Africa", "Central Africa", "Southeast Asia", "South America", "Nigeria", "Ghana", "DRC", "Angola", "Mozambique"],
   "growthStages": ["Planting", "Sprouting", "Vegetative", "Root Bulking", "Maturity"],
-  "commonDiseaseIds": ["cassava-mosaic-disease", "cassava-brown-streak", "cassava-bacterial-blight"],
-  "commonPestIds": ["cassava-green-mite", "cassava-mealybug"],
-  "commonDeficiencyIds": ["potassium-deficiency", "magnesium-deficiency"]
+  "commonDiseaseIds": ["cassava-mosaic-disease", "cassava-brown-streak", "cassava-bacterial-blight", "cassava-leaf-spot", "cassava-root-rot"],
+  "commonPestIds": ["cassava-green-mite", "cassava-mealybug", "whitefly", "termites"],
+  "commonDeficiencyIds": ["potassium-deficiency", "magnesium-deficiency", "nitrogen-deficiency", "zinc-deficiency"]
 }

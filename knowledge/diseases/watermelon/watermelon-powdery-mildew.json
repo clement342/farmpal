@@ -1,0 +1,37 @@
+{
+  "id": "watermelon-powdery-mildew",
+  "cropId": "watermelon",
+  "name": "Watermelon Powdery Mildew",
+  "scientificName": "Podosphaera xanthii",
+  "aliases": ["Powdery Mildew of Watermelon", "White Mold of Watermelon"],
+  "description": "A fungal disease causing white powdery growth on watermelon leaves and stems. It reduces photosynthetic capacity and can cause premature defoliation, leading to sunscalded fruit and yield loss.",
+  "symptoms": [
+    "White powdery fungal growth on upper leaf surfaces",
+    "Yellowing and necrosis of affected leaves",
+    "Premature leaf drop",
+    "Stunted vine growth",
+    "Fruit sunscald due to loss of leaf cover"
+  ],
+  "causes": [
+    "Podosphaera xanthii fungus",
+    "High humidity with moderate temperatures (20-28°C)",
+    "Dense vine canopy with poor air circulation",
+    "Overhead irrigation extending leaf wetness"
+  ],
+  "severity": "moderate",
+  "seasonality": ["Mid to late growing season", "Warm humid periods"],
+  "treatments": [
+    "Apply sulfur-based fungicides at first sign of infection",
+    "Spray neem oil solution (5ml/L water) weekly",
+    "Use trifloxystrobin or myclobutanil for severe infections",
+    "Apply potassium bicarbonate as organic alternative"
+  ],
+  "prevention": [
+    "Plant resistant watermelon varieties",
+    "Space plants adequately for air circulation",
+    "Avoid overhead irrigation — use drip irrigation",
+    "Remove and destroy infected vine debris after harvest",
+    "Practice crop rotation with non-cucurbit crops"
+  ],
+  "references": ["IITA Cucurbit Disease Guide", "NAERLS Watermelon Production Manual"]
+}

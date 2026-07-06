@@ -4,7 +4,7 @@
   "scientificName": "Spodoptera frugiperda",
   "aliases": ["FAW", "Armyworm"],
   "description": "An invasive caterpillar pest that feeds on maize and other cereal crops. It causes characteristic window-pane damage on leaves and can devastate young plants.",
-  "affectedCrops": ["maize", "rice", "sorghum", "millet", "wheat"],
+  "affectedCrops": ["maize", "rice"],
   "symptoms": [
     "Window-pane damage on young leaves (scraped surface)",
     "Irregular holes and ragged edges on leaves",

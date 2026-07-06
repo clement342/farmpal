@@ -2,11 +2,11 @@
   "id": "maize",
   "name": "Maize",
   "scientificName": "Zea mays",
-  "aliases": ["Corn", "Indian Corn"],
-  "description": "Maize is a staple cereal grain cultivated throughout Africa, the Americas, and Asia. It is highly susceptible to fungal, viral, and bacterial diseases that can significantly reduce yield.",
-  "growingRegions": ["East Africa", "West Africa", "Southern Africa", "Central America", "Southeast Asia"],
+  "aliases": ["Corn", "Indian Corn", "Agu (Igbo)", "Oka (Yoruba)", "Dawar masara (Hausa)", "Maize"],
+  "description": "Maize is a staple cereal grain cultivated throughout Africa, the Americas, and Asia. It is highly susceptible to fungal, viral, and bacterial diseases that can significantly reduce yield. In Nigeria, it is grown across all agro-ecological zones and serves as both food and livestock feed.",
+  "growingRegions": ["East Africa", "West Africa", "Southern Africa", "Central America", "Southeast Asia", "Nigeria", "Ghana", "Kenya", "Uganda", "Tanzania"],
   "growthStages": ["Germination", "Vegetative", "Tasseling", "Silking", "Grain Fill", "Maturity"],
-  "commonDiseaseIds": ["northern-leaf-blight", "gray-leaf-spot", "maize-streak-virus", "fall-armyworm-damage"],
-  "commonPestIds": ["fall-armyworm", "maize-stem-borer", "aphids"],
-  "commonDeficiencyIds": ["nitrogen-deficiency", "potassium-deficiency"]
+  "commonDiseaseIds": ["northern-leaf-blight", "gray-leaf-spot", "maize-streak-virus", "maize-rust", "maize-ear-rot"],
+  "commonPestIds": ["fall-armyworm", "maize-stem-borer", "aphids", "grain-weevil"],
+  "commonDeficiencyIds": ["nitrogen-deficiency", "potassium-deficiency", "phosphorus-deficiency", "zinc-deficiency"]
 }

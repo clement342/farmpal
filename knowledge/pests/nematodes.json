@@ -1,0 +1,32 @@
+{
+  "id": "nematodes",
+  "name": "Plant-Parasitic Nematodes",
+  "scientificName": "Meloidogyne spp. (root-knot) / Pratylenchus spp. (lesion) / Scutellonema spp.",
+  "aliases": ["Root-Knot Nematodes", "Root Lesion Nematodes", "Eelworms"],
+  "description": "Microscopic roundworms that infect plant roots, causing galls, lesions, and reduced root function. They are a major constraint in yam, plantain, banana, and cocoyam production in West Africa, causing significant yield losses.",
+  "affectedCrops": ["yam", "plantain", "banana", "cocoyam", "okra", "tomato", "pepper"],
+  "symptoms": [
+    "Root galls or knots visible on root system",
+    "Stunted plant growth and yellowing",
+    "Wilting under moisture stress",
+    "Reduced tuber or corm size",
+    "Root decay and secondary fungal infections",
+    "Plants appear generally unthrifty"
+  ],
+  "lifecycle": ["Egg", "J1 (first stage juvenile)", "J2 (infective juvenile)", "J3", "J4", "Adult"],
+  "treatments": [
+    "Apply organic amendments (neem cake, poultry manure) to suppress populations",
+    "Use carbofuran or oxamyl for high-value crops in severe infestations",
+    "Solarize soil during hot dry season",
+    "Apply Trichoderma or Paecilomyces as biocontrol agents"
+  ],
+  "prevention": [
+    "Practice crop rotation with marigold or cereal crops",
+    "Use disease-free planting material",
+    "Incorporate neem cake into soil before planting",
+    "Plant nematode-resistant varieties where available",
+    "Allow field to fallow with soil solarization",
+    "Use clean tools and avoid moving infested soil"
+  ],
+  "references": ["IITA Nematology Guide", "NACGRAB Nematode Management"]
+}

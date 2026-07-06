@@ -3,7 +3,7 @@
   "name": "Nitrogen Deficiency",
   "aliases": ["N deficiency", "Chlorosis"],
   "description": "Nitrogen is essential for chlorophyll production and vegetative growth. Deficiency causes uniform yellowing of older leaves and stunted growth across all crop types.",
-  "affectedCrops": ["maize", "rice", "cassava", "tomato", "beans", "yam", "pepper"],
+  "affectedCrops": ["maize", "rice", "cassava", "tomato", "beans", "yam", "pepper", "okra", "plantain", "banana", "cowpea", "groundnut", "cocoyam", "watermelon", "cucumber", "amaranth"],
   "symptoms": [
     "Uniform pale green to yellow color on older leaves",
     "Yellowing starting at leaf tips and progressing backward",

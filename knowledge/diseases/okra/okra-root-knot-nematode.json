@@ -1,0 +1,37 @@
+{
+  "id": "okra-root-knot-nematode",
+  "cropId": "okra",
+  "name": "Okra Root-Knot Nematode",
+  "scientificName": "Meloidogyne incognita",
+  "aliases": ["Root-Knot Nematode", "Okra Root Gall", "Nematode Damage"],
+  "description": "A soil-borne nematode pest that causes galls on okra roots, impairing water and nutrient uptake. It is a significant problem in sandy soils and continuous okra production areas of Nigeria.",
+  "symptoms": [
+    "Galls or knots on roots visible upon uprooting",
+    "Stunted plant growth and wilting during dry periods",
+    "Yellowing of leaves and nutrient deficiency symptoms",
+    "Reduced pod size and yield",
+    "Plants appear stressed even with adequate water"
+  ],
+  "causes": [
+    "Root-knot nematodes (Meloidogyne spp.) in soil",
+    "Continuous okra planting without rotation",
+    "Sandy or loamy soils with good aeration",
+    "Introduction through infected seedlings or tools"
+  ],
+  "severity": "moderate",
+  "seasonality": ["Throughout growing season", "Worse in sandy soils"],
+  "treatments": [
+    "Apply organic amendments (neem cake, poultry manure) to suppress nematodes",
+    "Use carbofuran or nematicides in severe infestations",
+    "Solarize soil during hot dry season before planting",
+    "Apply Trichoderma-based biocontrol agents"
+  ],
+  "prevention": [
+    "Practice crop rotation with marigold or grasses",
+    "Plant nematode-resistant okra varieties",
+    "Incorporate neem cake or organic matter into soil before planting",
+    "Use disease-free nursery beds and clean tools",
+    "Avoid moving infested soil between fields"
+  ],
+  "references": ["IITA Nematology Guide", "NAERLS Okra Production Manual"]
+}

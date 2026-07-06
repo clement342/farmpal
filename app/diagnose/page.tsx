@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { ChatContainer } from '@/components/chat/ChatContainer';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: 'Diagnose — FarmPal',
   description: 'Start a new crop disease diagnosis conversation with FarmPal AI.',

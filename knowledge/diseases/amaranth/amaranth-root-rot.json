@@ -1,0 +1,38 @@
+{
+  "id": "amaranth-root-rot",
+  "cropId": "amaranth",
+  "name": "Amaranth Root Rot",
+  "scientificName": "Fusarium spp. / Rhizoctonia solani",
+  "aliases": ["Root Rot of Amaranth", "Amaranth Wilt"],
+  "description": "A soil-borne fungal disease causing root decay, wilting, and plant death in amaranth. It is favored by poorly drained soils and continuous amaranth cultivation.",
+  "symptoms": [
+    "Yellowing and wilting of leaves starting from lower leaves",
+    "Stunted plant growth",
+    "Brown discoloration of roots and lower stem",
+    "Root decay with reduced root system",
+    "Plant collapse and death",
+    "Fungal growth visible on roots in wet conditions"
+  ],
+  "causes": [
+    "Fusarium spp. and Rhizoctonia solani fungi",
+    "Waterlogged or compacted soils",
+    "Continuous amaranth cropping",
+    "High soil temperatures with excess moisture"
+  ],
+  "severity": "high",
+  "seasonality": ["Rainy season", "Wet, poorly drained areas"],
+  "treatments": [
+    "Improve drainage in affected areas",
+    "Remove and destroy infected plants",
+    "Drench soil with copper oxychloride",
+    "Apply Trichoderma-based biocontrol to soil"
+  ],
+  "prevention": [
+    "Plant in well-drained beds or ridges",
+    "Practice crop rotation with non-leafy crops",
+    "Avoid over-irrigating",
+    "Incorporate organic matter to improve soil structure",
+    "Use disease-free growing medium"
+  ],
+  "references": ["IITA Root Disease Guide", "NAERLS Amaranth Production Manual"]
+}

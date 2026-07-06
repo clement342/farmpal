@@ -1,0 +1,12 @@
+{
+  "id": "amaranth",
+  "name": "Amaranth",
+  "scientificName": "Amaranthus spp.",
+  "aliases": ["Green Leaf", "African Spinach", "Efo tete (Yoruba)", "Inine (Igbo)", "Aleeho (Hausa)", "Bush Greens"],
+  "description": "Amaranth is a fast-growing leafy vegetable widely consumed across West Africa. It is rich in iron and vitamins, and multiple varieties are cultivated for their edible leaves. Amaranth is easy to grow, thrives in warm conditions, and is harvested multiple times through cut-and-come-again methods.",
+  "growingRegions": ["West Africa", "East Africa", "Central Africa", "South Asia", "Southeast Asia", "Nigeria", "Ghana", "Benin", "Cameroon", "Togo", "Senegal"],
+  "growthStages": ["Germination", "Seedling", "Vegetative", "Flowering", "Seed Set", "Maturity"],
+  "commonDiseaseIds": ["amaranth-leaf-spot", "amaranth-damping-off", "amaranth-powdery-mildew", "amaranth-root-rot"],
+  "commonPestIds": ["aphids", "leaf-miner", "thrips"],
+  "commonDeficiencyIds": ["nitrogen-deficiency", "iron-deficiency"]
+}

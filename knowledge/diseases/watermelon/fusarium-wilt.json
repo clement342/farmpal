@@ -1,0 +1,39 @@
+{
+  "id": "watermelon-fusarium-wilt",
+  "cropId": "watermelon",
+  "name": "Watermelon Fusarium Wilt",
+  "scientificName": "Fusarium oxysporum f. sp. niveum",
+  "aliases": ["Fusarium Wilt of Watermelon", "Watermelon Wilt"],
+  "description": "A soil-borne fungal disease that causes wilting and death of watermelon plants. The pathogen is specific to watermelon and persists in soil for many years, making it difficult to manage.",
+  "symptoms": [
+    "Yellowing of lower leaves progressing upward",
+    "Wilting of leaves and vines during hot part of day",
+    "Vascular discoloration (brown streaks in stems)",
+    "Progressive decline leading to plant death",
+    "Brown to black discoloration of roots and crown"
+  ],
+  "causes": [
+    "Fusarium oxysporum f. sp. niveum fungus",
+    "Soil-borne pathogen entering through root tips",
+    "High soil temperatures favoring disease development",
+    "Acidic soils (pH 5.0-6.0)",
+    "Continuous watermelon cultivation"
+  ],
+  "severity": "high",
+  "seasonality": ["Warm season", "Fruiting period"],
+  "treatments": [
+    "No effective cure once plant is infected",
+    "Remove and destroy infected plants",
+    "Adjust soil pH to 6.5-7.0 with lime",
+    "Apply Trichoderma-based biocontrol to soil"
+  ],
+  "prevention": [
+    "Use Fusarium-resistant watermelon varieties",
+    "Practice long crop rotation (5+ years) with non-cucurbits",
+    "Graft watermelon onto resistant rootstocks",
+    "Plant in well-drained soils",
+    "Solarize soil before planting",
+    "Use raised beds to improve drainage"
+  ],
+  "references": ["IITA Fusarium Wilt Guide", "NAERLS Watermelon Production Manual"]
+}

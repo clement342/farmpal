@@ -4,7 +4,7 @@
   "scientificName": "Various species (Aphididae)",
   "aliases": ["Plant Lice", "Greenfly", "Blackfly"],
   "description": "Small sap-sucking insects that attack a wide range of crops. They cause direct damage through feeding and indirect damage by transmitting plant viruses.",
-  "affectedCrops": ["maize", "tomato", "pepper", "beans", "cassava"],
+  "affectedCrops": ["maize", "tomato", "pepper", "beans", "cassava", "okra", "cowpea", "groundnut", "cocoyam", "watermelon", "cucumber", "amaranth", "rice"],
   "symptoms": [
     "Curling and yellowing of leaves",
     "Stunted growth and reduced vigor",

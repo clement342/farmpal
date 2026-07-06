@@ -1,0 +1,37 @@
+{
+  "id": "okra-powdery-mildew",
+  "cropId": "okra",
+  "name": "Okra Powdery Mildew",
+  "scientificName": "Erysiphe cichoracearum",
+  "aliases": ["Powdery Mildew of Okra", "Okra White Mold"],
+  "description": "A fungal disease that appears as white powdery growth on okra leaves, stems, and pods. It reduces photosynthetic capacity and can significantly lower yield in severe cases.",
+  "symptoms": [
+    "White powdery fungal growth on upper leaf surfaces",
+    "Yellowing and browning of affected leaves",
+    "Premature leaf drop and defoliation",
+    "Stunted growth and reduced pod production",
+    "Powdery coating may spread to stems and pods"
+  ],
+  "causes": [
+    "Erysiphe cichoracearum fungus",
+    "High humidity with moderate temperatures (22-28°C)",
+    "Dense plantings with poor air circulation",
+    "Overhead irrigation creating humid microclimate"
+  ],
+  "severity": "moderate",
+  "seasonality": ["Late rainy season", "Humid periods"],
+  "treatments": [
+    "Apply sulfur-based fungicides at first sign of infection",
+    "Spray neem oil solution (5ml/L water) weekly",
+    "Use potassium bicarbonate sprays for mild infections",
+    "Apply myclobutanil or triadimefon for severe cases"
+  ],
+  "prevention": [
+    "Space plants adequately for good air circulation",
+    "Avoid overhead irrigation in the evening",
+    "Plant resistant varieties where available",
+    "Remove and destroy infected plant debris after harvest",
+    "Practice crop rotation with non-host crops"
+  ],
+  "references": ["NAERLS Okra Production Guide", "IITA Vegetable Disease Management"]
+}

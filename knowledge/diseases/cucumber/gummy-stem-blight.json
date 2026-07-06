@@ -1,0 +1,39 @@
+{
+  "id": "gummy-stem-blight",
+  "cropId": "cucumber",
+  "name": "Gummy Stem Blight of Cucumber",
+  "scientificName": "Didymella bryoniae",
+  "aliases": ["Black Rot of Cucumber", "Gummy Stem Blight", "Didymella Stem Rot"],
+  "description": "A fungal disease causing stem cankers, leaf spots, and fruit rot in cucumber. It produces a characteristic gummy exudate on infected stems and is particularly damaging in warm, humid conditions.",
+  "symptoms": [
+    "Water-soaked stem lesions near soil line turning tan to brown",
+    "Amber-colored gummy exudate on stems and fruit",
+    "Circular brown leaf spots with concentric rings",
+    "Fruit rot with dark, sunken lesions",
+    "Black fruiting bodies (pycnidia) visible on infected tissue"
+  ],
+  "causes": [
+    "Didymella bryoniae fungus",
+    "Warm, humid weather (20-28°C)",
+    "Seed-borne infection",
+    "Crop debris harboring fungus between seasons",
+    "Rain splash dispersing spores"
+  ],
+  "severity": "high",
+  "seasonality": ["Warm rainy periods", "Fruiting stage"],
+  "treatments": [
+    "Apply fungicides containing chlorothalonil or mancozeb",
+    "Spray azoxystrobin for systemic control",
+    "Remove and destroy infected plant parts",
+    "Apply copper-based fungicides as preventive treatment"
+  ],
+  "prevention": [
+    "Use certified disease-free seeds",
+    "Practice crop rotation with non-cucurbits",
+    "Remove crop debris after harvest",
+    "Avoid overhead irrigation",
+    "Use drip irrigation to keep foliage dry",
+    "Space plants adequately for air circulation"
+  ],
+  "references": ["IITA Cucurbit Disease Management", "NAERLS Cucumber Production Guide"]
+}

@@ -1,0 +1,37 @@
+{
+  "id": "cowpea-mosaic-virus",
+  "cropId": "cowpea",
+  "name": "Cowpea Mosaic Virus",
+  "scientificName": "Cowpea mosaic virus (CPMV)",
+  "aliases": ["CPMV", "Cowpea Yellow Mosaic", "Cowpea Mottle"],
+  "description": "A viral disease causing mosaic patterns, leaf distortion, and stunted growth in cowpea. It is transmitted by beetles and can cause significant yield losses in susceptible varieties across West Africa.",
+  "symptoms": [
+    "Yellow and green mosaic pattern on leaves",
+    "Leaf distortion, blistering, and puckering",
+    "Stunted plant growth with shortened internodes",
+    "Reduced pod set and deformed seeds",
+    "Plants may show general chlorosis and reduced vigor"
+  ],
+  "causes": [
+    "Cowpea mosaic virus (CPMV) transmitted by leaf-feeding beetles",
+    "High beetle populations during rainy season",
+    "Infected crop debris from previous season",
+    "Alternative weed hosts serving as virus reservoirs"
+  ],
+  "severity": "high",
+  "seasonality": ["Early to mid rainy season (beetle peak)"],
+  "treatments": [
+    "No curative treatment for viral infection",
+    "Rogue and destroy infected plants early",
+    "Control beetle vectors with appropriate insecticides",
+    "Apply neem-based sprays to deter beetles"
+  ],
+  "prevention": [
+    "Plant virus-tolerant cowpea varieties (e.g., IT series)",
+    "Practice early planting to avoid peak beetle populations",
+    "Use adequate plant spacing to reduce disease spread",
+    "Remove weed hosts near cowpea fields",
+    "Rotate cowpea with non-legume crops"
+  ],
+  "references": ["IITA Cowpea Disease Manual", "ICRISAT Cowpea Production Guide", "NAERLS Legume Health Guide"]
+}

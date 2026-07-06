@@ -1,6 +1,7 @@
 import type { Crop } from '@/types';
 import { getAllCrops, getCropById } from '@/services/crops.service';
 import { NotFoundError } from '@/utils/errors';
+import { knowledgeService } from '@/services/knowledge.service';
 
 /**
  * Crops controller.
@@ -12,13 +13,27 @@ import { NotFoundError } from '@/utils/errors';
 /**
  * Retrieves all supported crops.
  *
+ * First tries MongoDB via the crops service. If the database is
+ * empty (fresh setup / not seeded), falls back to the offline
+ * knowledge base so the dropdown never shows "No crops available".
+ *
  * @returns An array of crop entries
  */
 export async function handleGetAllCrops(): Promise<Crop[]> {
-  // TODO: Add caching headers / ETag support
-  // TODO: Add logging
+  const dbCrops = await getAllCrops();
 
-  return getAllCrops();
+  if (dbCrops.length > 0) {
+    return dbCrops;
+  }
+
+  return knowledgeService.getAllCrops().map((kc) => ({
+    id: kc.id,
+    name: kc.name,
+    scientificName: kc.scientificName,
+    regions: kc.growingRegions,
+    growthStages: kc.growthStages,
+    commonDiseaseIds: kc.commonDiseaseIds,
+  }));
 }
 
 /**

@@ -31,11 +31,15 @@ export class CropRepository {
    * Retrieves a single crop by its ID.
    *
    * @param id - The MongoDB ObjectId string
-   * @returns The document, or null if not found
+   * @returns The document, or null if not found or id is not a valid ObjectId
    */
   async findById(id: string): Promise<CropDocument | null> {
     await connectToDatabase();
-    return CropModel.findById(id).lean().exec();
+    try {
+      return await CropModel.findById(id).lean().exec();
+    } catch {
+      return null;
+    }
   }
 
   /**
