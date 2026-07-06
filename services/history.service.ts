@@ -107,7 +107,7 @@ function mapToHistoryRecord(doc: DiagnosisDocument): HistoryRecord {
   return {
     id: String(doc._id),
     conversation: {
-      id: String(doc._id),
+      id: doc.conversationId || String(doc._id),
       messages: [],
     },
     diagnosis: {

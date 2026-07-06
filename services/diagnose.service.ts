@@ -17,9 +17,9 @@ const cropRepository = new CropRepository();
 
 function resolveCropName(cropId?: string, mongoCrop?: { name?: string }): string {
   if (mongoCrop?.name) return mongoCrop.name;
-  if (!cropId) return 'Unknown';
+  if (!cropId) return '';
   const kbCrop = knowledgeService.getCrop(cropId);
-  return kbCrop?.name ?? 'Unknown';
+  return kbCrop?.name ?? '';
 }
 
 /**
@@ -150,8 +150,9 @@ export async function createDiagnosis(
 export async function streamDiagnosis(
   request: DiagnosisRequest,
 ): Promise<ReadableStream<Uint8Array>> {
-  const crop = request.cropId ? await cropRepository.findById(request.cropId) : null;
-  const mappedCrop: Crop | undefined = crop ? mapCropDocument(crop) : undefined;
+  const mongoCrop = request.cropId ? await cropRepository.findById(request.cropId) : null;
+  const cropName = resolveCropName(request.cropId, mongoCrop ?? undefined);
+  const mappedCrop: Crop | undefined = mongoCrop ? mapCropDocument(mongoCrop) : undefined;
 
   // -----------------------------------------------------------------------
   // Resolve or create conversation
@@ -168,7 +169,7 @@ export async function streamDiagnosis(
     const created = await conversationRepository.createConversation({
       messages: [],
       cropId: request.cropId,
-      cropName: crop?.name,
+      cropName,
     });
     conversationId = String(created._id);
   }
@@ -184,17 +185,16 @@ export async function streamDiagnosis(
   const streamAdapter = await getStreamDiagnosisAdapter();
   const aiProvider = getAdapterProviderName();
 
-  let fullText = '';
-
   return new ReadableStream<Uint8Array>({
     async start(controller) {
       try {
+        // --- Buffer the full AI response first ---
+        let fullText = '';
         for await (const chunk of streamAdapter(request, mappedCrop, existingMessages)) {
           fullText += chunk;
-          controller.enqueue(encodeSSE('chunk', { text: chunk }));
         }
 
-        // --- Generation complete — parse and persist ---
+        // --- Parse and persist ---
         const parsed = parseDiagnosisResponse(fullText);
 
         if (!parsed.success) {
@@ -204,6 +204,14 @@ export async function streamDiagnosis(
         }
 
         const response = mapToDiagnosisResponse(parsed.data);
+
+        const displayText =
+          response.status === 'follow_up'
+            ? response.question
+            : response.diagnosis.reasoning;
+
+        // Stream the human-readable text to the client
+        controller.enqueue(encodeSSE('chunk', { text: displayText }));
 
         if (response.status === 'diagnosis') {
           const topCause = response.diagnosis.possibleCauses[0];
@@ -215,7 +223,7 @@ export async function streamDiagnosis(
 
           const diagnosisData: CreateDiagnosisData = {
             diseaseName: topCause.name,
-            cropName: crop?.name ?? 'Unknown',
+            cropName,
             cropId: request.cropId ?? '',
             confidence: topCause.confidence,
             reasoning: response.diagnosis.reasoning,

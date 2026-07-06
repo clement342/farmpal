@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import type { Crop } from '@/types/crop';
 import { useDiagnosisChat } from '@/hooks/useDiagnosisChat';
 import { ChatHeader } from './ChatHeader';
@@ -17,6 +17,9 @@ interface ChatContainerProps {
 
 export function ChatContainer({ conversationId, crop }: ChatContainerProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarRefreshKey, setSidebarRefreshKey] = useState(0);
+  const prevStatusRef = useRef<string | null>(null);
+
   const {
     messages,
     status,
@@ -29,6 +32,13 @@ export function ChatContainer({ conversationId, crop }: ChatContainerProps) {
     reset,
   } = useDiagnosisChat({ conversationId: conversationId ?? null, crop });
 
+  useEffect(() => {
+    if (prevStatusRef.current === 'streaming' && status === 'completed' && activeConversationId) {
+      setSidebarRefreshKey((k) => k + 1);
+    }
+    prevStatusRef.current = status;
+  }, [status, activeConversationId]);
+
   const isStreaming = status === 'streaming';
   const isDisabled = isStreaming;
 
@@ -39,6 +49,7 @@ export function ChatContainer({ conversationId, crop }: ChatContainerProps) {
         onNewChat={reset}
         open={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
+        refreshKey={sidebarRefreshKey}
       />
 
       <div className="flex-1 flex flex-col min-w-0">

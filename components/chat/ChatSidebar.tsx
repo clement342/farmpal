@@ -11,9 +11,10 @@ interface ChatSidebarProps {
   onNewChat: () => void;
   open: boolean;
   onClose: () => void;
+  refreshKey?: number;
 }
 
-export function ChatSidebar({ activeConversationId, onNewChat, open, onClose }: ChatSidebarProps) {
+export function ChatSidebar({ activeConversationId, onNewChat, open, onClose, refreshKey }: ChatSidebarProps) {
   const router = useRouter();
   const [conversations, setConversations] = useState<HistoryRecord[]>([]);
   const [loading, setLoading] = useState(true);
@@ -25,7 +26,7 @@ export function ChatSidebar({ activeConversationId, onNewChat, open, onClose }: 
         // Silently handle — sidebar shows empty state
       })
       .finally(() => setLoading(false));
-  }, [activeConversationId]);
+  }, [activeConversationId, refreshKey]);
 
   const content = (
     <div className="flex flex-col h-full">
@@ -92,7 +93,7 @@ export function ChatSidebar({ activeConversationId, onNewChat, open, onClose }: 
                   }`}
                 >
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="text-xs font-medium text-accent-text">{record.cropName}</span>
+                    <span className="text-xs font-medium text-accent-text">{record.cropName || 'Unidentified crop'}</span>
                     <span className={`w-1.5 h-1.5 rounded-full ${
                       record.diagnosis ? 'bg-accent' : 'bg-yellow-500'
                     }`} />

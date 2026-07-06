@@ -125,7 +125,7 @@ export function useDiagnosisChat(options?: UseDiagnosisChatOptions): UseDiagnosi
             });
           }
 
-          if (!options?.crop && match.cropName) {
+          if (!options?.crop && match.cropName && match.cropName !== 'Unknown') {
             setSelectedCrop({
               id: match.cropName.toLowerCase(),
               name: match.cropName,
@@ -176,9 +176,15 @@ export function useDiagnosisChat(options?: UseDiagnosisChatOptions): UseDiagnosi
         const copy = [...prev];
         const last = copy[copy.length - 1];
         if (last && last.role === 'assistant' && last.isStreaming) {
+          const displayContent =
+            event.response.status === 'follow_up'
+              ? event.response.question
+              : event.response.status === 'diagnosis'
+                ? event.response.diagnosis.reasoning
+                : finalContent;
           copy[copy.length - 1] = {
             ...last,
-            content: finalContent,
+            content: displayContent,
             isStreaming: false,
             diagnosis:
               event.response.status === 'diagnosis'
