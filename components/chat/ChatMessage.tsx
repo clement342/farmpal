@@ -30,7 +30,11 @@ export function ChatMessage({ message }: ChatMessageProps) {
                   : 'bg-surface-elevated border border-border-subtle rounded-bl-md'
             }`}
           >
-            {message.content || isStreaming ? (
+            {message.diagnosis && !isStreaming ? (
+              <p className="text-text-secondary whitespace-pre-wrap break-words">
+                Diagnosis complete — see details below.
+              </p>
+            ) : message.content || isStreaming ? (
               <p className="whitespace-pre-wrap break-words">
                 {message.content}
                 {isStreaming && (

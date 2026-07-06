@@ -13,6 +13,8 @@ import {
   findByKeyword,
 } from '@/lib/knowledge/knowledge-search';
 import { buildKnowledgeContext } from '@/lib/knowledge/knowledge-context';
+import { inferCropFromSymptoms } from './crop-inference.service';
+import type { CropInferenceResult } from './crop-inference.service';
 
 /**
  * Public API for the Offline Knowledge Engine.
@@ -100,6 +102,16 @@ export class KnowledgeService {
    */
   search(keyword: string) {
     return findByKeyword(keyword);
+  }
+
+  /**
+   * Infers the most likely crop from symptom text.
+   *
+   * @param symptoms - The user's symptom description.
+   * @returns Inference result with detected crop and confidence.
+   */
+  inferCrop(symptoms: string): CropInferenceResult {
+    return inferCropFromSymptoms(symptoms, this.getAllCrops());
   }
 
   /**

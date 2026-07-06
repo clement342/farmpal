@@ -7,10 +7,9 @@ import { EmptyState } from './EmptyState';
 
 interface ChatMessagesProps {
   messages: ChatMessageDisplay[];
-  hasCrop: boolean;
 }
 
-export function ChatMessages({ messages, hasCrop }: ChatMessagesProps) {
+export function ChatMessages({ messages }: ChatMessagesProps) {
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -18,7 +17,7 @@ export function ChatMessages({ messages, hasCrop }: ChatMessagesProps) {
   }, [messages]);
 
   if (messages.length === 0) {
-    return <EmptyState hasCrop={hasCrop} />;
+    return <EmptyState />;
   }
 
   return (

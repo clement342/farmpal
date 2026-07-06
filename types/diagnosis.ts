@@ -82,8 +82,8 @@ export interface Diagnosis {
 export interface DiagnosisRequest {
   /** Symptoms described by the farmer */
   symptoms: string;
-  /** The affected crop */
-  cropId: string;
+  /** The affected crop (optional — omit to let the system infer from symptoms) */
+  cropId?: string;
   /** Resume an existing conversation (optional — creates new if omitted) */
   conversationId?: string;
   /** Optional image URLs for visual analysis */

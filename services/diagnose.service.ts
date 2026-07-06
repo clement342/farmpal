@@ -9,10 +9,18 @@ import { mapToDiagnosisResponse } from '@/adapters/diagnosis/mapper';
 import type { DiagnosisDocument } from '@/lib/db/models/diagnosis.model';
 import type { CropDocument } from '@/lib/db/models/crop.model';
 import { NotFoundError } from '@/utils/errors';
+import { knowledgeService } from '@/services/knowledge.service';
 
 const diagnosisRepository = new DiagnosisRepository();
 const conversationRepository = new ConversationRepository();
 const cropRepository = new CropRepository();
+
+function resolveCropName(cropId?: string, mongoCrop?: { name?: string }): string {
+  if (mongoCrop?.name) return mongoCrop.name;
+  if (!cropId) return '';
+  const kbCrop = knowledgeService.getCrop(cropId);
+  return kbCrop?.name ?? '';
+}
 
 /**
  * Initiates or continues a diagnosis conversation.
@@ -32,7 +40,7 @@ const cropRepository = new CropRepository();
 export async function createDiagnosis(
   request: DiagnosisRequest,
 ): Promise<ConversationDiagnosisResponse> {
-  const crop = await cropRepository.findById(request.cropId);
+  const crop = request.cropId ? await cropRepository.findById(request.cropId) : null;
   const mappedCrop: Crop | undefined = crop ? mapCropDocument(crop) : undefined;
 
   // -----------------------------------------------------------------------
@@ -85,8 +93,8 @@ export async function createDiagnosis(
 
     const diagnosisData: CreateDiagnosisData = {
       diseaseName: topCause.name,
-      cropName: crop?.name ?? 'Unknown',
-      cropId: request.cropId,
+      cropName: resolveCropName(request.cropId, crop ?? undefined),
+      cropId: request.cropId ?? '',
       confidence: topCause.confidence,
       reasoning: response.diagnosis.reasoning,
       severity: mapUrgencyToSeverity(response.diagnosis.urgency),
@@ -142,8 +150,9 @@ export async function createDiagnosis(
 export async function streamDiagnosis(
   request: DiagnosisRequest,
 ): Promise<ReadableStream<Uint8Array>> {
-  const crop = await cropRepository.findById(request.cropId);
-  const mappedCrop: Crop | undefined = crop ? mapCropDocument(crop) : undefined;
+  const mongoCrop = request.cropId ? await cropRepository.findById(request.cropId) : null;
+  const cropName = resolveCropName(request.cropId, mongoCrop ?? undefined);
+  const mappedCrop: Crop | undefined = mongoCrop ? mapCropDocument(mongoCrop) : undefined;
 
   // -----------------------------------------------------------------------
   // Resolve or create conversation
@@ -160,7 +169,7 @@ export async function streamDiagnosis(
     const created = await conversationRepository.createConversation({
       messages: [],
       cropId: request.cropId,
-      cropName: crop?.name,
+      cropName,
     });
     conversationId = String(created._id);
   }
@@ -176,17 +185,16 @@ export async function streamDiagnosis(
   const streamAdapter = await getStreamDiagnosisAdapter();
   const aiProvider = getAdapterProviderName();
 
-  let fullText = '';
-
   return new ReadableStream<Uint8Array>({
     async start(controller) {
       try {
+        // --- Buffer the full AI response first ---
+        let fullText = '';
         for await (const chunk of streamAdapter(request, mappedCrop, existingMessages)) {
           fullText += chunk;
-          controller.enqueue(encodeSSE('chunk', { text: chunk }));
         }
 
-        // --- Generation complete — parse and persist ---
+        // --- Parse and persist ---
         const parsed = parseDiagnosisResponse(fullText);
 
         if (!parsed.success) {
@@ -196,6 +204,14 @@ export async function streamDiagnosis(
         }
 
         const response = mapToDiagnosisResponse(parsed.data);
+
+        const displayText =
+          response.status === 'follow_up'
+            ? response.question
+            : response.diagnosis.reasoning;
+
+        // Stream the human-readable text to the client
+        controller.enqueue(encodeSSE('chunk', { text: displayText }));
 
         if (response.status === 'diagnosis') {
           const topCause = response.diagnosis.possibleCauses[0];
@@ -207,8 +223,8 @@ export async function streamDiagnosis(
 
           const diagnosisData: CreateDiagnosisData = {
             diseaseName: topCause.name,
-            cropName: crop?.name ?? 'Unknown',
-            cropId: request.cropId,
+            cropName,
+            cropId: request.cropId ?? '',
             confidence: topCause.confidence,
             reasoning: response.diagnosis.reasoning,
             severity: mapUrgencyToSeverity(response.diagnosis.urgency),

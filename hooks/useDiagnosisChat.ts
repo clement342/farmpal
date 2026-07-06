@@ -26,6 +26,7 @@ interface UseDiagnosisChatReturn {
   status: ChatStatus;
   error: string | null;
   selectedCrop: Crop | null;
+  detectedCrop: { cropId: string; cropName: string; confidence: string } | null;
   conversationId: string | null;
   setCrop: (crop: Crop | null) => void;
   sendMessage: (symptoms: string) => Promise<void>;
@@ -53,20 +54,31 @@ export function useDiagnosisChat(options?: UseDiagnosisChatOptions): UseDiagnosi
   const [status, setStatus] = useState<ChatStatus>('idle');
   const [error, setError] = useState<string | null>(null);
   const [selectedCrop, setSelectedCrop] = useState<Crop | null>(options?.crop ?? null);
+  const [detectedCrop, setDetectedCrop] = useState<{
+    cropId: string;
+    cropName: string;
+    confidence: string;
+  } | null>(null);
   const [conversationId, setConversationId] = useState<string | null>(options?.conversationId ?? null);
   const streamContentRef = useRef('');
-  const hasInitialized = useRef(false);
+  const loadingConversationRef = useRef<string | null>(null);
 
-  // Load existing conversation history on mount
+  // Load conversation history when conversationId prop changes
   useEffect(() => {
-    if (hasInitialized.current || !options?.conversationId) return;
-    hasInitialized.current = true;
+    const targetId = options?.conversationId;
+    if (!targetId) return;
+    if (loadingConversationRef.current === targetId) return;
+    loadingConversationRef.current = targetId;
 
+    setConversationId(targetId);
     setStatus('loading');
+    setMessages([]);
+    setSelectedCrop(options?.crop ?? null);
+
     fetchHistory({ limit: 100 })
       .then((data) => {
         const match = data.records.find(
-          (r) => r.conversation.id === options.conversationId,
+          (r) => r.conversation.id === targetId,
         );
         if (match) {
           const mappedMessages: ChatMessageDisplay[] =
@@ -113,7 +125,7 @@ export function useDiagnosisChat(options?: UseDiagnosisChatOptions): UseDiagnosi
             });
           }
 
-          if (!options.crop) {
+          if (!options?.crop && match.cropName && match.cropName !== 'Unknown') {
             setSelectedCrop({
               id: match.cropName.toLowerCase(),
               name: match.cropName,
@@ -132,6 +144,13 @@ export function useDiagnosisChat(options?: UseDiagnosisChatOptions): UseDiagnosi
         setStatus('idle');
       });
   }, [options?.conversationId, options?.crop]);
+
+  // Reset loading guard when conversation is explicitly reset
+  useEffect(() => {
+    if (!conversationId && loadingConversationRef.current) {
+      loadingConversationRef.current = null;
+    }
+  }, [conversationId]);
 
   const handleChunk = useCallback((text: string) => {
     streamContentRef.current += text;
@@ -157,9 +176,15 @@ export function useDiagnosisChat(options?: UseDiagnosisChatOptions): UseDiagnosi
         const copy = [...prev];
         const last = copy[copy.length - 1];
         if (last && last.role === 'assistant' && last.isStreaming) {
+          const displayContent =
+            event.response.status === 'follow_up'
+              ? event.response.question
+              : event.response.status === 'diagnosis'
+                ? event.response.diagnosis.reasoning
+                : finalContent;
           copy[copy.length - 1] = {
             ...last,
-            content: finalContent,
+            content: displayContent,
             isStreaming: false,
             diagnosis:
               event.response.status === 'diagnosis'
@@ -192,12 +217,11 @@ export function useDiagnosisChat(options?: UseDiagnosisChatOptions): UseDiagnosi
     onChunk: handleChunk,
     onResult: handleResult,
     onError: handleError,
+    onCropDetected: (info) => setDetectedCrop(info),
   });
 
   const sendMessage = useCallback(
     async (symptoms: string) => {
-      if (!selectedCrop) return;
-
       const userMsg: ChatMessageDisplay = {
         id: generateId(),
         role: 'user',
@@ -220,14 +244,14 @@ export function useDiagnosisChat(options?: UseDiagnosisChatOptions): UseDiagnosi
       try {
         await startStream({
           symptoms,
-          cropId: selectedCrop.id,
+          cropId: selectedCrop?.id ?? detectedCrop?.cropId ?? undefined,
           conversationId: conversationId ?? undefined,
         });
       } catch {
         // Error is handled in useStreaming's onError
       }
     },
-    [selectedCrop, conversationId, startStream],
+    [selectedCrop, detectedCrop, conversationId, startStream],
   );
 
   const reset = useCallback(() => {
@@ -243,6 +267,7 @@ export function useDiagnosisChat(options?: UseDiagnosisChatOptions): UseDiagnosi
     status: isStreaming ? 'streaming' : status,
     error,
     selectedCrop,
+    detectedCrop,
     conversationId,
     setCrop: setSelectedCrop,
     sendMessage,

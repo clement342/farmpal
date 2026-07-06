@@ -6,6 +6,7 @@ interface UseStreamingOptions {
   onChunk?: (text: string) => void;
   onResult?: (event: StreamEvent & { type: 'result' }) => void;
   onError?: (message: string) => void;
+  onCropDetected?: (info: { cropId: string; cropName: string; confidence: string }) => void;
 }
 
 interface UseStreamingReturn {
@@ -46,6 +47,13 @@ export function useStreaming(options: UseStreamingOptions): UseStreamingReturn {
           switch (event.type) {
             case 'chunk':
               options.onChunk?.(event.text);
+              break;
+            case 'crop_detected':
+              options.onCropDetected?.({
+                cropId: event.cropId,
+                cropName: event.cropName,
+                confidence: event.confidence,
+              });
               break;
             case 'result':
               options.onResult?.(event);

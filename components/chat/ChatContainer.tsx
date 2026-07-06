@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import type { Crop } from '@/types/crop';
 import { useDiagnosisChat } from '@/hooks/useDiagnosisChat';
 import { ChatHeader } from './ChatHeader';
@@ -8,6 +8,7 @@ import { ChatMessages } from './ChatMessages';
 import { ChatComposer } from './ChatComposer';
 import { ChatSidebar } from './ChatSidebar';
 import { CropSelector } from './CropSelector';
+import { DetectedCropBadge } from './DetectedCropBadge';
 
 interface ChatContainerProps {
   conversationId?: string;
@@ -16,19 +17,30 @@ interface ChatContainerProps {
 
 export function ChatContainer({ conversationId, crop }: ChatContainerProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarRefreshKey, setSidebarRefreshKey] = useState(0);
+  const prevStatusRef = useRef<string | null>(null);
+
   const {
     messages,
     status,
     error,
     selectedCrop,
+    detectedCrop,
     conversationId: activeConversationId,
     setCrop,
     sendMessage,
     reset,
   } = useDiagnosisChat({ conversationId: conversationId ?? null, crop });
 
+  useEffect(() => {
+    if (prevStatusRef.current === 'streaming' && status === 'completed' && activeConversationId) {
+      setSidebarRefreshKey((k) => k + 1);
+    }
+    prevStatusRef.current = status;
+  }, [status, activeConversationId]);
+
   const isStreaming = status === 'streaming';
-  const isDisabled = isStreaming || !selectedCrop;
+  const isDisabled = isStreaming;
 
   return (
     <div className="flex h-screen bg-background">
@@ -37,10 +49,11 @@ export function ChatContainer({ conversationId, crop }: ChatContainerProps) {
         onNewChat={reset}
         open={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
+        refreshKey={sidebarRefreshKey}
       />
 
       <div className="flex-1 flex flex-col min-w-0">
-        {/* Top bar */}
+        {/* Top bar (mobile) */}
         <div className="flex items-center gap-3 px-4 py-3 border-b border-border-subtle md:hidden">
           <button
             onClick={() => setSidebarOpen(true)}
@@ -84,6 +97,16 @@ export function ChatContainer({ conversationId, crop }: ChatContainerProps) {
           </div>
         </div>
 
+        {/* Detected crop badge — only show when auto-detected, not manually selected */}
+        {detectedCrop && !selectedCrop && (
+          <div className="px-4 sm:px-8 pt-3 pb-1">
+            <DetectedCropBadge
+              cropName={detectedCrop.cropName}
+              confidence={detectedCrop.confidence}
+            />
+          </div>
+        )}
+
         <ChatHeader
           crop={selectedCrop}
           isStreaming={isStreaming}
@@ -92,7 +115,6 @@ export function ChatContainer({ conversationId, crop }: ChatContainerProps) {
 
         <ChatMessages
           messages={messages}
-          hasCrop={!!selectedCrop}
         />
 
         {/* Error banner */}
@@ -111,11 +133,7 @@ export function ChatContainer({ conversationId, crop }: ChatContainerProps) {
           onSend={sendMessage}
           disabled={isDisabled}
           loading={isStreaming}
-          placeholder={
-            selectedCrop
-              ? 'Describe the symptoms you see...'
-              : 'Select a crop to start'
-          }
+          placeholder="Describe what you're seeing. Example: &quot;My maize leaves have yellow streaks and brown spots.&quot;"
         />
       </div>
     </div>

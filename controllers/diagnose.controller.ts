@@ -1,12 +1,14 @@
 import type { DiagnosisRequest, ConversationDiagnosisResponse } from '@/types';
 import { createDiagnosis, streamDiagnosis } from '@/services/diagnose.service';
 import { validateDiagnosisRequest, validateCropExists } from '@/lib/validation';
+import { knowledgeService } from '@/services/knowledge.service';
 
 /**
  * Diagnosis controller.
  *
  * Handles incoming diagnosis requests. Validates the input,
- * verifies the crop exists, and delegates to the diagnosis service.
+ * verifies the crop exists (if provided or auto-detected), and
+ * delegates to the diagnosis service.
  *
  * Controllers remain thin — no business logic, no database access,
  * no AI calls.
@@ -23,7 +25,16 @@ export async function handleDiagnosisRequest(
 ): Promise<ConversationDiagnosisResponse> {
   const request: DiagnosisRequest = validateDiagnosisRequest(body);
 
-  await validateCropExists(request.cropId);
+  if (!request.cropId) {
+    const inference = knowledgeService.inferCrop(request.symptoms);
+    if (inference.detected && inference.crop) {
+      request.cropId = inference.crop.id;
+    }
+  }
+
+  if (request.cropId) {
+    await validateCropExists(request.cropId);
+  }
 
   return createDiagnosis(request);
 }
@@ -42,7 +53,53 @@ export async function handleStreamDiagnosis(
 ): Promise<ReadableStream<Uint8Array>> {
   const request: DiagnosisRequest = validateDiagnosisRequest(body);
 
-  await validateCropExists(request.cropId);
+  let detectedCropInfo: { cropId: string; cropName: string; confidence: string } | undefined;
 
-  return streamDiagnosis(request);
+  if (!request.cropId) {
+    const inference = knowledgeService.inferCrop(request.symptoms);
+    if (inference.detected && inference.crop) {
+      request.cropId = inference.crop.id;
+      detectedCropInfo = {
+        cropId: inference.crop.id,
+        cropName: inference.crop.name,
+        confidence: inference.confidence,
+      };
+    }
+  }
+
+  if (request.cropId) {
+    await validateCropExists(request.cropId);
+  }
+
+  const stream = await streamDiagnosis(request);
+
+  if (detectedCropInfo) {
+    return prependCropDetectedEvent(stream, detectedCropInfo);
+  }
+
+  return stream;
+}
+
+function prependCropDetectedEvent(
+  original: ReadableStream<Uint8Array>,
+  info: { cropId: string; cropName: string; confidence: string },
+): ReadableStream<Uint8Array> {
+  const encoder = new TextEncoder();
+  let headerSent = false;
+
+  return new ReadableStream<Uint8Array>({
+    async start(controller) {
+      const event = `data: ${JSON.stringify({ type: 'crop_detected', ...info })}\n\n`;
+      controller.enqueue(encoder.encode(event));
+      headerSent = true;
+
+      const reader = original.getReader();
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        controller.enqueue(value);
+      }
+      controller.close();
+    },
+  });
 }
