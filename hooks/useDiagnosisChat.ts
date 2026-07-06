@@ -26,6 +26,7 @@ interface UseDiagnosisChatReturn {
   status: ChatStatus;
   error: string | null;
   selectedCrop: Crop | null;
+  detectedCrop: { cropId: string; cropName: string; confidence: string } | null;
   conversationId: string | null;
   setCrop: (crop: Crop | null) => void;
   sendMessage: (symptoms: string) => Promise<void>;
@@ -53,6 +54,11 @@ export function useDiagnosisChat(options?: UseDiagnosisChatOptions): UseDiagnosi
   const [status, setStatus] = useState<ChatStatus>('idle');
   const [error, setError] = useState<string | null>(null);
   const [selectedCrop, setSelectedCrop] = useState<Crop | null>(options?.crop ?? null);
+  const [detectedCrop, setDetectedCrop] = useState<{
+    cropId: string;
+    cropName: string;
+    confidence: string;
+  } | null>(null);
   const [conversationId, setConversationId] = useState<string | null>(options?.conversationId ?? null);
   const streamContentRef = useRef('');
   const hasInitialized = useRef(false);
@@ -192,12 +198,11 @@ export function useDiagnosisChat(options?: UseDiagnosisChatOptions): UseDiagnosi
     onChunk: handleChunk,
     onResult: handleResult,
     onError: handleError,
+    onCropDetected: (info) => setDetectedCrop(info),
   });
 
   const sendMessage = useCallback(
     async (symptoms: string) => {
-      if (!selectedCrop) return;
-
       const userMsg: ChatMessageDisplay = {
         id: generateId(),
         role: 'user',
@@ -220,14 +225,14 @@ export function useDiagnosisChat(options?: UseDiagnosisChatOptions): UseDiagnosi
       try {
         await startStream({
           symptoms,
-          cropId: selectedCrop.id,
+          cropId: selectedCrop?.id ?? detectedCrop?.cropId ?? undefined,
           conversationId: conversationId ?? undefined,
         });
       } catch {
         // Error is handled in useStreaming's onError
       }
     },
-    [selectedCrop, conversationId, startStream],
+    [selectedCrop, detectedCrop, conversationId, startStream],
   );
 
   const reset = useCallback(() => {
@@ -243,6 +248,7 @@ export function useDiagnosisChat(options?: UseDiagnosisChatOptions): UseDiagnosi
     status: isStreaming ? 'streaming' : status,
     error,
     selectedCrop,
+    detectedCrop,
     conversationId,
     setCrop: setSelectedCrop,
     sendMessage,
