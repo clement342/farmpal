@@ -17,12 +17,11 @@ export function EmptyState({ hasCrop }: EmptyStateProps) {
         </div>
 
         <h2 className="text-lg font-medium text-text-primary mb-2">
-          {hasCrop ? 'Describe the symptoms' : 'Select a crop to start'}
+          Describe your crop problem
         </h2>
         <p className="text-sm text-text-secondary leading-relaxed">
-          {hasCrop
-            ? 'Tell FarmPal what you see — yellowing leaves, spots, stunted growth. The AI will ask follow-up questions to narrow it down.'
-            : 'Choose a crop from the dropdown above to begin your diagnosis session.'}
+          Tell FarmPal what you're seeing — yellowing leaves, spots, stunted growth, or pests. 
+          The system will identify the crop and diagnose the problem.
         </p>
       </div>
     </div>
