@@ -20,7 +20,14 @@ export interface StreamError {
   message: string;
 }
 
-export type StreamEvent = StreamChunk | StreamResult | StreamError;
+export interface StreamCropDetected {
+  type: 'crop_detected';
+  cropId: string;
+  cropName: string;
+  confidence: 'high' | 'medium' | 'low';
+}
+
+export type StreamEvent = StreamChunk | StreamResult | StreamError | StreamCropDetected;
 
 /**
  * Sends a diagnosis request and reads the SSE stream, yielding events
