@@ -1,17 +1,37 @@
 import type { KnowledgeCrop } from '@/types/knowledge';
 
+const MAX_CANDIDATES = 3;
+
+/**
+ * A scored candidate crop from the inference engine.
+ */
 export interface ScoredCandidate {
   crop: KnowledgeCrop;
   score: number;
 }
 
+/**
+ * Result of attempting to infer a crop from symptom text.
+ */
 export interface CropInferenceResult {
+  /** Whether a crop was confidently detected */
   detected: boolean;
+  /** The detected crop (undefined when not detected) */
   crop?: KnowledgeCrop;
+  /** Confidence level of the inference */
   confidence: 'high' | 'medium' | 'low';
+  /** Top candidates ranked by score */
   candidates: ScoredCandidate[];
 }
 
+/**
+ * Infers the most likely crop from symptom text by searching crop names,
+ * aliases, and partial matches.
+ *
+ * @param symptoms - The user's symptom description.
+ * @param crops    - All crops from the knowledge base.
+ * @returns The inference result with detected crop and confidence.
+ */
 export function inferCropFromSymptoms(
   symptoms: string,
   crops: KnowledgeCrop[],
@@ -40,9 +60,8 @@ export function inferCropFromSymptoms(
     if (score < 2) {
       const hasPartial = crop.aliases.some((a) => {
         const aliasLower = a.toLowerCase();
-        const minLen = Math.min(4, aliasLower.length);
-        return aliasLower.substring(0, minLen).length >= 4 &&
-          lower.includes(aliasLower.substring(0, minLen));
+        const prefix = aliasLower.substring(0, 4);
+        return prefix.length >= 4 && lower.includes(prefix);
       });
       if (hasPartial) {
         score = 1;
@@ -55,7 +74,7 @@ export function inferCropFromSymptoms(
   }
 
   scored.sort((a, b) => b.score - a.score);
-  const candidates = scored.slice(0, 3);
+  const candidates = scored.slice(0, MAX_CANDIDATES);
 
   if (candidates.length === 0) {
     return { detected: false, confidence: 'low', candidates: [] };
