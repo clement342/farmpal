@@ -32,7 +32,7 @@ const cropRepository = new CropRepository();
 export async function createDiagnosis(
   request: DiagnosisRequest,
 ): Promise<ConversationDiagnosisResponse> {
-  const crop = await cropRepository.findById(request.cropId);
+  const crop = request.cropId ? await cropRepository.findById(request.cropId) : null;
   const mappedCrop: Crop | undefined = crop ? mapCropDocument(crop) : undefined;
 
   // -----------------------------------------------------------------------
@@ -86,7 +86,7 @@ export async function createDiagnosis(
     const diagnosisData: CreateDiagnosisData = {
       diseaseName: topCause.name,
       cropName: crop?.name ?? 'Unknown',
-      cropId: request.cropId,
+      cropId: request.cropId ?? '',
       confidence: topCause.confidence,
       reasoning: response.diagnosis.reasoning,
       severity: mapUrgencyToSeverity(response.diagnosis.urgency),
@@ -142,7 +142,7 @@ export async function createDiagnosis(
 export async function streamDiagnosis(
   request: DiagnosisRequest,
 ): Promise<ReadableStream<Uint8Array>> {
-  const crop = await cropRepository.findById(request.cropId);
+  const crop = request.cropId ? await cropRepository.findById(request.cropId) : null;
   const mappedCrop: Crop | undefined = crop ? mapCropDocument(crop) : undefined;
 
   // -----------------------------------------------------------------------
@@ -208,7 +208,7 @@ export async function streamDiagnosis(
           const diagnosisData: CreateDiagnosisData = {
             diseaseName: topCause.name,
             cropName: crop?.name ?? 'Unknown',
-            cropId: request.cropId,
+            cropId: request.cropId ?? '',
             confidence: topCause.confidence,
             reasoning: response.diagnosis.reasoning,
             severity: mapUrgencyToSeverity(response.diagnosis.urgency),
