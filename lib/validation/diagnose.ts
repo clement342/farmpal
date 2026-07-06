@@ -27,8 +27,9 @@ export function validateDiagnosisRequest(data: unknown): DiagnosisRequest {
     throw new ValidationError('Symptoms description must not exceed 2000 characters');
   }
 
-  if (!request.cropId || request.cropId.trim().length === 0) {
-    throw new ValidationError('Crop ID is required');
+  // cropId is optional — only validate format if provided
+  if (request.cropId && typeof request.cropId !== 'string') {
+    throw new ValidationError('Crop ID must be a string');
   }
 
   // Validate image URLs if provided
@@ -59,7 +60,8 @@ export function validateDiagnosisRequest(data: unknown): DiagnosisRequest {
  * @param cropId - The crop identifier to verify
  * @throws ValidationError if the crop does not exist in either source
  */
-export async function validateCropExists(cropId: string): Promise<void> {
+export async function validateCropExists(cropId?: string): Promise<void> {
+  if (!cropId) return;
   const dbCrop = await cropRepository.findById(cropId);
   if (dbCrop) return;
 
