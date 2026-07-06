@@ -8,6 +8,7 @@ import { ChatMessages } from './ChatMessages';
 import { ChatComposer } from './ChatComposer';
 import { ChatSidebar } from './ChatSidebar';
 import { CropSelector } from './CropSelector';
+import { DetectedCropBadge } from './DetectedCropBadge';
 
 interface ChatContainerProps {
   conversationId?: string;
@@ -21,6 +22,7 @@ export function ChatContainer({ conversationId, crop }: ChatContainerProps) {
     status,
     error,
     selectedCrop,
+    detectedCrop,
     conversationId: activeConversationId,
     setCrop,
     sendMessage,
@@ -28,7 +30,7 @@ export function ChatContainer({ conversationId, crop }: ChatContainerProps) {
   } = useDiagnosisChat({ conversationId: conversationId ?? null, crop });
 
   const isStreaming = status === 'streaming';
-  const isDisabled = isStreaming || !selectedCrop;
+  const isDisabled = isStreaming;
 
   return (
     <div className="flex h-screen bg-background">
@@ -40,7 +42,7 @@ export function ChatContainer({ conversationId, crop }: ChatContainerProps) {
       />
 
       <div className="flex-1 flex flex-col min-w-0">
-        {/* Top bar */}
+        {/* Top bar (mobile) */}
         <div className="flex items-center gap-3 px-4 py-3 border-b border-border-subtle md:hidden">
           <button
             onClick={() => setSidebarOpen(true)}
@@ -84,6 +86,16 @@ export function ChatContainer({ conversationId, crop }: ChatContainerProps) {
           </div>
         </div>
 
+        {/* Detected crop badge — only show when auto-detected, not manually selected */}
+        {detectedCrop && !selectedCrop && (
+          <div className="px-4 sm:px-8 pt-3 pb-1">
+            <DetectedCropBadge
+              cropName={detectedCrop.cropName}
+              confidence={detectedCrop.confidence}
+            />
+          </div>
+        )}
+
         <ChatHeader
           crop={selectedCrop}
           isStreaming={isStreaming}
@@ -92,7 +104,7 @@ export function ChatContainer({ conversationId, crop }: ChatContainerProps) {
 
         <ChatMessages
           messages={messages}
-          hasCrop={!!selectedCrop}
+          hasCrop={!!selectedCrop || !!detectedCrop}
         />
 
         {/* Error banner */}
@@ -111,11 +123,7 @@ export function ChatContainer({ conversationId, crop }: ChatContainerProps) {
           onSend={sendMessage}
           disabled={isDisabled}
           loading={isStreaming}
-          placeholder={
-            selectedCrop
-              ? 'Describe the symptoms you see...'
-              : 'Select a crop to start'
-          }
+          placeholder="Describe what you're seeing. Example: &quot;My maize leaves have yellow streaks and brown spots.&quot;"
         />
       </div>
     </div>
