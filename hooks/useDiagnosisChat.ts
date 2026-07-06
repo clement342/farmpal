@@ -61,18 +61,24 @@ export function useDiagnosisChat(options?: UseDiagnosisChatOptions): UseDiagnosi
   } | null>(null);
   const [conversationId, setConversationId] = useState<string | null>(options?.conversationId ?? null);
   const streamContentRef = useRef('');
-  const hasInitialized = useRef(false);
+  const loadingConversationRef = useRef<string | null>(null);
 
-  // Load existing conversation history on mount
+  // Load conversation history when conversationId prop changes
   useEffect(() => {
-    if (hasInitialized.current || !options?.conversationId) return;
-    hasInitialized.current = true;
+    const targetId = options?.conversationId;
+    if (!targetId) return;
+    if (loadingConversationRef.current === targetId) return;
+    loadingConversationRef.current = targetId;
 
+    setConversationId(targetId);
     setStatus('loading');
+    setMessages([]);
+    setSelectedCrop(options?.crop ?? null);
+
     fetchHistory({ limit: 100 })
       .then((data) => {
         const match = data.records.find(
-          (r) => r.conversation.id === options.conversationId,
+          (r) => r.conversation.id === targetId,
         );
         if (match) {
           const mappedMessages: ChatMessageDisplay[] =
@@ -119,7 +125,7 @@ export function useDiagnosisChat(options?: UseDiagnosisChatOptions): UseDiagnosi
             });
           }
 
-          if (!options.crop) {
+          if (!options?.crop && match.cropName) {
             setSelectedCrop({
               id: match.cropName.toLowerCase(),
               name: match.cropName,
@@ -138,6 +144,13 @@ export function useDiagnosisChat(options?: UseDiagnosisChatOptions): UseDiagnosi
         setStatus('idle');
       });
   }, [options?.conversationId, options?.crop]);
+
+  // Reset loading guard when conversation is explicitly reset
+  useEffect(() => {
+    if (!conversationId && loadingConversationRef.current) {
+      loadingConversationRef.current = null;
+    }
+  }, [conversationId]);
 
   const handleChunk = useCallback((text: string) => {
     streamContentRef.current += text;

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { fetchHistory } from '@/lib/api/history';
 import type { HistoryRecord } from '@/types';
 
@@ -13,6 +14,7 @@ interface ChatSidebarProps {
 }
 
 export function ChatSidebar({ activeConversationId, onNewChat, open, onClose }: ChatSidebarProps) {
+  const router = useRouter();
   const [conversations, setConversations] = useState<HistoryRecord[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -39,7 +41,10 @@ export function ChatSidebar({ activeConversationId, onNewChat, open, onClose }: 
         </Link>
 
         <button
-          onClick={onNewChat}
+          onClick={() => {
+            router.push('/diagnose');
+            onNewChat();
+          }}
           className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-lg border border-border-subtle text-sm text-text-secondary hover:border-accent/50 hover:text-accent-text transition-colors"
         >
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -79,6 +84,7 @@ export function ChatSidebar({ activeConversationId, onNewChat, open, onClose }: 
                 <Link
                   key={record.id}
                   href={`/conversation/${record.conversation.id}`}
+                  onClick={onClose}
                   className={`block p-3 rounded-xl transition-colors ${
                     isActive
                       ? 'bg-accent-subtle border border-accent/20'
