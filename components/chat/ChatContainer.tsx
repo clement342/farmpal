@@ -104,7 +104,6 @@ export function ChatContainer({ conversationId, crop }: ChatContainerProps) {
 
         <ChatMessages
           messages={messages}
-          hasCrop={!!selectedCrop || !!detectedCrop}
         />
 
         {/* Error banner */}

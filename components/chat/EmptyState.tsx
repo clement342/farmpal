@@ -1,10 +1,6 @@
 'use client';
 
-interface EmptyStateProps {
-  hasCrop: boolean;
-}
-
-export function EmptyState({ hasCrop }: EmptyStateProps) {
+export function EmptyState() {
   return (
     <div className="flex-1 flex items-center justify-center p-8">
       <div className="text-center max-w-sm">
@@ -20,7 +16,7 @@ export function EmptyState({ hasCrop }: EmptyStateProps) {
           Describe your crop problem
         </h2>
         <p className="text-sm text-text-secondary leading-relaxed">
-          Tell FarmPal what you're seeing — yellowing leaves, spots, stunted growth, or pests. 
+          Tell FarmPal what you&apos;re seeing — yellowing leaves, spots, stunted growth, or pests. 
           The system will identify the crop and diagnose the problem.
         </p>
       </div>
