@@ -9,10 +9,18 @@ import { mapToDiagnosisResponse } from '@/adapters/diagnosis/mapper';
 import type { DiagnosisDocument } from '@/lib/db/models/diagnosis.model';
 import type { CropDocument } from '@/lib/db/models/crop.model';
 import { NotFoundError } from '@/utils/errors';
+import { knowledgeService } from '@/services/knowledge.service';
 
 const diagnosisRepository = new DiagnosisRepository();
 const conversationRepository = new ConversationRepository();
 const cropRepository = new CropRepository();
+
+function resolveCropName(cropId?: string, mongoCrop?: { name?: string }): string {
+  if (mongoCrop?.name) return mongoCrop.name;
+  if (!cropId) return 'Unknown';
+  const kbCrop = knowledgeService.getCrop(cropId);
+  return kbCrop?.name ?? 'Unknown';
+}
 
 /**
  * Initiates or continues a diagnosis conversation.
@@ -85,7 +93,7 @@ export async function createDiagnosis(
 
     const diagnosisData: CreateDiagnosisData = {
       diseaseName: topCause.name,
-      cropName: crop?.name ?? 'Unknown',
+      cropName: resolveCropName(request.cropId, crop ?? undefined),
       cropId: request.cropId ?? '',
       confidence: topCause.confidence,
       reasoning: response.diagnosis.reasoning,
