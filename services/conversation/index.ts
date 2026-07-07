@@ -1,3 +1,3 @@
 export * from './types';
-export { ConversationOrchestrator } from './ConversationOrchestrator';
-export { WorkflowRouter } from './WorkflowRouter';
+export { ConversationOrchestrator, conversationOrchestrator } from './ConversationOrchestrator';
+export { WorkflowRouter, workflowRouter } from './WorkflowRouter';
