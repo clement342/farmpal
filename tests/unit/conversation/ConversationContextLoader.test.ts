@@ -3,11 +3,12 @@ import { ConversationContextLoader } from '@/services/conversation/ConversationC
 
 const mockFindById = vi.fn();
 
-vi.mock('@/repositories/conversation.repository', () => ({
-  ConversationRepository: vi.fn(function MockRepo() {
-    this.findById = mockFindById;
-  }),
-}));
+vi.mock('@/repositories/conversation.repository', () => {
+  class MockConversationRepository {
+    findById = mockFindById;
+  }
+  return { ConversationRepository: MockConversationRepository };
+});
 
 describe('ConversationContextLoader', () => {
   it('loads existing conversation when conversationId is provided', async () => {
