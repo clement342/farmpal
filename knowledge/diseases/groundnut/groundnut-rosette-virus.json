@@ -1,0 +1,40 @@
+{
+  "id": "groundnut-rosette-virus",
+  "cropId": "groundnut",
+  "name": "Groundnut Rosette Virus",
+  "scientificName": "Groundnut rosette virus (GRV)",
+  "aliases": ["Rosette Disease", "GRV", "Groundnut Rosette", "Karkashin gyada (Hausa)"],
+  "description": "A devastating viral disease complex of groundnut causing severe stunting and leaf distortion. It is transmitted by aphids and is one of the most important groundnut diseases in sub-Saharan Africa, causing yield losses up to 100% in severe epidemics.",
+  "symptoms": [
+    "Chlorotic mottling and mosaic patterns on young leaves",
+    "Severe stunting of infected plants",
+    "Leaf distortion with downward curling of leaflets",
+    "Dark green leaf blades with pale veins (chlorotic rosette)",
+    "Plants becoming bushy with shortened internodes",
+    "Pegs failing to penetrate soil or pods failing to develop"
+  ],
+  "causes": [
+    "Groundnut rosette virus complex (GRV + its satellite RNA + GRAV)",
+    "Transmitted by groundnut aphid (Aphis craccivora)",
+    "Aphid populations building up during dry spells",
+    "Groundnut volunteers and wild legumes as virus reservoirs",
+    "Late planting coinciding with peak aphid populations"
+  ],
+  "severity": "critical",
+  "seasonality": ["Dry season to early rainy season (aphid peak)"],
+  "treatments": [
+    "No curative treatment once infected",
+    "Remove and destroy infected plants immediately",
+    "Control aphid vectors with systemic insecticides",
+    "Apply neem oil or insecticidal soap for aphid control"
+  ],
+  "prevention": [
+    "Plant resistant groundnut varieties (e.g., ICGV-IS 96894)",
+    "Plant early to avoid peak aphid populations",
+    "Use neem-based seed treatment before planting",
+    "Rogue out infected plants as soon as symptoms appear",
+    "Remove volunteer groundnut plants and wild legumes near fields",
+    "Intercrop with maize or sorghum to reduce aphid landing"
+  ],
+  "references": ["ICRISAT Groundnut Health Guide", "IITA Rosette Virus Management", "NAERLS Groundnut Production Manual"]
+}

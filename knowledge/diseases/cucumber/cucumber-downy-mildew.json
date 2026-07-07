@@ -1,0 +1,38 @@
+{
+  "id": "cucumber-downy-mildew",
+  "cropId": "cucumber",
+  "name": "Cucumber Downy Mildew",
+  "scientificName": "Pseudoperonospora cubensis",
+  "aliases": ["Downy Mildew of Cucumber", "Cucumber Leaf Mold"],
+  "description": "A highly destructive foliar disease of cucumber characterized by angular yellow lesions on leaves. It spreads rapidly in humid conditions and can defoliate plants within days.",
+  "symptoms": [
+    "Angular yellow to light green lesions on upper leaf surfaces",
+    "Purple-gray fuzzy growth on lower leaf surfaces",
+    "Lesions turning brown and necrotic",
+    "Rapid defoliation starting from older leaves",
+    "Reduced fruit yield and quality"
+  ],
+  "causes": [
+    "Pseudoperonospora cubensis (oomycete)",
+    "Cool to moderate temperatures (15-25°C)",
+    "High humidity with leaf wetness",
+    "Wind-dispersed spores",
+    "Rainy weather and heavy dews"
+  ],
+  "severity": "critical",
+  "seasonality": ["Cool rainy periods", "High humidity seasons"],
+  "treatments": [
+    "Apply metalaxyl or mancozeb at first symptom appearance",
+    "Spray chlorothalonil at 7-day intervals",
+    "Use fosetyl-aluminum as systemic treatment",
+    "Alternate fungicide classes to prevent resistance"
+  ],
+  "prevention": [
+    "Plant resistant or tolerant cucumber varieties",
+    "Avoid overhead irrigation",
+    "Maintain adequate spacing for ventilation",
+    "Remove volunteer cucurbits and crop debris",
+    "Practice crop rotation with non-cucurbit crops"
+  ],
+  "references": ["IITA Downy Mildew Guide", "NAERLS Cucumber Production Manual"]
+}

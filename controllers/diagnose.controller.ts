@@ -1,37 +1,105 @@
-import type { DiagnosisRequest, DiagnosisResponse } from '@/types';
-import { createDiagnosis } from '@/services/diagnose.service';
-import { validateDiagnosisRequest } from '@/lib/validation';
-import { AIServiceError } from '@/utils/errors';
+import type { DiagnosisRequest, ConversationDiagnosisResponse } from '@/types';
+import { createDiagnosis, streamDiagnosis } from '@/services/diagnose.service';
+import { validateDiagnosisRequest, validateCropExists } from '@/lib/validation';
+import { knowledgeService } from '@/services/knowledge.service';
 
 /**
  * Diagnosis controller.
  *
  * Handles incoming diagnosis requests. Validates the input,
- * initiates the diagnosis pipeline, and returns the structured
- * response (either follow-up questions or a completed diagnosis).
+ * verifies the crop exists (if provided or auto-detected), and
+ * delegates to the diagnosis service.
+ *
+ * Controllers remain thin — no business logic, no database access,
+ * no AI calls.
  */
 
 /**
- * Initiates a crop disease diagnosis.
+ * Initiates or continues a crop disease diagnosis (non-streaming).
  *
- * @param body - The raw request body containing symptoms and crop info
- * @returns A diagnosis response with either questions or results
- * @throws AIServiceError if the AI service is unavailable
+ * @param body - The raw request body containing symptoms, crop info, and optional conversationId
+ * @returns A conversation-aware diagnosis response
  */
 export async function handleDiagnosisRequest(
   body: unknown,
-): Promise<DiagnosisResponse> {
-  // Validate input
+): Promise<ConversationDiagnosisResponse> {
   const request: DiagnosisRequest = validateDiagnosisRequest(body);
 
-  // TODO: Add logging for incoming diagnosis requests
-  // TODO: Add request tracing / correlation ID
+  if (!request.cropId) {
+    const inference = knowledgeService.inferCrop(request.symptoms);
+    if (inference.detected && inference.crop) {
+      request.cropId = inference.crop.id;
+    }
+  }
 
-  // Delegate to service
-  const response = await createDiagnosis(request);
+  if (request.cropId) {
+    await validateCropExists(request.cropId);
+  }
 
-  // TODO: Persist conversation state for clarification loop
-  // TODO: Emit telemetry event
+  return createDiagnosis(request);
+}
 
-  return response;
+/**
+ * Initiates or continues a crop disease diagnosis with streaming.
+ *
+ * Returns a `ReadableStream` that the route handler should return
+ * as the HTTP response with `Content-Type: text/event-stream`.
+ *
+ * @param body - The raw request body
+ * @returns A ReadableStream of SSE events
+ */
+export async function handleStreamDiagnosis(
+  body: unknown,
+): Promise<ReadableStream<Uint8Array>> {
+  const request: DiagnosisRequest = validateDiagnosisRequest(body);
+
+  let detectedCropInfo: { cropId: string; cropName: string; confidence: string } | undefined;
+
+  if (!request.cropId) {
+    const inference = knowledgeService.inferCrop(request.symptoms);
+    if (inference.detected && inference.crop) {
+      request.cropId = inference.crop.id;
+      detectedCropInfo = {
+        cropId: inference.crop.id,
+        cropName: inference.crop.name,
+        confidence: inference.confidence,
+      };
+    }
+  }
+
+  if (request.cropId) {
+    await validateCropExists(request.cropId);
+  }
+
+  const stream = await streamDiagnosis(request);
+
+  if (detectedCropInfo) {
+    return prependCropDetectedEvent(stream, detectedCropInfo);
+  }
+
+  return stream;
+}
+
+function prependCropDetectedEvent(
+  original: ReadableStream<Uint8Array>,
+  info: { cropId: string; cropName: string; confidence: string },
+): ReadableStream<Uint8Array> {
+  const encoder = new TextEncoder();
+  let headerSent = false;
+
+  return new ReadableStream<Uint8Array>({
+    async start(controller) {
+      const event = `data: ${JSON.stringify({ type: 'crop_detected', ...info })}\n\n`;
+      controller.enqueue(encoder.encode(event));
+      headerSent = true;
+
+      const reader = original.getReader();
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        controller.enqueue(value);
+      }
+      controller.close();
+    },
+  });
 }

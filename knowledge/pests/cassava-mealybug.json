@@ -1,0 +1,31 @@
+{
+  "id": "cassava-mealybug",
+  "name": "Cassava Mealybug",
+  "scientificName": "Phenacoccus manihoti",
+  "aliases": ["Cassava-Mehlwanze", "Cassava Mealybug"],
+  "description": "A serious pest of cassava that sucks sap from growing tips, causing stunting, leaf distortion, and reduced root yield. It was accidentally introduced to Africa from South America and has been successfully controlled in many areas by biological control agents.",
+  "affectedCrops": ["cassava"],
+  "symptoms": [
+    "White waxy masses on stem tips and leaf axils",
+    "Leaf curling, crinkling, and distortion",
+    "Stunted shoot growth with shortened internodes",
+    "Sooty mold on honeydew-covered leaves",
+    "Plant defoliation starting from top",
+    "Severely stunted plants with bushy appearance"
+  ],
+  "lifecycle": ["Egg (in ovisac)", "Nymph (crawler)", "Adult female"],
+  "treatments": [
+    "Apply systemic insecticides (imidacloprid) early in infestation",
+    "Spray neem oil or insecticidal soap to control crawlers",
+    "Prune and destroy heavily infested shoot tips",
+    "Introduce biological control agent Apoanagyrus lopezi (parasitoid wasp)"
+  ],
+  "prevention": [
+    "Establish and conserve Apoanagyrus lopezi populations in fields",
+    "Use clean stem cuttings from uninfested fields",
+    "Remove and destroy volunteer cassava plants between seasons",
+    "Monitor regularly for early signs of infestation",
+    "Avoid unnecessary insecticide use that kills parasitoids"
+  ],
+  "references": ["IITA Cassava Mealybug Biological Control Guide", "NASC Cassava Pest Management"]
+}

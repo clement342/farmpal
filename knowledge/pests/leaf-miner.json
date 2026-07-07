@@ -1,0 +1,32 @@
+{
+  "id": "leaf-miner",
+  "name": "Leaf Miner (Vegetable Leaf Miner)",
+  "scientificName": "Liriomyza spp. / Lyriomyza trifolii",
+  "aliases": ["Vegetable Leaf Miner", "Serpentine Leaf Miner", "American Serpentine Leaf Miner"],
+  "description": "Small fly larvae that create winding tunnels within leaf tissue of leafy vegetables and other crops. The mines reduce photosynthetic capacity, spoil the marketability of leafy greens, and can cause severe defoliation.",
+  "affectedCrops": ["amaranth", "cucumber", "watermelon", "beans", "tomato"],
+  "symptoms": [
+    "Serpentine winding white or translucent tunnels in leaves",
+    "Tunnels widening as larvae grow",
+    "Dark frass trail visible within mines",
+    "Leaf tissue around mines turning yellow and necrotic",
+    "Premature leaf drop in heavy infestations",
+    "Reduced market quality of leafy vegetables"
+  ],
+  "lifecycle": ["Egg (inserted into leaf tissue)", "Larva (3 instars, mines within leaf)", "Pupa (drops to soil)", "Adult fly"],
+  "treatments": [
+    "Remove and destroy mined leaves (effective for small infestations)",
+    "Apply spinosad or abamectin when mining is first observed",
+    "Use neem oil or insecticidal soap as preventive spray",
+    "Introduce parasitic wasps (Diglyphus isaea, Dacnusa sibirica)",
+    "Install yellow sticky traps for adult monitoring"
+  ],
+  "prevention": [
+    "Use floating row covers to exclude adult flies",
+    "Practice crop rotation with non-host crops",
+    "Remove and destroy crop debris promptly after harvest",
+    "Avoid broad-spectrum insecticides that kill natural enemies",
+    "Monitor regularly with yellow sticky traps"
+  ],
+  "references": ["IITA Vegetable Pest Guide", "NAERLS Leafy Vegetable Production"]
+}

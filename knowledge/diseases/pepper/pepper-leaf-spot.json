@@ -1,0 +1,38 @@
+{
+  "id": "pepper-leaf-spot",
+  "cropId": "pepper",
+  "name": "Pepper Leaf Spot (Cercospora)",
+  "scientificName": "Cercospora capsici",
+  "aliases": ["Cercospora Leaf Spot of Pepper", "Frogeye Leaf Spot", "Pepper Blight"],
+  "description": "A fungal disease causing circular spots on pepper leaves. It reduces photosynthetic capacity and can cause significant defoliation during wet seasons, impacting fruit yield and quality.",
+  "symptoms": [
+    "Circular to irregular tan or gray spots with dark borders",
+    "Spots on older leaves first, progressing upward",
+    "Yellow halos surrounding leaf spots",
+    "Spots coalescing causing large necrotic areas",
+    "Premature leaf drop and defoliation"
+  ],
+  "causes": [
+    "Cercospora capsici fungus",
+    "Warm, humid weather (24-30°C)",
+    "Extended leaf wetness from rain or irrigation",
+    "Dense plantings with poor air circulation",
+    "Fungal survival on infected crop debris"
+  ],
+  "severity": "moderate",
+  "seasonality": ["Rainy season", "Humid periods"],
+  "treatments": [
+    "Apply copper-based fungicides at first symptoms",
+    "Spray mancozeb or chlorothalonil at 7-10 day intervals",
+    "Use azoxystrobin for systemic protection",
+    "Remove and destroy infected lower leaves"
+  ],
+  "prevention": [
+    "Space plants adequately for air circulation",
+    "Use drip irrigation to keep foliage dry",
+    "Mulch around plants to reduce soil splash",
+    "Practice crop rotation with non-solanaceous crops",
+    "Remove crop debris after harvest"
+  ],
+  "references": ["IITA Pepper Disease Manual", "NAERLS Pepper Production Guide"]
+}

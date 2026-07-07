@@ -1,0 +1,36 @@
+{
+  "id": "cassava-brown-streak",
+  "cropId": "cassava",
+  "name": "Cassava Brown Streak Disease",
+  "scientificName": "Cassava brown streak virus (CBSV)",
+  "aliases": ["CBSD", "Brown Streak"],
+  "description": "A viral disease affecting cassava roots, causing necrotic brown streaks in the tuberous roots. It is spread by whiteflies and infected cuttings.",
+  "symptoms": [
+    "Yellow to brown chlorotic patches on leaves along veins",
+    "Necrotic brown streaks and corky tissue inside roots",
+    "Root rot and internal discoloration reducing marketability",
+    "Leaf symptoms may be subtle or absent while roots are affected",
+    "Reduced starch content in affected tubers"
+  ],
+  "causes": [
+    "Cassava brown streak virus transmitted by whiteflies",
+    "Planting infected stem cuttings",
+    "Movement of contaminated planting material between regions",
+    "Whitefly populations spreading infection"
+  ],
+  "severity": "critical",
+  "seasonality": ["Dry season"],
+  "treatments": [
+    "No curative treatment for viral infection",
+    "Destroy severely infected plants and roots",
+    "Apply insecticides to reduce whitefly vector populations"
+  ],
+  "prevention": [
+    "Use CBSD-free certified planting material",
+    "Plant tolerant varieties where available",
+    "Avoid moving planting material from affected areas",
+    "Early and frequent roguing of symptomatic plants",
+    "Remove alternative whitefly host plants"
+  ],
+  "references": ["IITA CBSD Management Guide", "NARO Cassava Health Manual"]
+}

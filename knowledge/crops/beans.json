@@ -1,0 +1,12 @@
+{
+  "id": "beans",
+  "name": "Beans",
+  "scientificName": "Phaseolus vulgaris",
+  "aliases": ["Common Bean", "Kidney Bean", "Green Bean", "Wake (Hausa)", "Ewa (Yoruba)", "Akidi (Igbo)", "Beans"],
+  "description": "Beans are a vital legume crop providing protein and soil nitrogen fixation. They are vulnerable to bacterial, fungal, and viral diseases affecting leaves and pods. In Nigeria, beans are a primary protein source and are consumed in various forms including moi-moi, akara, and porridge.",
+  "growingRegions": ["East Africa", "Central America", "South America", "Southeast Asia", "Nigeria", "Uganda", "Rwanda", "Burundi", "Kenya"],
+  "growthStages": ["Germination", "Seedling", "Vegetative", "Flowering", "Pod Formation", "Maturity"],
+  "commonDiseaseIds": ["common-bacterial-blight", "bean-rust", "bean-angular-leaf-spot", "bean-mosaic", "bean-anthracnose"],
+  "commonPestIds": ["aphids", "bean-fly", "thrips", "pod-borer"],
+  "commonDeficiencyIds": ["nitrogen-deficiency", "iron-deficiency", "phosphorus-deficiency", "molybdenum-deficiency"]
+}

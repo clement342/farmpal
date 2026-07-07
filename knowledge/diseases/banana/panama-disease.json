@@ -1,0 +1,37 @@
+{
+  "id": "banana-panama-disease",
+  "cropId": "banana",
+  "name": "Panama Disease (Fusarium Wilt of Banana)",
+  "scientificName": "Fusarium oxysporum f. sp. cubense",
+  "aliases": ["Fusarium Wilt of Banana", "Banana Panama Wilt"],
+  "description": "A soil-borne vascular wilt disease that is highly destructive to bananas. The fungus persists in soil for decades and is considered one of the most damaging banana diseases globally, with Tropical Race 4 posing the greatest threat.",
+  "symptoms": [
+    "Yellowing of older leaves progressing inward",
+    "Leaf petioles collapsing and hanging around pseudostem",
+    "Vascular discoloration visible as reddish-brown streaks",
+    "Pseudostem splitting and plant toppling",
+    "No fruit production or deformed bunches"
+  ],
+  "causes": [
+    "Fusarium oxysporum f. sp. cubense",
+    "Soil-borne fungus invading roots",
+    "Infected soil, water, or plant material movement",
+    "Contaminated farm tools and equipment"
+  ],
+  "severity": "critical",
+  "seasonality": ["Year-round", "Accelerated in wet conditions"],
+  "treatments": [
+    "No effective chemical treatment",
+    "Remove and destroy infected plants including roots",
+    "Apply biocontrol agents (Trichoderma spp.)",
+    "Quarantine affected areas"
+  ],
+  "prevention": [
+    "Plant disease-free tissue culture bananas",
+    "Disinfect tools and equipment between fields",
+    "Avoid moving soil from infected areas",
+    "Improve field drainage",
+    "Use resistant varieties where available"
+  ],
+  "references": ["FAO Fusarium Wilt TR4 Management", "IITA Banana Health Guide"]
+}

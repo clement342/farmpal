@@ -1,0 +1,37 @@
+{
+  "id": "tomato-leaf-curl",
+  "cropId": "tomato",
+  "name": "Tomato Leaf Curl",
+  "scientificName": "Tomato yellow leaf curl virus (TYLCV)",
+  "aliases": ["TYLCV", "Leaf Curl Virus", "Yellow Leaf Curl"],
+  "description": "A viral disease transmitted by whiteflies that causes severe stunting, leaf curling, and yield loss. It is one of the most damaging tomato viruses in tropical regions.",
+  "symptoms": [
+    "Upward curling and cupping of leaves",
+    "Yellowing along leaf margins and between veins",
+    "Stunted plant growth and reduced leaf size",
+    "Flower drop and reduced fruit set",
+    "Fruits may be small, misshapen, and unmarketable"
+  ],
+  "causes": [
+    "Tomato yellow leaf curl virus transmitted by whiteflies",
+    "High whitefly populations feeding on infected plants",
+    "Presence of alternative hosts (weeds, other solanaceous crops)",
+    "Dry season conditions favoring whitefly reproduction"
+  ],
+  "severity": "high",
+  "seasonality": ["Dry season", "Periods of high whitefly activity"],
+  "treatments": [
+    "No curative treatment for viral infection",
+    "Control whitefly vectors with insecticidal soap or neem oil",
+    "Use reflective mulches to repel whiteflies",
+    "Remove and destroy severely infected plants"
+  ],
+  "prevention": [
+    "Plant TYLCV-resistant tomato varieties",
+    "Use insect-proof netting in nurseries",
+    "Control whitefly populations with botanical insecticides",
+    "Remove alternative weed hosts around fields",
+    "Install yellow sticky traps for whitefly monitoring"
+  ],
+  "references": ["AVRDC Tomato Virus Guide", "ICRISAT Whitefly Management"]
+}

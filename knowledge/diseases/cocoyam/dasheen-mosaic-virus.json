@@ -1,0 +1,35 @@
+{
+  "id": "dasheen-mosaic-virus",
+  "cropId": "cocoyam",
+  "name": "Dasheen Mosaic Virus",
+  "scientificName": "Dasheen mosaic virus (DsMV)",
+  "aliases": ["DsMV", "Taro Mosaic Virus", "Dasheen Mosaic"],
+  "description": "A potyvirus causing mosaic symptoms in cocoyam and other aroids. It is transmitted by aphids and through infected planting material, causing leaf distortion and reduced plant vigor.",
+  "symptoms": [
+    "Mosaic pattern of light and dark green on leaves",
+    "Leaf distortion and feathery appearance",
+    "Chlorotic streaking along veins",
+    "Stunted growth in severe infections",
+    "Reduced corm size and quality"
+  ],
+  "causes": [
+    "Dasheen mosaic virus (DsMV)",
+    "Transmission by several aphid species",
+    "Use of infected cormels or setts for planting",
+    "Alternative aroid hosts (wild cocoyam, ornamental aroids)"
+  ],
+  "severity": "moderate",
+  "seasonality": ["Year-round", "Aphid activity periods"],
+  "treatments": [
+    "No curative treatment available",
+    "Remove and destroy infected plants",
+    "Manage aphid vectors with appropriate controls"
+  ],
+  "prevention": [
+    "Plant certified virus-free cocoyam planting material",
+    "Remove alternative host plants near fields",
+    "Control aphid populations",
+    "Rogue out all infected plants promptly"
+  ],
+  "references": ["IITA Aroid Virus Guide", "NACGRAB Cocoyam Disease Management"]
+}

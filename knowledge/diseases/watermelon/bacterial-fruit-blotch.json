@@ -1,0 +1,40 @@
+{
+  "id": "bacterial-fruit-blotch",
+  "cropId": "watermelon",
+  "name": "Watermelon Bacterial Fruit Blotch",
+  "scientificName": "Acidovorax citrulli",
+  "aliases": ["BFB", "Bacterial Blotch of Watermelon", "Watermelon Bacterial Blotch"],
+  "description": "A serious bacterial disease that causes water-soaked lesions on watermelon fruits, leading to fruit rot and cracking. It is seed-borne and can be devastating in warm, humid conditions.",
+  "symptoms": [
+    "Water-soaked spots on upper leaf surfaces",
+    "Dark green irregular lesions on fruit rind",
+    "Fruit lesions turning brown and cracking",
+    "Internal fruit decay following rind infection",
+    "Seedling blight in early infections",
+    "Red-brown discoloration of vascular tissue in seedlings"
+  ],
+  "causes": [
+    "Acidovorax citrulli bacteria",
+    "Seed-borne bacteria surviving on seed coat",
+    "Warm, humid weather (25-32°C)",
+    "Rain splash and overhead irrigation spreading bacteria",
+    "Mechanical injury providing entry points"
+  ],
+  "severity": "critical",
+  "seasonality": ["Warm rainy periods", "Fruit development stage"],
+  "treatments": [
+    "No effective cure once symptoms appear on fruit",
+    "Remove and destroy infected plants and fruits promptly",
+    "Apply copper-based bactericides preventively",
+    "Reduce overhead irrigation to minimize spread"
+  ],
+  "prevention": [
+    "Use certified bacteria-free seeds",
+    "Treat seeds with hot water (50°C for 30 min) or hydrochloric acid treatment",
+    "Plant in well-drained fields",
+    "Avoid overhead irrigation — use drip irrigation",
+    "Practice crop rotation with non-cucurbit crops",
+    "Remove volunteer cucurbits and crop debris"
+  ],
+  "references": ["IITA Bacterial Fruit Blotch Guide", "NAERLS Watermelon Seed Health Manual"]
+}

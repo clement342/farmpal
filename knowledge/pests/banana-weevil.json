@@ -1,0 +1,32 @@
+{
+  "id": "banana-weevil",
+  "name": "Banana Weevil (Corm Weevil)",
+  "scientificName": "Cosmopolites sordidus",
+  "aliases": ["Banana Corm Weevil", "Banana Root Borer", "Plantain Weevil"],
+  "description": "A serious pest of plantain and banana that attacks the corm, causing tunneling damage, reduced plant vigor, and plant toppling. It is one of the most economically important pests of banana and plantain in Africa.",
+  "affectedCrops": ["plantain", "banana"],
+  "symptoms": [
+    "Tunnels and galleries inside the corm",
+    "Yellowing and wilting of leaves",
+    "Stunted growth and reduced bunch size",
+    "Plants toppling over in wind due to damaged root system",
+    "Dark exudate from weevil entry holes at base",
+    "Adult weevils found at base of plant or in crop residue"
+  ],
+  "lifecycle": ["Egg", "Larva", "Pupa", "Adult weevil"],
+  "treatments": [
+    "Apply imidacloprid or chlorpyrifos to corm base at planting",
+    "Use neem cake or neem oil around plant base as repellent",
+    "Set pseudostem traps (split pseudostem pieces) to attract and kill adults",
+    "Apply entomopathogenic nematodes as biocontrol",
+    "Clean-trap: collect and destroy adult weevils from traps weekly"
+  ],
+  "prevention": [
+    "Plant clean, uninfested suckers — pare off outer layers before planting",
+    "Hot water treat suckers (54°C for 15-20 minutes) before planting",
+    "Remove and destroy crop residue after harvest",
+    "Keep field clean of volunteer plants and debris",
+    "Use tissue-culture plantlets which are weevil-free"
+  ],
+  "references": ["IITA Banana Weevil Guide", "NACGRAB Plantain Pest Management"]
+}

@@ -1,0 +1,33 @@
+{
+  "id": "pod-borer",
+  "name": "Pod Borer (Legume Pod Borer)",
+  "scientificName": "Maruca vitrata / Helicoverpa armigera",
+  "aliases": ["Maruca Pod Borer", "Bean Pod Borer", "Cowpea Pod Borer"],
+  "description": "Caterpillar pests that bore into flowers and pods of leguminous crops. They are among the most destructive pests of cowpea and beans in West Africa, causing direct yield loss by damaging developing seeds.",
+  "affectedCrops": ["cowpea", "beans", "okra", "groundnut"],
+  "symptoms": [
+    "Flower buds dropping without opening",
+    "Webbing on flowers and young pods",
+    "Small holes bored into pods",
+    "Frass protruding from entry holes",
+    "Seeds partially or completely eaten",
+    "Caterpillars found inside pods"
+  ],
+  "lifecycle": ["Egg", "Larva (5 instars)", "Pupa (in soil)", "Adult moth"],
+  "treatments": [
+    "Apply neem-based insecticides at early flowering stage",
+    "Spray Bacillus thuringiensis (Bt) for larval control",
+    "Use synthetic pyrethroids (cypermethrin, deltamethrin) for severe infestations",
+    "Apply chlorantraniliprole for extended control",
+    "Remove and destroy infested pods"
+  ],
+  "prevention": [
+    "Plant early to avoid peak pest pressure",
+    "Use pheromone traps for monitoring and mass trapping",
+    "Intercrop with maize or sorghum to reduce infestation",
+    "Conserve natural enemies (parasitic wasps)",
+    "Practice crop rotation with non-host crops",
+    "Harvest promptly at maturity"
+  ],
+  "references": ["IITA Pod Borer Guide", "ICRISAT Legume Pest Management"]
+}

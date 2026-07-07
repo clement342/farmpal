@@ -1,0 +1,12 @@
+{
+  "id": "okra",
+  "name": "Okra",
+  "scientificName": "Abelmoschus esculentus",
+  "aliases": ["Lady's Finger", "Kubewa (Hausa)", "Ila (Yoruba)", "Okwuru (Igbo)", "Draw Soup"],
+  "description": "Okra is a warm-season vegetable grown for its edible green pods. It thrives in tropical climates and is a key ingredient in Nigerian soups including okro soup and ewedu. The plant is susceptible to viral, fungal, and nematode diseases.",
+  "growingRegions": ["West Africa", "East Africa", "Central Africa", "South Asia", "Southeast Asia", "Nigeria", "Ghana", "Cameroon", "Benin", "Togo"],
+  "growthStages": ["Germination", "Seedling", "Vegetative", "Flowering", "Pod Development", "Maturity"],
+  "commonDiseaseIds": ["okra-mosaic-virus", "okra-leaf-curl", "okra-powdery-mildew", "okra-root-knot-nematode"],
+  "commonPestIds": ["whitefly", "aphids", "pod-borer"],
+  "commonDeficiencyIds": ["nitrogen-deficiency", "potassium-deficiency"]
+}

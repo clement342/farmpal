@@ -1,4 +1,6 @@
 import type { Disease } from '@/types';
+import { DiseaseRepository } from '@/repositories/disease.repository';
+import type { DiseaseDocument } from '@/lib/db/models/disease.model';
 
 /**
  * Diseases service.
@@ -8,23 +10,21 @@ import type { Disease } from '@/types';
  * information.
  *
  * TODO:
- * - Implement database queries for disease CRUD
- * - Add disease search by name, crop, or symptom
- * - Cache disease list for frequently accessed data
+ * - Add caching for frequently accessed disease lists
  * - Add region-specific disease filtering
+ * - Add seed data population script
  */
+
+const diseaseRepository = new DiseaseRepository();
 
 /**
  * Retrieves all known diseases.
  *
  * @returns An array of disease entries
- *
- * TODO: Query diseases from the database.
- *       Consider adding caching for this read-heavy endpoint.
  */
 export async function getAllDiseases(): Promise<Disease[]> {
-  // TODO: Fetch diseases from the database
-  return [];
+  const docs = await diseaseRepository.findAll();
+  return docs.map(mapDiseaseDocument);
 }
 
 /**
@@ -32,13 +32,10 @@ export async function getAllDiseases(): Promise<Disease[]> {
  *
  * @param cropId - The crop identifier
  * @returns An array of diseases common to that crop
- *
- * TODO: Query diseases filtered by crop ID.
  */
 export async function getDiseasesByCrop(cropId: string): Promise<Disease[]> {
-  // TODO: Fetch diseases filtered by crop association
-  void cropId;
-  return [];
+  const docs = await diseaseRepository.findByCrop(cropId);
+  return docs.map(mapDiseaseDocument);
 }
 
 /**
@@ -46,11 +43,28 @@ export async function getDiseasesByCrop(cropId: string): Promise<Disease[]> {
  *
  * @param id - The disease identifier
  * @returns The disease entry, or null if not found
- *
- * TODO: Implement database lookup.
  */
 export async function getDiseaseById(id: string): Promise<Disease | null> {
-  // TODO: Query disease from the database
-  void id;
-  return null;
+  const doc = await diseaseRepository.findById(id);
+  if (!doc) return null;
+  return mapDiseaseDocument(doc);
+}
+
+/**
+ * Maps a Mongoose disease document to the shared Disease type.
+ */
+function mapDiseaseDocument(doc: DiseaseDocument): Disease {
+  return {
+    id: String(doc._id),
+    name: doc.name,
+    scientificName: doc.scientificName,
+    affectedCrops: doc.affectedCrops,
+    symptoms: doc.symptoms,
+    causes: doc.causes,
+    severity: doc.severity,
+    treatments: doc.treatments,
+    prevention: doc.prevention,
+    regions: doc.regions,
+    imageUrl: doc.imageUrl,
+  };
 }

@@ -1,0 +1,38 @@
+{
+  "id": "banana-xanthomonas-wilt",
+  "cropId": "plantain",
+  "name": "Banana Xanthomonas Wilt",
+  "scientificName": "Xanthomonas campestris pv. musacearum",
+  "aliases": ["BXW", "Xanthomonas Wilt", "Enset Wilt"],
+  "description": "A highly destructive bacterial disease causing rapid wilting, fruit rot, and plant death. It is spread by insects, tools, and infected planting material. BXW is a major threat to plantain and banana production in Africa.",
+  "symptoms": [
+    "Yellowing and wilting of leaves progressing from older to younger",
+    "Premature fruit ripening with yellow, rotten pulp",
+    "Yellow ooze or bacterial exudate from cut surfaces",
+    "Vascular discoloration in pseudostem",
+    "Male bud wilting and drying"
+  ],
+  "causes": [
+    "Xanthomonas campestris pv. musacearum bacteria",
+    "Transmission by insects visiting male flowers",
+    "Contaminated cutting tools",
+    "Infected suckers used for planting",
+    "Rain splash spreading bacteria between plants"
+  ],
+  "severity": "critical",
+  "seasonality": ["Rainy season", "Flowering period"],
+  "treatments": [
+    "No effective cure once infected",
+    "Remove and bury infected plants deeply",
+    "Disinfect tools with bleach or alcohol between plants",
+    "Apply copper-based bactericides as preventive spray"
+  ],
+  "prevention": [
+    "Use disease-free tissue culture plantlets",
+    "Sterilize tools with bleach or alcohol after each plant",
+    "Remove male buds (de-budding) to reduce insect transmission",
+    "Report suspected cases to agricultural extension services",
+    "Practice field sanitation and restrict field access"
+  ],
+  "references": ["IITA BXW Management Guide", "FAO Xanthomonas Wilt Control"]
+}

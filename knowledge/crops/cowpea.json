@@ -1,0 +1,12 @@
+{
+  "id": "cowpea",
+  "name": "Cowpea",
+  "scientificName": "Vigna unguiculata",
+  "aliases": ["Black-eyed Pea", "Southern Pea", "Wake (Hausa)", "Ewa (Yoruba)", "Akidi (Igbo)", "Cowpea"],
+  "description": "Cowpea is a drought-tolerant legume crop widely grown across the savannah regions of Nigeria. It provides protein for human consumption, fodder for livestock, and fixes nitrogen in the soil. Cowpea is susceptible to viral, fungal, and bacterial diseases as well as numerous insect pests.",
+  "growingRegions": ["West Africa", "East Africa", "Central Africa", "South Asia", "South America", "Nigeria", "Niger", "Burkina Faso", "Ghana", "Mali", "Senegal"],
+  "growthStages": ["Germination", "Seedling", "Vegetative", "Flowering", "Pod Formation", "Grain Filling", "Maturity"],
+  "commonDiseaseIds": ["cowpea-mosaic-virus", "cowpea-bacterial-blight", "cowpea-powdery-mildew", "cowpea-rust", "cowpea-anthracnose"],
+  "commonPestIds": ["pod-borer", "aphids", "thrips", "bean-fly", "cowpea-weevil"],
+  "commonDeficiencyIds": ["nitrogen-deficiency", "phosphorus-deficiency", "molybdenum-deficiency", "iron-deficiency"]
+}

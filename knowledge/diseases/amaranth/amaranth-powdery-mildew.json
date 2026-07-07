@@ -1,0 +1,37 @@
+{
+  "id": "amaranth-powdery-mildew",
+  "cropId": "amaranth",
+  "name": "Amaranth Powdery Mildew",
+  "scientificName": "Erysiphe spp.",
+  "aliases": ["Powdery Mildew of Amaranth", "White Mold of Amaranth"],
+  "description": "A fungal disease affecting amaranth leaves with white powdery growth, primarily on older leaves. It reduces leaf quality and market value, especially in dense plantings during humid conditions.",
+  "symptoms": [
+    "White powdery fungal growth on upper leaf surfaces",
+    "Yellowing and browning of affected leaf tissue",
+    "Premature leaf senescence",
+    "Reduced leaf quality and marketability",
+    "Stunted growth in severe infections"
+  ],
+  "causes": [
+    "Erysiphe spp. fungi",
+    "High humidity with moderate temperatures",
+    "Dense planting reducing air circulation",
+    "Overhead irrigation keeping foliage wet"
+  ],
+  "severity": "moderate",
+  "seasonality": ["Late rainy season", "Cool humid periods"],
+  "treatments": [
+    "Apply sulfur-based fungicides at first signs",
+    "Spray neem oil solution (5ml/L water) weekly",
+    "Use potassium bicarbonate (1 tbsp/L water) as organic treatment",
+    "Remove and destroy severely infected older leaves"
+  ],
+  "prevention": [
+    "Space plants adequately for air circulation",
+    "Avoid overhead irrigation",
+    "Remove lower leaves to improve air flow",
+    "Avoid excessive nitrogen fertilization",
+    "Practice crop rotation"
+  ],
+  "references": ["IITA Leafy Vegetable Guide", "NAERLS Amaranth Production Manual"]
+}

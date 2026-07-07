@@ -1,0 +1,37 @@
+{
+  "id": "cucumber-powdery-mildew",
+  "cropId": "cucumber",
+  "name": "Cucumber Powdery Mildew",
+  "scientificName": "Podosphaera xanthii",
+  "aliases": ["Powdery Mildew of Cucumber", "Cucumber White Mold"],
+  "description": "A common fungal disease of cucumber that appears as white powdery growth on leaves. It reduces photosynthesis, causes premature defoliation, and reduces fruit quality and yield.",
+  "symptoms": [
+    "White powdery fungal growth on upper leaf surfaces",
+    "Yellowing and browning of infected leaves",
+    "Premature leaf drop",
+    "Reduced fruit size and quality",
+    "Stunted vine growth in severe cases"
+  ],
+  "causes": [
+    "Podosphaera xanthii fungus",
+    "High humidity with moderate temperatures (20-28°C)",
+    "Dense vine canopy with poor air circulation",
+    "Overhead irrigation extending leaf wetness"
+  ],
+  "severity": "moderate",
+  "seasonality": ["Mid to late growing season", "Warm humid periods"],
+  "treatments": [
+    "Apply sulfur-based fungicides at first signs",
+    "Spray neem oil solution (5ml/L water) weekly",
+    "Use myclobutanil or trifloxystrobin for severe cases",
+    "Apply potassium bicarbonate as organic alternative"
+  ],
+  "prevention": [
+    "Plant resistant cucumber varieties",
+    "Space plants adequately for air circulation",
+    "Avoid overhead irrigation — use drip irrigation",
+    "Remove crop debris after harvest",
+    "Practice crop rotation with non-cucurbit crops"
+  ],
+  "references": ["IITA Cucurbit Disease Guide", "NAERLS Cucumber Production Manual"]
+}

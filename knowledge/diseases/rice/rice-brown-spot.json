@@ -1,0 +1,40 @@
+{
+  "id": "rice-brown-spot",
+  "cropId": "rice",
+  "name": "Rice Brown Spot",
+  "scientificName": "Cochliobolus miyabeanus (anamorph: Bipolaris oryzae)",
+  "aliases": ["Brown Spot of Rice", "Helminthosporium Leaf Spot", "Rice Leaf Spot"],
+  "description": "A fungal disease causing brown spots on rice leaves, panicles, and grains. It is often associated with nutrient-deficient soils, especially low potassium and zinc. Brown spot was responsible for the Bengal famine of 1943 and remains an important disease in Africa.",
+  "symptoms": [
+    "Small circular or oval brown spots on leaves",
+    "Spots with gray or whitish centers and reddish-brown margins",
+    "Lesions coalescing in severe infections causing leaf dieback",
+    "Dark brown spots on glumes and panicle branches",
+    "Grains showing brown discoloration (pecky rice)",
+    "Reduced grain quality and weight"
+  ],
+  "causes": [
+    "Cochliobolus miyabeanus fungus",
+    "Nutrient-deficient soils (low potassium, zinc, silicon)",
+    "Warm temperatures (25-30°C) with high humidity",
+    "Extended leaf wetness from rain or dew",
+    "Continuous rice cropping in poor soils"
+  ],
+  "severity": "moderate",
+  "seasonality": ["Tillering to grain filling", "Nutrient stress periods"],
+  "treatments": [
+    "Apply fungicides containing mancozeb or propiconazole",
+    "Spray iprodione or carbendazim at heading stage",
+    "Apply potassium fertilizer to correct nutrient deficiency",
+    "Foliar spray of zinc sulfate (2g/L) for zinc-deficient fields"
+  ],
+  "prevention": [
+    "Maintain balanced soil fertility — adequate potassium and zinc",
+    "Use silicon-rich amendments (rice husk ash) to strengthen plants",
+    "Plant resistant or tolerant rice varieties",
+    "Practice crop rotation",
+    "Ensure good field drainage",
+    "Use disease-free seeds treated with fungicide before planting"
+  ],
+  "references": ["IITA Rice Disease Handbook", "Africa Rice Brown Spot Management Guide"]
+}

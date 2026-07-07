@@ -1,0 +1,37 @@
+{
+  "id": "northern-leaf-blight",
+  "cropId": "maize",
+  "name": "Northern Leaf Blight",
+  "scientificName": "Exserohilum turcicum",
+  "aliases": ["NLB", "Turcicum Leaf Blight"],
+  "description": "A fungal disease that causes long elliptical gray-green or tan lesions on maize leaves. Lesions develop in cool, humid conditions.",
+  "symptoms": [
+    "Long elliptical gray-green lesions on leaves",
+    "Lesions turning tan with dark borders as they mature",
+    "Lesions appearing first on lower leaves",
+    "Premature leaf death in severe infections",
+    "Reduced grain fill due to reduced photosynthetic area"
+  ],
+  "causes": [
+    "Fungal spores overwintering in crop residue",
+    "Cool temperatures (18-27°C) with high humidity",
+    "Extended periods of leaf wetness",
+    "Continuous maize cropping without rotation",
+    "Susceptible maize varieties"
+  ],
+  "severity": "high",
+  "seasonality": ["Early rainy season", "Cool humid periods"],
+  "treatments": [
+    "Apply fungicides containing azoxystrobin or pyraclostrobin at first sign of disease",
+    "Spray mancozeb or chlorothalonil at 7-14 day intervals during humid conditions",
+    "Use systemic fungicides for active infections"
+  ],
+  "prevention": [
+    "Plant resistant or tolerant maize varieties",
+    "Practice crop rotation with non-host crops",
+    "Remove and destroy crop residue after harvest",
+    "Ensure proper plant spacing for air circulation",
+    "Avoid overhead irrigation in the evening"
+  ],
+  "references": ["CIMMYT Maize Disease Handbook", "ICRISAT Crop Protection Guide"]
+}

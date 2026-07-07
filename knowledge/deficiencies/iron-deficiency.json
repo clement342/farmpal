@@ -1,0 +1,36 @@
+{
+  "id": "iron-deficiency",
+  "name": "Iron Deficiency",
+  "aliases": ["Fe deficiency", "Iron chlorosis", "Lime-induced chlorosis"],
+  "description": "Iron is essential for chlorophyll synthesis and electron transport. Deficiency causes interveinal chlorosis on young leaves, commonly found on alkaline soils and in crops like rice, beans, and cowpea.",
+  "affectedCrops": ["rice", "beans", "cowpea", "groundnut", "banana", "amaranth", "maize"],
+  "symptoms": [
+    "Interveinal chlorosis on young leaves (yellow between green veins)",
+    "Severe deficiency causing leaves to turn almost white",
+    "Stunted growth and reduced plant vigor",
+    "Necrotic spots developing on severely affected leaves",
+    "Poor grain and fruit development",
+    "Leaf margins may scorch in advanced stages"
+  ],
+  "causes": [
+    "Low available iron in soil",
+    "High soil pH (alkaline conditions >7.0) reducing iron solubility",
+    "Calcareous or lime-rich soils",
+    "Excessive phosphorus or heavy metals competing with iron",
+    "Waterlogged conditions reducing iron uptake in some crops"
+  ],
+  "treatments": [
+    "Foliar spray of iron chelate (Fe-EDTA or Fe-EDDHA) at 0.1-0.2%",
+    "Foliar spray of ferrous sulfate (1% solution)",
+    "Soil application of iron sulfate where appropriate",
+    "Apply iron chelates to alkaline soils (Fe-EDDHA preferred for high pH)"
+  ],
+  "prevention": [
+    "Maintain soil pH in optimal range (6.0-6.5)",
+    "Avoid over-liming soils",
+    "Improve drainage in waterlogged fields",
+    "Use iron-efficient crop varieties",
+    "Include iron in foliar nutrient programs"
+  ],
+  "references": ["IITA Soil Fertility Guide", "NAERLS Micronutrient Management"]
+}

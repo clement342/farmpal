@@ -1,0 +1,33 @@
+{
+  "id": "rice-stem-borer",
+  "name": "Rice Stem Borer",
+  "scientificName": "Chilo suppressalis / Scirpophaga incertulas",
+  "aliases": ["Yellow Stem Borer", "Striped Stem Borer", "Rice Borer"],
+  "description": "Caterpillar pests that bore into rice stems, causing dead heart, white heads, and reduced yield. They are among the most damaging pests of rice in Africa and Asia.",
+  "affectedCrops": ["rice"],
+  "symptoms": [
+    "Dead heart (central leaf whorl drying) in vegetative stage",
+    "White heads (empty panicles) at reproductive stage",
+    "Small entry holes near stem base",
+    "Frass and stem tunneling visible when stem is split",
+    "Egg masses (covered with brown hairs) on leaf tips",
+    "Lodging of infested stems"
+  ],
+  "lifecycle": ["Egg (mass on leaf surface)", "Larva (5-7 instars)", "Pupa (inside stem)", "Adult moth"],
+  "treatments": [
+    "Apply granular insecticides (carbofuran) into floodwater at early infestation",
+    "Use neem-based botanical insecticides as preventive spray",
+    "Spray chlorantraniliprole for effective larval control",
+    "Apply Bacillus thuringiensis (Bt) formulations",
+    "Crush egg masses by hand where visible"
+  ],
+  "prevention": [
+    "Plant early to escape peak borer populations",
+    "Use resistant rice varieties",
+    "Keep fields clean of alternate weed hosts",
+    "Flood fields deeply during egg-laying periods",
+    "Remove and destroy crop residue after harvest",
+    "Conserve natural enemies (trichogramma wasps, spiders)"
+  ],
+  "references": ["IITA Rice Pest Guide", "Africa Rice Center Stem Borer Management"]
+}

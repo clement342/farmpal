@@ -1,0 +1,38 @@
+{
+  "id": "amaranth-leaf-spot",
+  "cropId": "amaranth",
+  "name": "Amaranth Leaf Spot",
+  "scientificName": "Alternaria amaranthi / Cercospora spp.",
+  "aliases": ["Leaf Spot of Amaranth", "Amaranth Blight"],
+  "description": "A fungal leaf disease causing circular to irregular spots on amaranth leaves, reducing their market value and photosynthetic capacity. It is common in humid growing conditions across West Africa.",
+  "symptoms": [
+    "Small circular brown spots on leaves",
+    "Spots enlarging with concentric rings and yellow halos",
+    "Lesions coalescing into large necrotic areas",
+    "Premature leaf drop and defoliation",
+    "Reduced leaf quality for market"
+  ],
+  "causes": [
+    "Alternaria amaranthi and Cercospora spp. fungi",
+    "Warm, humid weather",
+    "Dense planting with poor air circulation",
+    "Rain splash dispersing spores",
+    "Surface irrigation wetting foliage"
+  ],
+  "severity": "moderate",
+  "seasonality": ["Rainy season", "Humid periods"],
+  "treatments": [
+    "Apply copper-based fungicides at first symptoms",
+    "Spray mancozeb or chlorothalonil at 7-10 day intervals",
+    "Remove and destroy infected leaves",
+    "Use neem oil spray as organic alternative"
+  ],
+  "prevention": [
+    "Space plants adequately for air circulation",
+    "Avoid overhead irrigation — use drip irrigation or watering at base",
+    "Practice crop rotation with non-leafy crops",
+    "Remove and destroy crop debris after harvest",
+    "Use well-drained beds to reduce humidity"
+  ],
+  "references": ["IITA Leafy Vegetable Disease Guide", "NAERLS Amaranth Production Manual"]
+}

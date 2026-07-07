@@ -1,0 +1,37 @@
+{
+  "id": "pepper-mosaic",
+  "cropId": "pepper",
+  "name": "Pepper Mosaic Virus",
+  "scientificName": "Pepper mottle virus (PepMoV) / Cucumber mosaic virus (CMV)",
+  "aliases": ["Pepper Mosaic", "Pepper Virus Complex", "PepMoV"],
+  "description": "A viral disease causing mosaic patterns, leaf distortion, and fruit deformation in pepper. Several viruses can cause mosaic symptoms in pepper, transmitted by aphids and through mechanical means.",
+  "symptoms": [
+    "Light and dark green mosaic pattern on leaves",
+    "Leaf distortion, puckering, and reduced size",
+    "Stunted plant growth",
+    "Fruits showing mottling, discoloration, and deformation",
+    "Plants may show general chlorosis"
+  ],
+  "causes": [
+    "Pepper mottle virus, Cucumber mosaic virus, and other potyviruses",
+    "Transmitted by aphid vectors in non-persistent manner",
+    "Infected seedlings and nearby infected crops",
+    "Mechanical transmission through handling"
+  ],
+  "severity": "moderate",
+  "seasonality": ["Throughout growing season", "Aphid activity periods"],
+  "treatments": [
+    "No curative treatment for viral infections",
+    "Remove and destroy infected plants",
+    "Control aphid vectors with neem oil or insecticidal soap",
+    "Use reflective mulches to repel aphids"
+  ],
+  "prevention": [
+    "Plant virus-resistant pepper varieties",
+    "Use virus-free seedlings",
+    "Control weeds that serve as virus reservoirs",
+    "Rogue infected plants promptly",
+    "Use floating row covers in nurseries to exclude aphids"
+  ],
+  "references": ["IITA Pepper Virology Guide", "NAERLS Pepper Disease Management"]
+}

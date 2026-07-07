@@ -1,0 +1,38 @@
+{
+  "id": "yam-mosaic-virus",
+  "cropId": "yam",
+  "name": "Yam Mosaic Virus",
+  "scientificName": "Yam mosaic virus (YMV)",
+  "aliases": ["YMV", "Yam Mosaic", "Yam Virus Disease"],
+  "description": "A potyvirus causing mosaic patterns and leaf distortion in yam. It is one of the most important viral diseases of yam in West Africa, transmitted by aphids and through infected planting material, causing significant yield reduction.",
+  "symptoms": [
+    "Light green to yellow mosaic patterns on leaves",
+    "Leaf distortion and reduced leaf size",
+    "Stunted plant growth and poor vine development",
+    "Chlorotic banding along leaf veins",
+    "Reduced tuber size and number",
+    "Tubers may show cracking and internal necrosis"
+  ],
+  "causes": [
+    "Yam mosaic virus (YMV)",
+    "Transmitted by aphid vectors (Aphis craccivora)",
+    "Use of infected setts for planting",
+    "Alternative weed and wild yam hosts serving as reservoirs"
+  ],
+  "severity": "high",
+  "seasonality": ["Throughout growing season", "Aphid activity periods"],
+  "treatments": [
+    "No curative treatment once infected",
+    "Remove and destroy severely infected plants",
+    "Control aphid vectors with neem oil or insecticidal soap",
+    "Rogue out infected plants early"
+  ],
+  "prevention": [
+    "Use certified virus-free yam setts",
+    "Plant resistant yam varieties where available",
+    "Control aphids in and around yam fields",
+    "Remove weed hosts near yam fields",
+    "Use insect-proof nets in yam nurseries"
+  ],
+  "references": ["IITA Yam Virology Guide", "NACGRAB Yam Seed Production Manual"]
+}

@@ -1,0 +1,31 @@
+{
+  "id": "bean-fly",
+  "name": "Bean Fly (Bean Stem Maggot)",
+  "scientificName": "Ophiomyia phaseoli / Ophiomyia spencerella",
+  "aliases": ["Bean Stem Fly", "Bean Stem Maggot", "Ophiomyia"],
+  "description": "A small fly whose larvae tunnel into bean stems, causing wilting, stem swelling, and plant death. It is a major pest of beans and cowpea in Africa, especially during wet seasons.",
+  "affectedCrops": ["beans", "cowpea"],
+  "symptoms": [
+    "Small puncture marks on leaves from adult feeding",
+    "Mining tunnels in leaf petioles and stems",
+    "Stem swelling at the base (pith damaged)",
+    "Yellowing and wilting of leaves",
+    "Stunted growth and plant death in severe cases",
+    "Dark pupae visible at stem base"
+  ],
+  "lifecycle": ["Egg (inserted into leaf tissue)", "Larva (mines down petiole to stem)", "Pupa (in stem base)", "Adult fly"],
+  "treatments": [
+    "Apply systemic insecticides (dimethoate, imidacloprid) at seedling stage",
+    "Spray neem-based insecticides at first leaf stage",
+    "Remove and destroy infested plants",
+    "Use carbofuran granules in planting hole for early protection"
+  ],
+  "prevention": [
+    "Plant early to avoid peak bean fly populations",
+    "Use tolerant bean and cowpea varieties",
+    "Ensure good soil fertility for strong seedling growth",
+    "Hill up soil around seedling stems to encourage adventitious roots",
+    "Practice crop rotation with non-legume crops"
+  ],
+  "references": ["IITA Bean Fly Management", "CIAT Legume Pest Guide"]
+}

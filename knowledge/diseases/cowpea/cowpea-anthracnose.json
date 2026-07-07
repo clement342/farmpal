@@ -1,0 +1,38 @@
+{
+  "id": "cowpea-anthracnose",
+  "cropId": "cowpea",
+  "name": "Cowpea Anthracnose",
+  "scientificName": "Colletotrichum lindemuthianum",
+  "aliases": ["Anthracnose of Cowpea", "Cowpea Pod Spot"],
+  "description": "A fungal disease causing dark, sunken lesions on cowpea stems, leaves, and pods. It is seed-borne and can cause significant yield losses in humid growing conditions.",
+  "symptoms": [
+    "Dark brown to black sunken lesions on stems and petioles",
+    "Leaf lesions as dark spots with reddish-brown borders",
+    "Pod lesions as circular or elongated dark sunken areas",
+    "Infected seeds showing dark discoloration",
+    "Seedling damping off in severe seed infection"
+  ],
+  "causes": [
+    "Colletotrichum lindemuthianum fungus",
+    "Use of infected seeds",
+    "Warm, humid weather favoring spore spread",
+    "Rain splash dispersing spores to healthy plants",
+    "Continuous cowpea cropping without rotation"
+  ],
+  "severity": "moderate",
+  "seasonality": ["Rainy season", "Humid periods"],
+  "treatments": [
+    "Apply fungicides containing carbendazim or thiram",
+    "Spray chlorothalonil or mancozeb at first symptoms",
+    "Use copper-based fungicides as preventive treatment",
+    "Seed treatment with thiram or captan before planting"
+  ],
+  "prevention": [
+    "Use certified disease-free seeds",
+    "Treat seeds with fungicide before planting",
+    "Practice crop rotation with non-legume crops",
+    "Remove and destroy infected crop debris",
+    "Avoid dense planting to improve air circulation"
+  ],
+  "references": ["IITA Cowpea Disease Management", "NAERLS Legume Seed Treatment Guide"]
+}

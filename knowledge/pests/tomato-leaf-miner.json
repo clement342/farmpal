@@ -1,0 +1,32 @@
+{
+  "id": "tomato-leaf-miner",
+  "name": "Tomato Leaf Miner",
+  "scientificName": "Liriomyza spp. / Tuta absoluta",
+  "aliases": ["Leaf Miner", "Tomato Leafminer", "Tomato Pinworm (Tuta)"],
+  "description": "Small fly larvae that tunnel through tomato leaves, creating serpentine mines. Tuta absoluta (tomato pinworm) is particularly destructive, also mining stems and boring into fruits, causing extensive damage.",
+  "affectedCrops": ["tomato", "pepper", "amaranth"],
+  "symptoms": [
+    "Serpentine winding tunnels visible within leaf tissue",
+    "Mines starting as narrow and widening as larvae grow",
+    "Leaf tissue turning brown and necrotic along mines",
+    "Fruit entry holes with frass (Tuta absoluta)",
+    "Leaf desiccation and death in severe infestations",
+    "Reduced yield and unmarketable fruit"
+  ],
+  "lifecycle": ["Egg", "Larva (4 instars)", "Pupa", "Adult fly/moth"],
+  "treatments": [
+    "Apply spinosad or abamectin at first signs of mining",
+    "Remove and destroy infested leaves (for minor infestations)",
+    "Use neem oil or Bacillus thuringiensis for young larvae",
+    "Install pheromone traps for Tuta absoluta monitoring and mass trapping",
+    "Apply chlorantraniliprole for severe Tuta infestations"
+  ],
+  "prevention": [
+    "Use insect-proof nets in seedling nurseries",
+    "Remove weed hosts that harbor leaf miners",
+    "Practice crop rotation with non-host crops",
+    "Conserve natural enemies (parasitic wasps, predatory bugs)",
+    "Install yellow sticky traps for monitoring adult flies"
+  ],
+  "references": ["IITA Tomato Pest Guide", "NAERLS Leaf Miner Management"]
+}

@@ -1,0 +1,38 @@
+{
+  "id": "cucumber-mosaic-virus",
+  "cropId": "cucumber",
+  "name": "Cucumber Mosaic Virus",
+  "scientificName": "Cucumber mosaic virus (CMV)",
+  "aliases": ["CMV", "Cucumber Mosaic"],
+  "description": "A widely distributed viral disease affecting cucumber and many other crops. It causes mosaic patterns, leaf distortion, and stunted growth. CMV is transmitted by aphids and has an extremely wide host range.",
+  "symptoms": [
+    "Yellow and green mosaic pattern on leaves",
+    "Leaf distortion, blistering, and reduced size",
+    "Stunted plant growth with shortened internodes",
+    "Mottled and deformed fruits",
+    "Plants may show general chlorosis and wilting"
+  ],
+  "causes": [
+    "Cucumber mosaic virus (CMV)",
+    "Transmitted by multiple aphid species in non-persistent manner",
+    "Extremely wide host range including weeds and ornamentals",
+    "Infected seeds in some cucurbit species"
+  ],
+  "severity": "high",
+  "seasonality": ["Throughout growing season", "Aphid activity periods"],
+  "treatments": [
+    "No curative treatment once infected",
+    "Remove and destroy infected plants",
+    "Control aphid vectors with insecticidal soap or neem oil",
+    "Use reflective mulches to repel aphids"
+  ],
+  "prevention": [
+    "Plant CMV-tolerant cucumber varieties",
+    "Use virus-free seeds",
+    "Control weeds that serve as virus reservoirs",
+    "Use floating row covers to exclude aphids during early growth",
+    "Intercrop with non-host crops",
+    "Rogue out infected plants promptly"
+  ],
+  "references": ["IITA Cucurbit Virology", "NAERLS Cucumber Production Guide"]
+}

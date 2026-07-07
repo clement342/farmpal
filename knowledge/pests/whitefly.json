@@ -1,0 +1,32 @@
+{
+  "id": "whitefly",
+  "name": "Whitefly",
+  "scientificName": "Bemisia tabaci",
+  "aliases": ["Silverleaf Whitefly", "Cotton Whitefly", "Sweet Potato Whitefly"],
+  "description": "Small winged insects that feed on plant sap and excrete honeydew. Whiteflies cause direct damage through feeding and are major vectors of plant viruses, including cassava mosaic virus and tomato yellow leaf curl virus.",
+  "affectedCrops": ["cassava", "okra", "tomato", "pepper", "watermelon", "cucumber", "beans", "groundnut"],
+  "symptoms": [
+    "Yellowing and curling of leaves",
+    "Sticky honeydew on leaves supporting sooty mold growth",
+    "Small white flying insects when plants are disturbed",
+    "Nymphs (scale-like) on leaf undersides",
+    "Viral disease symptoms if whiteflies are virus vectors"
+  ],
+  "lifecycle": ["Egg", "Nymph (crawler)", "Pupa", "Adult"],
+  "treatments": [
+    "Apply neem oil or insecticidal soap at 4-5 day intervals",
+    "Use yellow sticky traps for monitoring and mass trapping",
+    "Apply systemic insecticides (imidacloprid, thiamethoxam) for severe infestations",
+    "Introduce biological control agents (Encarsia formosa, lacewings)",
+    "Use buprofezin for nymph control"
+  ],
+  "prevention": [
+    "Use reflective silver mulch to repel whiteflies",
+    "Plant trap crops (sunflower, marigold) around fields",
+    "Remove weed hosts that harbor whitefly populations",
+    "Avoid broad-spectrum insecticides that kill natural enemies",
+    "Intercrop with tall crops to reduce whitefly landing",
+    "Use insect-proof nets in nurseries"
+  ],
+  "references": ["IITA Whitefly Management Guide", "NAERLS Integrated Pest Management"]
+}

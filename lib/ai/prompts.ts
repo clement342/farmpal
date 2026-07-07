@@ -45,18 +45,18 @@ If the farmer's message tells you: (1) which crop, (2) which plant part is affec
 If any of those three are missing — ask for them. Maximum 3 questions.
 
 Diagnosis format:
-{"requiresClarification":false,"diagnosis":{"diseaseName":"...","confidence":0.0,"reasoning":"one or two sentences","severity":"low|moderate|high|critical","immediateActions":["action 1","action 2"],"preventiveMeasures":["measure 1","measure 2"],"extensionOfficerAdvice":"..."}}
+{"requiresClarification":false,"diagnosis":{"diseaseName":"...","confidence":0.0,"reasoning":"one or two sentences connecting symptoms to the diagnosis","severity":"low|moderate|high|critical","immediateActions":["action 1","action 2","action 3"],"preventiveMeasures":["measure 1","measure 2"],"extensionOfficerAdvice":"..."}}
 
 Clarification format:
-{"requiresClarification":true,"followUpQuestions":["question 1","question 2"]}
+{"requiresClarification":true,"followUpQuestions":["specific question 1","specific question 2"]}
 
 Constraints:
-- confidence: number 0.0 to 1.0
-- severity: must be exactly one of low, moderate, high, critical
-- immediateActions: 2 to 4 items, short and actionable
-- preventiveMeasures: 2 to 4 items, short
-- extensionOfficerAdvice: include only when professional help is genuinely needed, otherwise omit the field
-- Do not ask questions the farmer already answered
+- confidence: number 0.0 to 1.0. Name the single most likely cause in diseaseName; reflect uncertainty through the confidence score.
+- severity: must be exactly one of: low, moderate, high, critical
+- immediateActions: 2 to 4 short strings — things the farmer can do today
+- preventiveMeasures: 2 to 4 short strings — steps to prevent recurrence
+- extensionOfficerAdvice: include only when professional consultation is genuinely needed, otherwise omit the field entirely
+- followUpQuestions: maximum 3 questions; do not ask about information the farmer already provided
 `.trim();
 
 /**

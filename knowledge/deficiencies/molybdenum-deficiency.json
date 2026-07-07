@@ -1,0 +1,33 @@
+{
+  "id": "molybdenum-deficiency",
+  "name": "Molybdenum Deficiency",
+  "aliases": ["Mo deficiency", "Whiptail", "Nitrogen deficiency mimic"],
+  "description": "Molybdenum is a micronutrient essential for nitrogen metabolism and nitrogen fixation in legumes. Deficiency causes symptoms similar to nitrogen deficiency and characteristic whiptail in brassicas.",
+  "affectedCrops": ["beans", "cowpea", "groundnut"],
+  "symptoms": [
+    "General yellowing resembling nitrogen deficiency",
+    "Whip tail in leafy vegetables (narrow, distorted leaves)",
+    "Poor nodulation in legumes and reduced nitrogen fixation",
+    "Stunted growth and reduced vigor",
+    "Leaf margins yellowing and necrosis"
+  ],
+  "causes": [
+    "Low available molybdenum in acidic soils (pH <5.5)",
+    "Highly weathered tropical soils",
+    "Strongly acidic conditions (pH <5.0) fixing molybdenum",
+    "Low organic matter content"
+  ],
+  "treatments": [
+    "Foliar spray of sodium or ammonium molybdate (0.05-0.1%)",
+    "Apply molybdenum trioxide or sodium molybdate to soil",
+    "Treat legume seeds with molybdenum (1g Mo per kg seed) before planting",
+    "Apply lime to raise pH, which increases molybdenum availability"
+  ],
+  "prevention": [
+    "Maintain soil pH at 6.0-7.0 through liming",
+    "Use molybdenum-treated legume seeds",
+    "Include molybdenum in micronutrient blends for acid soils",
+    "Apply small amounts (100-200 g/ha Mo) which are usually sufficient"
+  ],
+  "references": ["IITA Micronutrient Guide", "NAERLS Legume Nutrient Management"]
+}

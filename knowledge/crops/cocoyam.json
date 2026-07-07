@@ -1,0 +1,12 @@
+{
+  "id": "cocoyam",
+  "name": "Cocoyam",
+  "scientificName": "Colocasia esculenta / Xanthosoma sagittifolium",
+  "aliases": ["Taro", "Malanga", "Eddoe", "Kokonde (Yoruba)", "Ede (Igbo)", "Gwaza (Hausa)", "Cocoyam"],
+  "description": "Cocoyam is a root crop grown for its edible corms and leaves. It thrives in humid tropical regions and is an important food security crop in southern Nigeria. The leaves are used in soups while the corms are boiled, fried, or pounded.",
+  "growingRegions": ["West Africa", "Central Africa", "East Africa", "Southeast Asia", "Pacific Islands", "Nigeria", "Ghana", "Cameroon", "Cote d'Ivoire", "Uganda"],
+  "growthStages": ["Planting", "Sprouting", "Vegetative", "Corm Initiation", "Corm Bulking", "Maturity"],
+  "commonDiseaseIds": ["cocoyam-leaf-blight", "cocoyam-root-rot", "cocoyam-mosaic", "dasheen-mosaic-virus"],
+  "commonPestIds": ["aphids", "nematodes", "termites"],
+  "commonDeficiencyIds": ["potassium-deficiency", "nitrogen-deficiency", "magnesium-deficiency"]
+}

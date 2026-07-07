@@ -1,0 +1,39 @@
+{
+  "id": "early-blight",
+  "cropId": "tomato",
+  "name": "Early Blight of Tomato",
+  "scientificName": "Alternaria solani",
+  "aliases": ["Target Spot", "Alternaria Blight", "Tomato Early Blight"],
+  "description": "A common fungal disease of tomato characterized by dark concentric ring lesions on older leaves. It can also infect stems and fruit, causing defoliation and reducing fruit yield and quality.",
+  "symptoms": [
+    "Small brown to black spots on older leaves with concentric rings (target-like)",
+    "Yellow halos surrounding leaf lesions",
+    "Spots enlarging and coalescing causing leaf death",
+    "Stem lesions as dark sunken cankers at the base",
+    "Fruit lesions near the calyx as dark sunken spots with concentric ridges"
+  ],
+  "causes": [
+    "Alternaria solani fungus",
+    "Warm temperatures (24-30°C) with high humidity",
+    "Extended leaf wetness from rain, dew, or overhead irrigation",
+    "Nutrient-deficient and stressed plants",
+    "Fungal survival on infected crop debris"
+  ],
+  "severity": "high",
+  "seasonality": ["Warm rainy periods", "Early to mid growing season"],
+  "treatments": [
+    "Apply fungicides containing chlorothalonil or mancozeb preventively",
+    "Spray azoxystrobin or pyraclostrobin at first symptoms",
+    "Use copper-based fungicides for organic production",
+    "Remove infected lower leaves to reduce inoculum"
+  ],
+  "prevention": [
+    "Plant resistant or tolerant tomato varieties",
+    "Practice crop rotation with non-solanaceous crops",
+    "Space plants adequately for air circulation",
+    "Use drip irrigation to avoid wetting foliage",
+    "Mulch around plants to prevent soil splash",
+    "Remove and destroy crop debris after harvest"
+  ],
+  "references": ["IITA Tomato Disease Manual", "NAERLS Tomato Production Guide"]
+}

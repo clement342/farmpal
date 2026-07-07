@@ -1,0 +1,37 @@
+{
+  "id": "banana-fusarium-wilt",
+  "cropId": "banana",
+  "name": "Fusarium Wilt of Banana",
+  "scientificName": "Fusarium oxysporum f. sp. cubense",
+  "aliases": ["Fusarium Wilt", "Banana Wilt"],
+  "description": "A vascular wilt disease caused by Fusarium oxysporum affecting banana plants. The fungus invades the vascular system, blocking water transport and causing wilting and eventual plant death.",
+  "symptoms": [
+    "Yellowing of lower leaves progressing inward",
+    "Leaf petioles buckling and leaves collapsing",
+    "Reddish-brown discoloration of vascular tissue",
+    "Progressive wilting from older to younger leaves",
+    "Pseudostem splitting and plant collapse"
+  ],
+  "causes": [
+    "Fusarium oxysporum f. sp. cubense fungus",
+    "Soil-borne pathogen entering through roots",
+    "Waterlogged or compacted soils",
+    "Contaminated tools, water, and soil movement"
+  ],
+  "severity": "high",
+  "seasonality": ["Wet season", "Poorly drained areas"],
+  "treatments": [
+    "No effective chemical cure",
+    "Remove and destroy infected plants",
+    "Apply Trichoderma-based biocontrol products",
+    "Improve soil drainage"
+  ],
+  "prevention": [
+    "Use disease-free planting material",
+    "Disinfect tools between fields",
+    "Maintain good soil drainage",
+    "Avoid planting in areas with history of Fusarium wilt",
+    "Practice field sanitation"
+  ],
+  "references": ["IITA Fusarium Wilt Guide", "FAO Banana Disease Management"]
+}

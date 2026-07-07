@@ -1,0 +1,36 @@
+{
+  "id": "maize-streak-virus",
+  "cropId": "maize",
+  "name": "Maize Streak Virus",
+  "scientificName": "Maize streak virus (MSV)",
+  "aliases": ["MSV", "Maize Streak Disease", "MSD"],
+  "description": "A viral disease transmitted by leafhoppers that causes distinctive yellow streaks along leaf veins. It is one of the most damaging viral diseases of maize in Africa.",
+  "symptoms": [
+    "Pale yellow to white streaks along leaf veins",
+    "Streaks may coalesce causing chlorosis of entire leaves",
+    "Stunted plant growth and reduced vigor",
+    "Poor cob development and yield loss",
+    "Leaves may appear striped or mottled"
+  ],
+  "causes": [
+    "Maize streak virus transmitted by Cicadulina leafhoppers",
+    "Infection occurring near grassy weeds that harbor the virus",
+    "Populations of viruliferous leafhoppers migrating into fields",
+    "Late planting coinciding with peak leafhopper activity"
+  ],
+  "severity": "critical",
+  "seasonality": ["Early rainy season (leafhopper peak)"],
+  "treatments": [
+    "No curative treatment available for viral infection",
+    "Control leafhopper vectors with insecticides if caught early",
+    "Remove and destroy infected plants to reduce spread"
+  ],
+  "prevention": [
+    "Plant MSV-resistant maize varieties (e.g., Streak-resistant hybrids)",
+    "Control grassy weeds that serve as virus reservoirs",
+    "Synchronize planting dates to avoid peak leafhopper populations",
+    "Use neem-based botanical sprays as repellent",
+    "Intercrop with non-host crops to reduce vector movement"
+  ],
+  "references": ["IITA Maize Virology Guide", "KALRO Crop Protection Manual"]
+}

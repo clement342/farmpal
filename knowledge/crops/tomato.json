@@ -1,0 +1,12 @@
+{
+  "id": "tomato",
+  "name": "Tomato",
+  "scientificName": "Solanum lycopersicum",
+  "aliases": ["Love Apple", "Tomati (Hausa)", "Tumatir (Yoruba)", "Tomatos (Igbo)", "Tomato"],
+  "description": "Tomato is a widely cultivated vegetable crop belonging to the nightshade family. It is prone to several fungal and viral diseases that affect both leaves and fruit. In Nigeria, tomato production is concentrated in the northern states and is a key ingredient in many local dishes.",
+  "growingRegions": ["East Africa", "West Africa", "Southern Europe", "South America", "Central America", "Nigeria", "Ghana", "Ethiopia", "Egypt"],
+  "growthStages": ["Seedling", "Transplanting", "Vegetative", "Flowering", "Fruit Set", "Ripening"],
+  "commonDiseaseIds": ["late-blight", "early-blight", "tomato-leaf-curl", "tomato-bacterial-wilt", "tomato-yellow-leaf-curl", "tomato-septoria-leaf-spot"],
+  "commonPestIds": ["aphids", "whitefly", "tomato-leaf-miner", "thrips", "fruitworm"],
+  "commonDeficiencyIds": ["calcium-deficiency", "potassium-deficiency", "magnesium-deficiency", "nitrogen-deficiency"]
+}
