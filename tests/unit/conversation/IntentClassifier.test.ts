@@ -110,7 +110,7 @@ describe('IntentClassifier', () => {
     const { knowledgeService } = await import('@/services/knowledge.service');
     vi.mocked(knowledgeService.search).mockReturnValue({
       crops: [],
-      diseases: [{ id: 'cassava-mosaic', name: 'Cassava Mosaic Disease', symptoms: ['yellow leaves'] } as any],
+      diseases: [{ id: 'cassava-mosaic', name: 'Cassava Mosaic Disease', symptoms: ['yellow leaves'] }],
       pests: [],
       deficiencies: [],
     });

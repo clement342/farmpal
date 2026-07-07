@@ -60,12 +60,12 @@ describe('ConversationOrchestrator', () => {
   it('returns CONTINUE_DIAGNOSIS when conversation is awaiting clarification', async () => {
     mockFindById.mockResolvedValue({
       _id: 'conv-1',
-      status: 'ACTIVE',
+      status: 'ACTIVE' as const,
       messages: [
-        { role: 'user', content: 'my cassava has spots', createdAt: new Date() },
-        { role: 'assistant', content: '{"status":"follow_up","question":"What color?"}', createdAt: new Date() },
+        { role: 'user' as const, content: 'my cassava has spots', createdAt: new Date() },
+        { role: 'assistant' as const, content: '{"status":"follow_up","question":"What color?"}', createdAt: new Date() },
       ],
-    } as any);
+    });
 
     const { decision } = await orchestrator.execute({
       symptoms: 'they are black',
@@ -80,13 +80,13 @@ describe('ConversationOrchestrator', () => {
   it('returns ANSWER_FOLLOWUP for follow-up question after diagnosis', async () => {
     mockFindById.mockResolvedValue({
       _id: 'conv-2',
-      status: 'ACTIVE',
+      status: 'ACTIVE' as const,
       messages: [
-        { role: 'user', content: 'my cassava has spots', createdAt: new Date() },
-        { role: 'assistant', content: 'This is cassava mosaic disease.', createdAt: new Date() },
-        { role: 'user', content: 'what should I do about this', createdAt: new Date() },
+        { role: 'user' as const, content: 'my cassava has spots', createdAt: new Date() },
+        { role: 'assistant' as const, content: 'This is cassava mosaic disease.', createdAt: new Date() },
+        { role: 'user' as const, content: 'what should I do about this', createdAt: new Date() },
       ],
-    } as any);
+    });
 
     const { decision } = await orchestrator.execute({
       symptoms: 'what should I do about this',

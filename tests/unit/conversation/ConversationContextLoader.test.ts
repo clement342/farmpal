@@ -20,7 +20,7 @@ describe('ConversationContextLoader', () => {
         { role: 'user', content: 'my cassava has spots', createdAt: new Date() },
       ],
     };
-    mockFindById.mockResolvedValue(fakeConversation as any);
+    mockFindById.mockResolvedValue(fakeConversation);
     const loader = new ConversationContextLoader();
     const result = await loader.load({ symptoms: 'test', conversationId: 'abc' });
 
