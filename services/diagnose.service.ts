@@ -3,9 +3,7 @@ import type { Crop } from '@/types/crop';
 import { DiagnosisRepository, type CreateDiagnosisData } from '@/repositories/diagnosis.repository';
 import { ConversationRepository } from '@/repositories/conversation.repository';
 import { CropRepository } from '@/repositories/crop.repository';
-import { getDiagnosisAdapter, getStreamDiagnosisAdapter, getAdapterProviderName } from '@/adapters/diagnosis-adapter.factory';
-import { parseDiagnosisResponse } from '@/lib/ai/parsers/diagnosis-response.parser';
-import { mapToDiagnosisResponse } from '@/adapters/diagnosis/mapper';
+import { reasoningEngine } from '@/services/reasoning/ReasoningEngine';
 import type { DiagnosisDocument } from '@/lib/db/models/diagnosis.model';
 import type { CropDocument } from '@/lib/db/models/crop.model';
 import { NotFoundError } from '@/utils/errors';
@@ -79,11 +77,13 @@ export async function createDiagnosis(
   });
 
   // -----------------------------------------------------------------------
-  // Call AI adapter with full conversation history
+  // Reasoning Engine with knowledge-first adaptive pipeline
   // -----------------------------------------------------------------------
-  const generateDiagnosis = await getDiagnosisAdapter();
-  const aiProvider = getAdapterProviderName();
-  const response = await generateDiagnosis(request, mappedCrop, existingMessages);
+  const response = await reasoningEngine.answerDiagnosis({
+    request,
+    crop: mappedCrop,
+    existingMessages,
+  });
 
   // -----------------------------------------------------------------------
   // Persist AI response and handle completion
@@ -115,7 +115,6 @@ export async function createDiagnosis(
       extensionOfficerAdvice: response.diagnosis.extensionOfficerAdvice,
       symptoms: request.symptoms,
       conversationId,
-      aiProvider,
     };
 
     const diagnosisDoc = await diagnosisRepository.create(diagnosisData);
@@ -192,37 +191,22 @@ export async function streamDiagnosis(
   });
 
   // -----------------------------------------------------------------------
-  // Create the stream
+  // Reasoning Engine with knowledge-first adaptive pipeline
   // -----------------------------------------------------------------------
-  const streamAdapter = await getStreamDiagnosisAdapter();
-  const aiProvider = getAdapterProviderName();
-
   return new ReadableStream<Uint8Array>({
     async start(controller) {
       try {
-        // --- Buffer the full AI response first ---
-        let fullText = '';
-        for await (const chunk of streamAdapter(request, mappedCrop, existingMessages)) {
-          fullText += chunk;
-        }
-
-        // --- Parse and persist ---
-        const parsed = parseDiagnosisResponse(fullText);
-
-        if (!parsed.success) {
-          controller.enqueue(encodeSSE('error', { message: parsed.error.message }));
-          controller.close();
-          return;
-        }
-
-        const response = mapToDiagnosisResponse(parsed.data);
+        const response = await reasoningEngine.answerDiagnosis({
+          request,
+          crop: mappedCrop,
+          existingMessages,
+        });
 
         const displayText =
           response.status === 'follow_up'
             ? response.question
             : response.diagnosis.reasoning;
 
-        // Stream the human-readable text to the client
         controller.enqueue(encodeSSE('chunk', { text: displayText }));
 
         if (response.status === 'diagnosis') {
@@ -252,7 +236,6 @@ export async function streamDiagnosis(
             extensionOfficerAdvice: response.diagnosis.extensionOfficerAdvice,
             symptoms: request.symptoms,
             conversationId,
-            aiProvider,
           };
 
           const diagnosisDoc = await diagnosisRepository.create(diagnosisData);

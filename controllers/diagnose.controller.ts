@@ -1,7 +1,6 @@
 import type { ConversationDiagnosisResponse, DiagnosisRequest } from '@/types';
 import { conversationOrchestrator } from '@/services/conversation/ConversationOrchestrator';
 import { createDiagnosis, processFollowUp, streamDiagnosis } from '@/services/diagnose.service';
-import { processChatMessage } from '@/services/chat.service';
 import { validateDiagnosisRequest, validateCropExists } from '@/lib/validation';
 import { knowledgeService } from '@/services/knowledge.service';
 
@@ -24,23 +23,6 @@ export async function handleDiagnosisRequest(
   const { decision } = await conversationOrchestrator.execute(request);
 
   switch (decision.nextAction) {
-    case 'ANSWER_GENERAL_QA': {
-      const chatResponse = await processChatMessage({
-        messages: [],
-        cropContext: request.cropId
-          ? { cropId: request.cropId, cropName: '' }
-          : undefined,
-      });
-      return {
-        conversationId: request.conversationId ?? '',
-        status: 'ACTIVE',
-        response: {
-          status: 'follow_up',
-          question: chatResponse.message.content,
-        },
-      };
-    }
-
     case 'ANSWER_FOLLOWUP':
       return processFollowUp(request);
 

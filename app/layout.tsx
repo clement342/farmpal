@@ -1,6 +1,9 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { InstallPrompt } from "@/components/pwa/InstallPrompt";
+import { UpdateNotification } from "@/components/pwa/UpdateNotification";
+import { OfflineDetector } from "@/components/pwa/OfflineDetector";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -16,11 +19,28 @@ export const metadata: Metadata = {
   title: "FarmPal — Offline AI Crop Disease Diagnosis",
   description:
     "Diagnose crop diseases anywhere, even offline. FarmPal runs a local AI model on your device for private, instant crop disease diagnosis through natural conversation.",
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    title: "FarmPal",
+    statusBarStyle: "default",
+  },
+  icons: {
+    icon: "/icons/favicon.svg",
+    apple: "/icons/apple-touch-icon.svg",
+  },
   openGraph: {
     title: "FarmPal — Offline AI Crop Disease Diagnosis",
     description:
       "Diagnose crop diseases anywhere, even offline. Powered by Google Gemma.",
   },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#166534",
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
 };
 
 export default function RootLayout({
@@ -33,7 +53,15 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <head>
+        <link rel="manifest" href="/manifest.json" />
+      </head>
+      <body className="min-h-full flex flex-col">
+        <OfflineDetector />
+        {children}
+        <InstallPrompt />
+        <UpdateNotification />
+      </body>
     </html>
   );
 }
