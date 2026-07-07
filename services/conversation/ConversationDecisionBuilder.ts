@@ -27,7 +27,14 @@ export class ConversationDecisionBuilder {
 
     // Stage-independent intents
     if (intent === 'GENERAL_AGRICULTURE_QUESTION') {
-      nextAction = 'ANSWER_GENERAL_QA';
+      // During an active diagnosis (awaiting clarification, collecting symptoms,
+      // showing result, or follow-up), AG keywords are context within the
+      // ongoing diagnosis — continue rather than switching to general QA.
+      if (stage === 'NEW' || stage === 'CLOSED') {
+        nextAction = 'ANSWER_GENERAL_QA';
+      } else {
+        nextAction = 'CONTINUE_DIAGNOSIS';
+      }
     } else if (intent === 'DIAGNOSIS_CORRECTION') {
       nextAction = 'START_DIAGNOSIS';
     } else {

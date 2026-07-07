@@ -1,7 +1,9 @@
-import type { HistoryQuery, HistoryRecord } from '@/types';
+import type { HistoryQuery, HistoryRecord, ChatMessage } from '@/types';
 import { HistoryRepository } from '@/repositories/history.repository';
 import { DiagnosisRepository, type CreateDiagnosisData } from '@/repositories/diagnosis.repository';
 import type { DiagnosisDocument } from '@/lib/db/models/diagnosis.model';
+import { ConversationModel } from '@/lib/db/models/conversation.model';
+import { connectToDatabase } from '@/lib/db/connection';
 
 /**
  * History service.
@@ -37,7 +39,9 @@ export async function getHistory(
     sortOrder: query.sortOrder,
   });
 
-  const records: HistoryRecord[] = data.map((doc) => mapToHistoryRecord(doc));
+  let records: HistoryRecord[] = data.map((doc) => mapToHistoryRecord(doc));
+
+  records = await populateConversationMessages(records);
 
   return { records, total };
 }
@@ -98,17 +102,20 @@ export async function saveHistoryRecord(
 }
 
 /**
- * Maps a Mongoose diagnosis document to a HistoryRecord.
+ * Maps a Mongoose diagnosis document to a HistoryRecord,
+ * loading the conversation messages from the Conversation collection.
  */
 function mapToHistoryRecord(doc: DiagnosisDocument): HistoryRecord {
   const isoCreated = doc.createdAt instanceof Date ? doc.createdAt.toISOString() : String(doc.createdAt);
   const isoUpdated = doc.updatedAt instanceof Date ? doc.updatedAt.toISOString() : String(doc.updatedAt);
 
+  const conversationId = doc.conversationId ?? '';
+
   return {
     id: String(doc._id),
     conversation: {
-      id: doc.conversationId || String(doc._id),
-      messages: [],
+      id: conversationId || String(doc._id),
+      messages: [], // populated async below
     },
     diagnosis: {
       id: String(doc._id),
@@ -127,4 +134,44 @@ function mapToHistoryRecord(doc: DiagnosisDocument): HistoryRecord {
     createdAt: isoCreated,
     updatedAt: isoUpdated,
   };
+}
+
+/**
+ * Loads conversation messages for a batch of history records.
+ *
+ * Performs at most one query per unique conversation ID to avoid N+1
+ * while still fetching the actual message content that was stored in the
+ * Conversation collection during the diagnosis flow.
+ */
+async function populateConversationMessages(
+  records: HistoryRecord[],
+): Promise<HistoryRecord[]> {
+  const convIds = [...new Set(records.map((r) => r.conversation.id).filter(Boolean))];
+  if (convIds.length === 0) return records;
+
+  await connectToDatabase();
+  const conversations = await ConversationModel.find(
+    { _id: { $in: convIds } },
+    { messages: 1 },
+  ).lean().exec();
+
+  const msgMap = new Map<string, ChatMessage[]>();
+  for (const conv of conversations) {
+    const id = String(conv._id);
+    const messages: ChatMessage[] = (conv.messages ?? []).map((m: { role: string; content: string; createdAt?: Date }) => ({
+      id: crypto.randomUUID(),
+      role: m.role as ChatMessage['role'],
+      content: m.content,
+      createdAt: m.createdAt instanceof Date ? m.createdAt.toISOString() : new Date().toISOString(),
+    }));
+    msgMap.set(id, messages);
+  }
+
+  return records.map((r) => {
+    const msgs = msgMap.get(r.conversation.id);
+    if (msgs) {
+      return { ...r, conversation: { ...r.conversation, messages: msgs } };
+    }
+    return r;
+  });
 }

@@ -56,12 +56,31 @@ export class ConversationStateResolver {
 }
 
 function isFollowUpMessage(content: string): boolean {
-  try {
-    const parsed = JSON.parse(content);
-    return parsed.status === 'follow_up';
-  } catch {
-    return false;
+  const trimmed = content.trim();
+
+  // If the message is valid JSON with follow_up status, detect immediately
+  if (trimmed.startsWith('{')) {
+    try {
+      const parsed = JSON.parse(trimmed);
+      if (parsed.status === 'follow_up') return true;
+    } catch {
+      // Not JSON — fall through to text-based detection
+    }
   }
+
+  // Text-based detection: AI follow-up questions typically end with ?
+  // and start with question words like What/How/Where/Could/Can
+  if (!trimmed.endsWith('?')) return false;
+  if (trimmed.length > 500) return false;
+
+  const questionStarters = [
+    'what', 'how', 'where', 'when', 'why', 'which', 'who',
+    'could', 'can', 'would', 'will', 'do', 'does', 'did',
+    'is', 'are', 'was', 'were', 'have', 'has', 'had',
+    'to help', 'tell me', 'describe', 'explain',
+  ];
+  const lower = trimmed.toLowerCase();
+  return questionStarters.some((qs) => lower.startsWith(qs));
 }
 
 function findLastAssistant(

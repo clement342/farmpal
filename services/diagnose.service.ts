@@ -91,10 +91,13 @@ export async function createDiagnosis(
       content: response.diagnosis.reasoning,
     });
 
+    const resolvedCropName = resolveCropName(request.cropId, crop ?? undefined) || 'Unknown';
+    const resolvedCropId = request.cropId || 'Unknown';
+
     const diagnosisData: CreateDiagnosisData = {
       diseaseName: topCause.name,
-      cropName: resolveCropName(request.cropId, crop ?? undefined),
-      cropId: request.cropId ?? '',
+      cropName: resolvedCropName,
+      cropId: resolvedCropId,
       confidence: topCause.confidence,
       reasoning: response.diagnosis.reasoning,
       severity: mapUrgencyToSeverity(response.diagnosis.urgency),
@@ -221,10 +224,13 @@ export async function streamDiagnosis(
             content: response.diagnosis.reasoning,
           });
 
+          const resolvedCropName = cropName || 'Unknown';
+          const resolvedCropId = request.cropId || 'Unknown';
+
           const diagnosisData: CreateDiagnosisData = {
             diseaseName: topCause.name,
-            cropName,
-            cropId: request.cropId ?? '',
+            cropName: resolvedCropName,
+            cropId: resolvedCropId,
             confidence: topCause.confidence,
             reasoning: response.diagnosis.reasoning,
             severity: mapUrgencyToSeverity(response.diagnosis.urgency),

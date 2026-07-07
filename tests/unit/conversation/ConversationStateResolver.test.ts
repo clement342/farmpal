@@ -12,7 +12,7 @@ describe('ConversationStateResolver', () => {
     expect(result.requiresClarification).toBe(false);
   });
 
-  it('returns AWAITING_CLARIFICATION when last message is follow_up with no user response', () => {
+  it('returns AWAITING_CLARIFICATION when last message is follow_up JSON with no user response', () => {
     const conversation = {
       status: 'ACTIVE',
       messages: [
@@ -25,6 +25,34 @@ describe('ConversationStateResolver', () => {
     expect(result.status).toBe('ACTIVE');
     expect(result.stage).toBe('AWAITING_CLARIFICATION');
     expect(result.requiresClarification).toBe(true);
+  });
+
+  it('returns AWAITING_CLARIFICATION when last message is a plain-text follow_up question', () => {
+    const conversation = {
+      status: 'ACTIVE',
+      messages: [
+        { role: 'user', content: 'my cassava has spots', createdAt: new Date() },
+        { role: 'assistant', content: 'What specific symptoms are you seeing on the leaves?', createdAt: new Date() },
+      ],
+    } as unknown as ConversationDocument;
+
+    const result = resolver.resolve({ conversation, conversationId: 'abc' });
+    expect(result.status).toBe('ACTIVE');
+    expect(result.stage).toBe('AWAITING_CLARIFICATION');
+    expect(result.requiresClarification).toBe(true);
+  });
+
+  it('does not flag long assistant responses as follow_up even when they start with What', () => {
+    const conversation = {
+      status: 'ACTIVE',
+      messages: [
+        { role: 'user', content: 'my cassava has spots', createdAt: new Date() },
+        { role: 'assistant', content: 'What you are describing sounds like cassava mosaic disease. ' + 'x'.repeat(501), createdAt: new Date() },
+      ],
+    } as unknown as ConversationDocument;
+
+    const result = resolver.resolve({ conversation, conversationId: 'abc' });
+    expect(result.stage).toBe('SHOWING_RESULT');
   });
 
   it('returns SHOWING_RESULT when last assistant response is plain text diagnosis', () => {

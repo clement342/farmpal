@@ -65,9 +65,24 @@ describe('ConversationDecisionBuilder', () => {
     expect(d.nextAction).toBe('START_DIAGNOSIS');
   });
 
-  it('GENERAL_AGRICULTURE_QUESTION -> ANSWER_GENERAL_QA regardless of stage', () => {
-    const d = build('FOLLOW_UP', 'GENERAL_AGRICULTURE_QUESTION');
+  it('GENERAL_AGRICULTURE_QUESTION + NEW -> ANSWER_GENERAL_QA', () => {
+    const d = build('NEW', 'GENERAL_AGRICULTURE_QUESTION');
     expect(d.nextAction).toBe('ANSWER_GENERAL_QA');
+  });
+
+  it('GENERAL_AGRICULTURE_QUESTION + active diagnosis -> CONTINUE_DIAGNOSIS', () => {
+    const d = build('FOLLOW_UP', 'GENERAL_AGRICULTURE_QUESTION');
+    expect(d.nextAction).toBe('CONTINUE_DIAGNOSIS');
+  });
+
+  it('GENERAL_AGRICULTURE_QUESTION + AWAITING_CLARIFICATION -> CONTINUE_DIAGNOSIS', () => {
+    const d = build('AWAITING_CLARIFICATION', 'GENERAL_AGRICULTURE_QUESTION');
+    expect(d.nextAction).toBe('CONTINUE_DIAGNOSIS');
+  });
+
+  it('GENERAL_AGRICULTURE_QUESTION + COLLECTING_SYMPTOMS -> CONTINUE_DIAGNOSIS', () => {
+    const d = build('COLLECTING_SYMPTOMS', 'GENERAL_AGRICULTURE_QUESTION');
+    expect(d.nextAction).toBe('CONTINUE_DIAGNOSIS');
   });
 
   it('DIAGNOSIS_CORRECTION -> START_DIAGNOSIS regardless of stage', () => {
