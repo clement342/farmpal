@@ -22,6 +22,11 @@ const CORRECTION_MARKERS = [
 
 const QUESTION_WORDS = ['what', 'why', 'how', 'can', 'which', 'does', 'do', 'is', 'are', 'should'];
 
+function matchesWord(text: string, keyword: string): boolean {
+  const escaped = keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return new RegExp(`\\b${escaped}\\b`, 'i').test(text);
+}
+
 export class IntentClassifier {
   classify(context: ConversationContext): IntentClassification {
     const message = context.latestUserMessage.toLowerCase().trim();
@@ -49,8 +54,8 @@ export class IntentClassifier {
       };
     }
 
-    // Rule: Symptom keywords
-    const hasSymptomWords = SYMPTOM_KEYWORDS.some((kw) => message.includes(kw));
+    // Rule: Symptom keywords (word-boundary matched to avoid false positives like "rot" in "rotation")
+    const hasSymptomWords = SYMPTOM_KEYWORDS.some((kw) => matchesWord(message, kw));
     if (hasSymptomWords && context.stage === 'NEW') {
       return {
         intent: 'NEW_DIAGNOSIS',
@@ -74,7 +79,7 @@ export class IntentClassifier {
       };
     }
 
-    // Rule: General agriculture keywords
+    // Rule: General agriculture keywords (multi-word phrases checked via includes)
     const hasAgKeywords = GENERAL_AG_KEYWORDS.some((kw) => message.includes(kw));
     if (hasAgKeywords) {
       return {

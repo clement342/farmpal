@@ -1,13 +1,14 @@
 import { describe, it, expect, vi } from 'vitest';
 import { ConversationContextLoader } from '@/services/conversation/ConversationContextLoader';
 
-const mockFindById = vi.fn();
+const mockFindById = vi.hoisted(() => vi.fn());
 
 vi.mock('@/repositories/conversation.repository', () => {
-  class MockConversationRepository {
-    findById = mockFindById;
-  }
-  return { ConversationRepository: MockConversationRepository };
+  return {
+    ConversationRepository: class MockConversationRepository {
+      findById = mockFindById;
+    },
+  };
 });
 
 describe('ConversationContextLoader', () => {
