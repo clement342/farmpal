@@ -22,36 +22,28 @@ and extensible beyond diagnosis.
 Request
   |
   v
-ConversationLoader         -- load conversation from DB, resolve crop
+ConversationContextLoader    -- load conversation from DB
   |
   v
-KnowledgeContextBuilder    -- gather relevant knowledge (lazy)
+ConversationStateResolver    -- determine { status, stage }
   |
   v
-ConversationStateResolver  -- determine { status, stage }
+KnowledgeContextBuilder      -- gather relevant knowledge (lazy, takes context)
   |
   v
-IntentClassifier           -- rules -> knowledge (no AI fallback)
+IntentClassifier             -- rules -> knowledge (no AI fallback)
   |
   v
-ConversationDecision {
-  status, stage, intent,
-  confidence, nextAction,
-  matchedRules: RuleName[],
-  reason
-}
+ConversationDecisionBuilder  -- stage + intent -> nextAction
   |
   v
-WorkflowRouter(nextAction) -- dumb dispatch
+WorkflowRouter(nextAction)   -- lightweight dispatch
   |
   v
-[ DIAGNOSIS | FOLLOW_UP | GENERAL_QA ]
+[ PromptStrategy per workflow ]
   |         |               |
   v         v               v
-PromptStrategy per workflow -- builds the right prompt
-  |         |               |
-  v         v               v
-[ DiagnosisService | DiagnosisService.answerFollowUp | ChatService ]
+[ DiagnosisService | processFollowUp | ChatService ]
   |
   v
 Persist + Return
@@ -60,22 +52,36 @@ Persist + Return
 ### Layers
 
 ```
-Controller (thin: validate + call orchestrator)
+Controller (thin: validate + call orchestrator.execute)
   |
   v
 services/conversation/   <-- NEW
   ConversationOrchestrator.ts
-  ConversationLoader.ts
-  KnowledgeContextBuilder.ts
+  ConversationContextLoader.ts
   ConversationStateResolver.ts
+  KnowledgeContextBuilder.ts
   IntentClassifier.ts
+  ConversationDecisionBuilder.ts
   WorkflowRouter.ts
   PromptStrategy.ts
+  MessageBuilder.ts
   types.ts
   |
   v
 Existing services (diagnose.service, chat.service)
 ```
+
+The orchestrator owns the full execution pipeline. The controller does:
+
+```typescript
+async function POST(request: NextRequest) {
+  const body = await parseBody(request);
+  validate(body);
+  return orchestrator.execute(body);
+}
+```
+
+No switch statements, no workflow awareness in the controller.
 
 ### Key Types
 
@@ -151,8 +157,8 @@ interface KnowledgeContext {
   crops: KnowledgeCrop[];
   diseases: KnowledgeDisease[];
   deficiencies: KnowledgeDeficiency[];
-  fertilizers: KnowledgeFertilizer[];
   glossary: KnowledgeGlossaryEntry[];
+  hasDirectAnswer?: string;  // set when knowledge engine can answer immediately
 }
 
 interface ConversationContext {
@@ -167,47 +173,45 @@ interface ConversationContext {
   currentCrop?: KnowledgeCrop;
   knowledgeContext?: KnowledgeContext;
   previousRecommendations: string[];
-  awaitingClarification: boolean;
+  requiresClarification: boolean;  // from structured response, not heuristic
+}
+
+// ── Prompt ─────────────────────────────────────────────────────
+
+interface PromptContext {
+  systemPrompt: string;
+  knowledge: string;               // serialized from KnowledgeContext
+  conversationHistory: ChatMessage[];
+  userMessage: ChatMessage;
 }
 ```
 
 ### Components
 
-#### 1. ConversationLoader
+#### 1. ConversationContextLoader
 
-Loads conversation and crop from the database. Does NOT load diagnosis history
-or knowledge unless requested by downstream.
+Loads conversation metadata from the database. Does NOT load crop, diagnosis,
+or knowledge — those are lazy-loaded by downstream components.
 
 ```typescript
-class ConversationLoader {
+class ConversationContextLoader {
   async load(request: DiagnosisRequest): Promise<{
     conversation?: ConversationDocument;
     conversationId?: string;
-    currentCrop?: Crop;
     status: ConversationStatus | null;
   }>;
 }
 ```
 
-#### 2. KnowledgeContextBuilder
+Responsible for:
+- Looking up an existing conversation by `request.conversationId`
+- Returning the conversation document (or null if new)
+- NOT loading crops, diagnoses, or knowledge
 
-Lazily gathers structured knowledge from the Knowledge Engine. Not a string —
-preserves structured data for downstream prompt builders.
+#### 2. ConversationStateResolver
 
-```typescript
-class KnowledgeContextBuilder {
-  async build(
-    conversationId?: string,
-    cropId?: string,
-    symptoms?: string,
-  ): Promise<KnowledgeContext | undefined>;
-}
-```
-
-#### 3. ConversationStateResolver
-
-Pure function (no DB calls). Takes conversation metadata and returns resolved
-{ status, stage, awaitingClarification }.
+Pure function (no DB calls). Determines the conversation stage and whether
+the AI is awaiting clarification.
 
 ```typescript
 class ConversationStateResolver {
@@ -217,23 +221,40 @@ class ConversationStateResolver {
   }): {
     status: ConversationStatus | null;
     stage: ConversationStage;
-    awaitingClarification: boolean;
+    requiresClarification: boolean;
   };
 }
 ```
 
-`awaitingClarification` is inferred at runtime — there is no DB field for it.
-The resolver checks the last assistant message: if it ends with `?` and the
-conversation is ACTIVE with no subsequent user message, the AI is awaiting
-a response.
+`requiresClarification` is determined from the structured response stored in
+the conversation's last message metadata — NOT from punctuation heuristics.
+When the AI returns a `follow_up` response type, the service stores it alongside
+the message. The resolver checks this metadata.
 
 **Resolution rules:**
-- No `conversationId` -> `{ status: null, stage: 'NEW', awaitingClarification: false }`
-- Conversation `status: 'ACTIVE'`, last assistant message ends with `?` and no user response since -> `{ status: 'ACTIVE', stage: 'AWAITING_CLARIFICATION', awaitingClarification: true }`
+- No `conversationId` -> `{ status: null, stage: 'NEW', requiresClarification: false }`
+- Conversation `status: 'ACTIVE'`, last message type is `follow_up` -> `{ status: 'ACTIVE', stage: 'AWAITING_CLARIFICATION', requiresClarification: true }`
 - Conversation `status: 'ACTIVE'`, last response was a diagnosis -> `{ status: 'ACTIVE', stage: 'SHOWING_RESULT' }`
 - Conversation `status: 'ACTIVE'`, multiple turns since last diagnosis -> `{ status: 'ACTIVE', stage: 'FOLLOW_UP' }`
 - Conversation `status: 'COMPLETED'` -> `{ status: 'COMPLETED', stage: 'CLOSED' }`
 - Conversation `status: 'ABANDONED'` -> `{ status: null, stage: 'NEW' }`
+
+#### 3. KnowledgeContextBuilder
+
+Lazily gathers structured knowledge. Takes the assembled `ConversationContext`,
+not individual params. If knowledge engine lookup fails, returns gracefully
+without failing the request.
+
+```typescript
+class KnowledgeContextBuilder {
+  async build(context: ConversationContext): Promise<KnowledgeContext | undefined>;
+}
+```
+
+- Uses `context.currentCrop` and `context.latestUserMessage` for targeted lookups
+- Calls `knowledgeService.search()`, `knowledgeService.getDiseasesForCrop()`, etc.
+- If the search produces a direct answer (e.g., "NPK 15-15-15"), sets `hasDirectAnswer`
+- Never throws on knowledge engine failure — logs and returns `undefined`
 
 #### 4. IntentClassifier
 
@@ -263,14 +284,13 @@ class IntentClassifier {
 
 **Phase 3 — Default (confidence < 0.5):**
 - Return `{ intent: 'UNKNOWN', confidence: 0.0, matchedRules: [], reason: 'No rules matched and knowledge lookup was inconclusive' }`
-- The orchestrator maps this to `nextAction: 'ASK_CLARIFICATION'`
 
 No AI classification call. The diagnosis prompt itself handles clarification when
-the controller routes UNKNOWN to the DIAGNOSIS workflow with a clarification flag.
+the orchestrator routes UNKNOWN to `ASK_CLARIFICATION`.
 
 #### 5. WorkflowRouter
 
-Pure mapping from `nextAction` to `workflow`. No stage/intent inspection.
+Pure mapping from `nextAction` to `workflow`. One line.
 
 ```typescript
 class WorkflowRouter {
@@ -278,7 +298,6 @@ class WorkflowRouter {
 }
 ```
 
-**Mapping:**
 | nextAction | Workflow |
 |---|---|
 | `START_DIAGNOSIS` | DIAGNOSIS |
@@ -287,12 +306,9 @@ class WorkflowRouter {
 | `ANSWER_GENERAL_QA` | GENERAL_QA |
 | `ASK_CLARIFICATION` | DIAGNOSIS |
 
-The router is one line: `return MAP[nextAction]`.
-
 #### 6. ConversationDecisionBuilder
 
-Assembles the final `ConversationDecision` from context, state, classification,
-and the routed workflow. This is where `nextAction` is determined.
+Assembles the final `ConversationDecision` from context, state, and classification.
 
 ```typescript
 class ConversationDecisionBuilder {
@@ -304,7 +320,7 @@ class ConversationDecisionBuilder {
 }
 ```
 
-**nextAction mapping logic:**
+**nextAction mapping:**
 | Stage | Intent | nextAction |
 |---|---|---|
 | NEW | NEW_DIAGNOSIS | `START_DIAGNOSIS` |
@@ -320,14 +336,15 @@ class ConversationDecisionBuilder {
 
 #### 7. PromptStrategy
 
-Each workflow builds its own prompt. Keeps prompt construction out of services.
+Each workflow builds a provider-agnostic `PromptContext`. Strategies do NOT
+return `ChatMessage[]` — a separate `MessageBuilder` handles serialization.
 
 ```typescript
 interface PromptStrategy {
   build(
     context: ConversationContext,
     decision: ConversationDecision,
-  ): ChatMessage[];
+  ): PromptContext;
 }
 
 class DiagnosisPromptStrategy implements PromptStrategy { ... }
@@ -335,102 +352,73 @@ class FollowUpPromptStrategy implements PromptStrategy { ... }
 class GeneralQaPromptStrategy implements PromptStrategy { ... }
 ```
 
-- `DiagnosisPromptStrategy` — existing diagnosis prompt (no change required)
-- `FollowUpPromptStrategy` — injects existing diagnosis + recommendations + knowledge context; prompt asks AI to answer the specific question without re-diagnosing
-- `GeneralQaPromptStrategy` — injects knowledge context only; prompt asks AI to answer from knowledge first, then its own capabilities
+- `DiagnosisPromptStrategy` — existing diagnosis prompt structure
+- `FollowUpPromptStrategy` — injects existing diagnosis + recommendations + knowledge; asks AI to answer the specific question without re-diagnosing
+- `GeneralQaPromptStrategy` — injects knowledge context; prompts AI to answer from knowledge first, then its own capabilities
+
+`MessageBuilder` converts `PromptContext` to `ChatMessage[]` for the AI provider:
+
+```typescript
+class MessageBuilder {
+  build(prompt: PromptContext): ChatMessage[];
+}
+```
 
 #### 8. ConversationOrchestrator
 
-Coordinates the full pipeline. Entry point for controllers.
+The true execution engine. Entry point for controllers. Owns the full pipeline —
+from loading to response. Controllers know nothing about workflows.
 
 ```typescript
 class ConversationOrchestrator {
-  async orchestrate(
+  async execute(
     request: DiagnosisRequest,
-  ): Promise<{
-    decision: ConversationDecision;
-    context: ConversationContext;
-  }>;
+  ): Promise<ConversationDiagnosisResponse | ChatResponse>;
 }
 ```
 
 Internal flow:
-1. `ConversationLoader.load(request)` -> conversation, crop
-2. `ConversationStateResolver.resolve(...)` -> status, stage, awaitingClarification
-3. `KnowledgeContextBuilder.build(...)` -> structured knowledge (lazy, skipped if context isn't needed)
+1. `ConversationContextLoader.load(request)` -> conversation, status
+2. `ConversationStateResolver.resolve(...)` -> stage, requiresClarification
+3. `KnowledgeContextBuilder.build(context)` -> structured knowledge (lazy, best-effort)
 4. `IntentClassifier.classify(context)` -> intent classification
-5. `ConversationDecisionBuilder.build(context, state, classification)` -> decision with nextAction
-6. `WorkflowRouter.route(decision.nextAction)` -> workflow
-7. Return `{ decision: { ...decision, workflow }, context }`
+5. `ConversationDecisionBuilder.build(context, state, classification)` -> decision with nextAction + workflow
+6. **Route internally based on workflow:**
+   - `DIAGNOSIS` -> select `DiagnosisPromptStrategy`, call `DiagnosisService.streamDiagnosis()`
+   - `FOLLOW_UP` -> select `FollowUpPromptStrategy`, call `DiagnosisService.processFollowUp()`
+   - `GENERAL_QA` -> select `GeneralQaPromptStrategy`, call `ChatService.processChatMessage()`
+7. Return response
 
-### Integration with Existing Flow
+### Clarification Detection
 
-**Controller flow (updated):**
-```
-validate -> orchestrator.orchestrate(request) -> controller reads decision -> dispatch
-```
+`requiresClarification` is always determined from the structured response metadata,
+never from text heuristics. When the AI returns a `follow_up` response, the service
+persists the type alongside the message content. The resolver reads this metadata.
 
-| decision.workflow | decision.nextAction | Controller calls |
-|---|---|---|
-| DIAGNOSIS | START_DIAGNOSIS | `diagnose.service.streamDiagnosis()` |
-| DIAGNOSIS | CONTINUE_DIAGNOSIS | `diagnose.service.streamDiagnosis()` |
-| DIAGNOSIS | ASK_CLARIFICATION | `diagnose.service.streamDiagnosis()` (with clarification flag) |
-| FOLLOW_UP | ANSWER_FOLLOWUP | `diagnose.service.answerFollowUp()` |
-| GENERAL_QA | ANSWER_GENERAL_QA | `chat.service.processChatMessage()` |
+If the conversation model lacks a dedicated field, the response type is stored as
+a lightweight annotation on the last assistant message (e.g., as part of a metadata
+map or inferred from the response structure at persistence time).
 
-The controller remains thin — validate, orchestrate, dispatch.
+### General QA Flow
 
-### Follow-Up Handling (`answerFollowUp`)
+When `workflow === 'GENERAL_QA'`:
 
-When `nextAction === 'ANSWER_FOLLOWUP'`:
-- `DiagnosisService.answerFollowUp()` reuses the streaming infrastructure
-- Uses `FollowUpPromptStrategy` to build the prompt
-- AI answers only the specific question
-- No new diagnosis record is created
-- Conversation stays ACTIVE, message is appended
-
-### Clarification Handling
-
-When `nextAction === 'CONTINUE_DIAGNOSIS'`:
-- Route to `DiagnosisService.streamDiagnosis()`
-- `DiagnosisPromptStrategy` includes both original symptoms and the clarification
-- Diagnosis is generated with enriched context
-
-When `nextAction === 'ASK_CLARIFICATION'`:
-- Route to `DiagnosisService.streamDiagnosis()` with a clarification flag
-- The AI prompt asks "Can you clarify?" rather than generating a diagnosis
-- Sets `conversation.awaitingClarification = true`
-
-### General Agriculture Questions
-
-When `nextAction === 'ANSWER_GENERAL_QA'`:
-- `ChatService.processChatMessage()` uses `GeneralQaPromptStrategy`
-- First consults `knowledgeService.search()` for direct answers
-- Falls back to AI if knowledge engine has no match
-- No diagnosis record created
-- Conversation stays ACTIVE
-
-### Runtime Cache (Optional, Not Source of Truth)
-
-A lightweight in-memory cache keyed by `conversationId` may store:
-- `lastWorkflow: Workflow`
-- `lastIntent: ConversationIntent`
-
-It is always rebuildable from persisted data. Never relied on for correctness.
-Cleared on server restart. Not used in multi-instance deployments.
+1. `KnowledgeContextBuilder.build(context)` runs a knowledge search
+2. If `knowledgeContext.hasDirectAnswer` is set, return it immediately — no AI call
+3. Otherwise, build prompt via `GeneralQaPromptStrategy` and call AI
+4. No diagnosis record created; conversation stays ACTIVE
 
 ### Error Handling
 
 | Scenario | Behavior |
 |---|---|
-| Empty message | Return ValidationError |
-| Conversation not found | Return NotFoundError |
-| UNKNOWN intent + low confidence | Route to DIAGNOSIS with ASK_CLARIFICATION |
-| AI inference fails | Return AIServiceError |
+| Empty message | ValidationError |
+| Conversation not found | NotFoundError |
+| Knowledge engine failure | Log and continue without knowledge context (non-fatal) |
+| AI inference fails | AIServiceError |
+| UNKNOWN intent + low confidence | Route to ASK_CLARIFICATION |
 
 ### Logging
-
-Structured logs at key pipeline stages:
 
 ```typescript
 {
@@ -441,37 +429,37 @@ Structured logs at key pipeline stages:
   workflow: Workflow,
   nextAction: NextAction,
   decisionDurationMs: number,
+  knowledgeLatencyMs: number,
   workflowDurationMs: number,
   provider: string,
 }
 ```
-
-This enables queries like "average intent detection time" or "Gemma latency by workflow".
 
 ## Out of Scope
 
 - Modifications to Gemma provider, streaming pipeline, knowledge engine, Mongo models,
   prompt templates (existing), frontend, or diagnosis algorithms
 - The orchestrator only adds new code and makes minimal modifications to controllers
+  to redirect calls to `orchestrator.execute()`
 
 ## New Files
 
 ```
 services/conversation/
   ConversationOrchestrator.ts
-  ConversationLoader.ts
-  KnowledgeContextBuilder.ts
+  ConversationContextLoader.ts
   ConversationStateResolver.ts
+  KnowledgeContextBuilder.ts
   IntentClassifier.ts
   ConversationDecisionBuilder.ts
   WorkflowRouter.ts
   PromptStrategy.ts
+  MessageBuilder.ts
   types.ts
 ```
 
 ## Modified Files
 
-- `controllers/diagnose.controller.ts` — call orchestrator instead of directly calling diagnose service
-- `services/diagnose.service.ts` — add `answerFollowUp()` method
+- `controllers/diagnose.controller.ts` — call `orchestrator.execute()` instead of directly calling diagnose service
+- `services/diagnose.service.ts` — add `processFollowUp()` method
 - `services/chat.service.ts` — wire up General QA workflow (currently a shell)
-- `controllers/chat.controller.ts` — wire up to orchestrator for General QA routing
