@@ -4,6 +4,7 @@ import { ConversationStateResolver } from './ConversationStateResolver';
 import { IntentClassifier } from './IntentClassifier';
 import { ConversationDecisionBuilder } from './ConversationDecisionBuilder';
 import { KnowledgeContextBuilder } from './KnowledgeContextBuilder';
+import { knowledgeService } from '@/services/knowledge.service';
 import type { ConversationContext, OrchestratorResult } from './types';
 
 export class ConversationOrchestrator {
@@ -26,6 +27,7 @@ export class ConversationOrchestrator {
     });
 
     // 3. Build conversation context
+    const cropId = request.cropId ?? loaded.conversation?.cropId;
     const context: ConversationContext = {
       conversationId: loaded.conversationId,
       conversation: loaded.conversation,
@@ -35,6 +37,7 @@ export class ConversationOrchestrator {
       recentMessages: (loaded.conversation?.messages ?? []).map(mapMessageSubDoc),
       previousRecommendations: [],
       requiresClarification: state.requiresClarification,
+      currentCrop: cropId ? knowledgeService.getCrop(cropId) ?? undefined : undefined,
     };
 
     // 4. Classify intent (no knowledge needed yet)

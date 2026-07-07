@@ -56,6 +56,11 @@ export async function createDiagnosis(
     }
     conversationId = request.conversationId;
     existingMessages = existing.messages.map(mapMessageSubDoc);
+
+    // Inherit crop context from the conversation if not explicitly provided
+    if (!request.cropId && existing.cropId) {
+      request.cropId = existing.cropId;
+    }
   } else {
     const created = await conversationRepository.createConversation({
       messages: [],
@@ -168,6 +173,10 @@ export async function streamDiagnosis(
     if (!existing) throw new NotFoundError('Conversation');
     conversationId = request.conversationId;
     existingMessages = existing.messages.map(mapMessageSubDoc);
+
+    if (!request.cropId && existing.cropId) {
+      request.cropId = existing.cropId;
+    }
   } else {
     const created = await conversationRepository.createConversation({
       messages: [],
