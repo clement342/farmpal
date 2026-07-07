@@ -324,13 +324,22 @@ export class OllamaProvider implements AIProvider {
       const data = (await response.json()) as OllamaTagsResponse;
       const models: OllamaModelInfo[] = data?.models ?? [];
 
-      // Check that the configured model tag is in the list.
-      // Ollama model names are case-insensitive and may include a digest
-      // suffix (e.g. "gemma4:latest@sha256:..."), so we check with startsWith.
+      // Match the configured model tag exactly.
+      //
+      // Ollama model names are case-insensitive and may carry a digest suffix
+      // separated by '@' (e.g. "gemma4:e2b@sha256:abc123..."). We strip the
+      // digest before comparing so that both "gemma4:e2b" and
+      // "gemma4:e2b@sha256:..." match the configured tag "gemma4:e2b".
+      //
+      // We do NOT match on just the name part (before ':') because that would
+      // treat "gemma4:27b" as a valid match for a configured "gemma4:e2b",
+      // causing complete() to send the wrong model tag to Ollama.
       const targetLower = this.model.toLowerCase();
-      const found = models.some((m) =>
-        m.name.toLowerCase().startsWith(targetLower.split(':')[0]),
-      );
+      const found = models.some((m) => {
+        // Strip digest suffix if present, then compare full tag
+        const tagWithoutDigest = m.name.toLowerCase().split('@')[0];
+        return tagWithoutDigest === targetLower;
+      });
 
       this.log.debug('Probe completed', {
         available: found,

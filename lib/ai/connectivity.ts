@@ -159,9 +159,12 @@ export async function checkOllamaConnectivity(
       const data = (await tagsResponse.json()) as { models?: Array<{ name: string }> };
       const models = data?.models ?? [];
       const targetLower = model.toLowerCase();
-      modelLoaded = models.some((m) =>
-        m.name.toLowerCase().startsWith(targetLower.split(':')[0]),
-      );
+      // Match the full tag exactly, stripping any digest suffix (e.g. "@sha256:...")
+      // so "gemma4:e2b@sha256:abc" still matches configured tag "gemma4:e2b".
+      modelLoaded = models.some((m) => {
+        const tagWithoutDigest = m.name.toLowerCase().split('@')[0];
+        return tagWithoutDigest === targetLower;
+      });
       const names = models.map((m) => m.name).join(', ') || '(none)';
       tagsDetail = `${models.length} model(s) loaded: ${names}`;
     } catch {
