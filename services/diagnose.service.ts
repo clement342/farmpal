@@ -272,6 +272,29 @@ export async function streamDiagnosis(
 }
 
 /**
+ * Processes a follow-up question within an existing diagnosis conversation.
+ *
+ * Loads the existing conversation, verifies it exists, then delegates to
+ * createDiagnosis which already handles the full conversation-aware flow.
+ * The conversation history provides all necessary context for the AI to
+ * answer the specific follow-up question.
+ *
+ * @param request - The diagnosis request with conversationId for an existing conversation
+ * @returns A conversation-aware diagnosis response
+ * @throws NotFoundError if the conversation does not exist
+ */
+export async function processFollowUp(
+  request: DiagnosisRequest,
+): Promise<ConversationDiagnosisResponse> {
+  const existing = await conversationRepository.findById(request.conversationId ?? '');
+  if (!existing) throw new NotFoundError('Conversation');
+  return createDiagnosis({
+    ...request,
+    context: { ...request.context, followUpMode: 'true' },
+  });
+}
+
+/**
  * Encodes a streaming event as an SSE-format Uint8Array.
  */
 function encodeSSE(type: string, data: unknown): Uint8Array {
