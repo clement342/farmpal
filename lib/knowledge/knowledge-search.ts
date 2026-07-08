@@ -118,6 +118,21 @@ export function findDeficienciesByCrop(cropId: string): KnowledgeDeficiency[] {
 }
 
 /**
+ * Searches all remedy entries for matches against the given keywords.
+ * Matches name, description, and application method.
+ */
+export function findRemedies(keywords: string[]): KnowledgeRemedy[] {
+  const kb = getKnowledge();
+  return kb.remedies.filter(r =>
+    keywords.some(kw =>
+      r.name.toLowerCase().includes(kw) ||
+      r.description.toLowerCase().includes(kw) ||
+      r.applicationMethod.toLowerCase().includes(kw),
+    ),
+  );
+}
+
+/**
  * Searches the entire knowledge base for a keyword.
  *
  * Checks crops, diseases, pests, deficiencies, and glossary

@@ -7,7 +7,7 @@ import { KnowledgeResponseBuilder } from './KnowledgeResponseBuilder';
 import { ConfidenceEvaluator } from './ConfidenceEvaluator';
 import type { KnowledgeSearchResult, AnswerDiagnosisParams, AnswerGeneralQuestionParams, ReasoningLogEntry } from './types';
 import type { DiagnosisResponse, ChatResponse, ChatMessage } from '@/types';
-import type { KnowledgeDisease, KnowledgeDeficiency } from '@/types/knowledge';
+import type { KnowledgeDisease, KnowledgeDeficiency, KnowledgeRemedy } from '@/types/knowledge';
 
 export class ReasoningEngine {
   private knowledgeBuilder = new KnowledgeResponseBuilder();
@@ -81,39 +81,54 @@ export class ReasoningEngine {
         suggestions: ['Tell me more', 'What should I do?', 'Is this serious?'],
       };
     } else {
-      usedAI = true;
-      try {
-        const extraContext = cropContext?.cropName
-          ? `Crop: ${cropContext.cropName}`
-          : undefined;
-        const aiMessages = buildSystemMessages('chat', messages, extraContext);
-        const rawText = await infer(aiMessages, { task: 'chat', temperature: 0.3 });
+      const keywords = this.extractKeywords(lastUserMessage);
+      const matchedRemedies = knowledgeService.getRemedies(keywords);
+
+      if (matchedRemedies.length > 0) {
         response = {
           message: {
             id: crypto.randomUUID(),
-            content: rawText,
+            content: this.formatRemedyResponse(matchedRemedies),
             role: 'assistant',
             createdAt: new Date().toISOString(),
           },
-          suggestions: [
-            'Tell me more about the symptoms',
-            'Which crop is affected?',
-            'When did you first notice this?',
-          ],
+          suggestions: ['How do I apply it?', 'Where can I buy it?', 'Tell me more'],
         };
-      } catch {
-        fallbackTriggered = true;
-        const fallbackText = knowledgeResult.diseases.length > 0
-          ? knowledgeResult.diseases.map(d => `- ${d.name}: ${d.description.split('.')[0]}.`).join('\n')
-          : 'I found some general information that might help. Could you describe the issue in more detail?';
-        response = {
-          message: {
-            id: crypto.randomUUID(),
-            content: fallbackText,
-            role: 'assistant',
-            createdAt: new Date().toISOString(),
-          },
-        };
+      } else {
+        usedAI = true;
+        try {
+          const extraContext = cropContext?.cropName
+            ? `Crop: ${cropContext.cropName}`
+            : undefined;
+          const aiMessages = buildSystemMessages('chat', messages, extraContext);
+          const rawText = await infer(aiMessages, { task: 'chat', temperature: 0.3 });
+          response = {
+            message: {
+              id: crypto.randomUUID(),
+              content: rawText,
+              role: 'assistant',
+              createdAt: new Date().toISOString(),
+            },
+            suggestions: [
+              'Tell me more about the symptoms',
+              'Which crop is affected?',
+              'When did you first notice this?',
+            ],
+          };
+        } catch {
+          fallbackTriggered = true;
+          const fallbackText = knowledgeResult.diseases.length > 0
+            ? knowledgeResult.diseases.map(d => `- ${d.name}: ${d.description.split('.')[0]}.`).join('\n')
+            : 'I found some general information that might help. Could you describe the issue in more detail?';
+          response = {
+            message: {
+              id: crypto.randomUUID(),
+              content: fallbackText,
+              role: 'assistant',
+              createdAt: new Date().toISOString(),
+            },
+          };
+        }
       }
     }
 
@@ -260,6 +275,22 @@ export class ReasoningEngine {
     const allMessages = [...history, newMessage];
 
     return buildSystemMessages('diagnosis', allMessages, extraContext);
+  }
+
+  private formatRemedyResponse(remedies: KnowledgeRemedy[]): string {
+    const remedy = remedies[0];
+    const parts: string[] = [
+      `**${remedy.name}**`,
+      '',
+      remedy.description,
+    ];
+    if (remedy.applicationMethod) {
+      parts.push('', '**Application:**', remedy.applicationMethod);
+    }
+    if (remedy.safetyInterval) {
+      parts.push('', '**Safety:**', remedy.safetyInterval);
+    }
+    return parts.join('\n');
   }
 
   private log(entry: ReasoningLogEntry): void {

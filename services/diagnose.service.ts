@@ -284,7 +284,7 @@ export async function streamDiagnosis(
         }
       } catch (err) {
         controller.enqueue(encodeSSE('error', {
-          message: err instanceof Error ? err.message : 'An unexpected error occurred during streaming',
+          message: err instanceof Error ? err.message : 'An unexpected error occurred during diagnosis',
         }));
       } finally {
         controller.close();

@@ -159,9 +159,12 @@ export async function checkOllamaConnectivity(
       const data = (await tagsResponse.json()) as { models?: Array<{ name: string }> };
       const models = data?.models ?? [];
       const targetLower = model.toLowerCase();
-      modelLoaded = models.some((m) =>
-        m.name.toLowerCase().startsWith(targetLower.split(':')[0]),
-      );
+      // Match the full tag exactly, stripping any digest suffix (e.g. "@sha256:...")
+      // so "gemma4:e2b@sha256:abc" still matches configured tag "gemma4:e2b".
+      modelLoaded = models.some((m) => {
+        const tagWithoutDigest = m.name.toLowerCase().split('@')[0];
+        return tagWithoutDigest === targetLower;
+      });
       const names = models.map((m) => m.name).join(', ') || '(none)';
       tagsDetail = `${models.length} model(s) loaded: ${names}`;
     } catch {
@@ -267,33 +270,33 @@ export async function checkOllamaConnectivity(
 // checkCloudConnectivity
 // ---------------------------------------------------------------------------
 
+/** Google AI Studio base URL — same constant used by CloudProvider. */
+const GOOGLE_BASE_URL = 'https://generativelanguage.googleapis.com/v1beta/models';
+
 /**
- * Lightweight availability check for a cloud inference endpoint.
+ * Lightweight availability check for Google AI Studio.
  *
- * Does **not** make an actual inference call — it verifies that the
- * endpoint URL responds (even with an auth error) so we know whether the
- * host is reachable at all. A 401/403 still counts as "reachable".
+ * Sends a HEAD request to the generateContent endpoint for the configured
+ * model. Any HTTP response — including 4xx — means the host is reachable.
+ * No inference call is made; this only verifies network reachability.
  *
- * @param endpoint - Full endpoint URL.
- * @param apiKey   - Bearer token (used in the Authorization header).
- * @param options  - Optional probe configuration.
+ * @param apiKey  - Google AI Studio API key (`GOOGLE_API_KEY`).
+ * @param model   - Gemini model name (e.g. `gemini-2.0-flash`).
+ * @param options - Optional probe configuration.
  * @returns A {@link ProbeResult} describing the probe outcome.
  *
  * @example
  * ```ts
- * const result = await checkCloudConnectivity(
- *   'https://generativelanguage.googleapis.com/v1beta/models/gemma-4:generateContent',
- *   process.env.GEMMA_CLOUD_API_KEY!,
- * );
+ * const result = await checkCloudConnectivity(process.env.GOOGLE_API_KEY!, 'gemini-2.0-flash');
  * console.log(result.reachable); // true if host responds
  * ```
  */
 export async function checkCloudConnectivity(
-  endpoint: string,
   apiKey: string,
+  model: string,
   options: {
     /**
-     * Timeout for the HEAD/OPTIONS probe (milliseconds).
+     * Timeout for the HEAD probe (milliseconds).
      * @default 8_000
      */
     timeoutMs?: number;
@@ -301,33 +304,34 @@ export async function checkCloudConnectivity(
 ): Promise<ProbeResult> {
   const { timeoutMs = 8_000 } = options;
 
-  if (!endpoint || !apiKey) {
+  if (!apiKey) {
     return {
       reachable: false,
       latencyMs: 0,
-      detail: 'Cloud endpoint or API key not configured',
+      detail: 'GOOGLE_API_KEY not configured',
     };
   }
 
-  log.info('Starting cloud connectivity check', { endpoint });
+  // Build the same endpoint URL CloudProvider uses, appending the API key
+  // as a query parameter (Google AI Studio's authentication scheme).
+  const endpoint = `${GOOGLE_BASE_URL}/${model}:generateContent`;
 
-  // Send a HEAD request — lightweight and unlikely to trigger rate limits.
-  // Some endpoints don't accept HEAD, so we treat any HTTP response
-  // (including 4xx) as "host reachable".
+  log.info('Starting Google AI Studio connectivity check', { model });
+
   const { response, latencyMs, error } = await safeFetch(endpoint, {
     method: 'HEAD',
-    headers: { Authorization: `Bearer ${apiKey}` },
+    headers: { 'x-goog-api-key': apiKey },
     timeoutMs,
   });
 
   if (error || !response) {
     const detail = error ?? 'No response';
-    log.warn('Cloud connectivity check failed', { endpoint, detail });
+    log.warn('Google AI Studio connectivity check failed', { model, detail });
     return { reachable: false, latencyMs, detail };
   }
 
-  // Any HTTP response means the host is reachable (even 401/403/405).
+  // Any HTTP response means the host is reachable (even 400/403/405).
   const detail = `HTTP ${response.status}`;
-  log.info('Cloud connectivity check complete', { endpoint, detail, latencyMs });
+  log.info('Google AI Studio connectivity check complete', { model, detail, latencyMs });
   return { reachable: true, latencyMs, detail };
 }

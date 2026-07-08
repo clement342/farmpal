@@ -107,11 +107,10 @@ export async function GET(): Promise<NextResponse<HealthResponse>> {
     { skipInferenceProbe: true, probeTimeoutMs: 5_000 },
   );
 
-  const cloudConfigured =
-    aiConfig.cloud.endpoint.length > 0 && aiConfig.cloud.apiKey.length > 0;
+  const cloudConfigured = aiConfig.cloud.apiKey.length > 0;
 
   const cloudCheck = cloudConfigured
-    ? checkCloudConnectivity(aiConfig.cloud.endpoint, aiConfig.cloud.apiKey, {
+    ? checkCloudConnectivity(aiConfig.cloud.apiKey, aiConfig.cloud.model, {
         timeoutMs: 8_000,
       })
     : Promise.resolve({ reachable: false, latencyMs: 0, detail: 'Not configured' });

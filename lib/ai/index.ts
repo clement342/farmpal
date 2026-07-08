@@ -65,12 +65,17 @@ export const defaultRegistry = new ProviderRegistry()
     new OllamaProvider(aiConfig.ollama.baseUrl, aiConfig.ollama.model),
   )
   .register(
-    new CloudProvider(
-      aiConfig.cloud.endpoint,
-      aiConfig.cloud.apiKey,
-      aiConfig.cloud.model,
-      aiConfig.cloud.name,
-    ),
+    (() => {
+      console.log(
+        '[ai:registry] Registering CloudProvider | apiKey present:',
+        aiConfig.cloud.apiKey.length > 0,
+        '| length:',
+        aiConfig.cloud.apiKey.length,
+        '| model:',
+        aiConfig.cloud.model,
+      );
+      return new CloudProvider(aiConfig.cloud.apiKey, aiConfig.cloud.model);
+    })(),
   );
 
 /**

@@ -11,8 +11,10 @@ import {
   findPestsByCrop,
   findDeficiency,
   findDeficienciesByCrop,
+  findRemedies,
   findByKeyword,
 } from '@/lib/knowledge/knowledge-search';
+import type { KnowledgeRemedy } from '@/types/knowledge';
 import { buildKnowledgeContext } from '@/lib/knowledge/knowledge-context';
 import { inferCropFromSymptoms } from './crop-inference.service';
 import type { CropInferenceResult } from './crop-inference.service';
@@ -110,6 +112,13 @@ export class KnowledgeService {
    */
   search(keyword: string) {
     return findByKeyword(keyword);
+  }
+
+  /**
+   * Searches remedies by multiple keywords.
+   */
+  getRemedies(keywords: string[]): KnowledgeRemedy[] {
+    return findRemedies(keywords);
   }
 
   /**

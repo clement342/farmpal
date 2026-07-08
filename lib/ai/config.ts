@@ -8,20 +8,28 @@
  *
  * ## Environment variables
  *
- * | Variable               | Required | Default                  | Description                                         |
- * |------------------------|----------|--------------------------|-----------------------------------------------------|
- * | OLLAMA_BASE_URL        | No       | http://localhost:11434   | Base URL of the local Ollama server                 |
- * | OLLAMA_MODEL           | No       | gemma4:latest            | Model tag to load for local inference               |
- * | GEMMA_CLOUD_ENDPOINT   | No       | —                        | Full URL of the cloud chat completions endpoint     |
- * | GEMMA_CLOUD_API_KEY    | No       | —                        | Bearer token / API key for cloud authentication     |
- * | GEMMA_CLOUD_MODEL      | No       | —                        | Optional model name to include in cloud requests    |
- * | GEMMA_CLOUD_NAME       | No       | cloud-gemma              | Human-readable label for the cloud provider         |
+ * | Variable        | Required | Default                | Description                                       |
+ * |-----------------|----------|------------------------|---------------------------------------------------|
+ * | OLLAMA_BASE_URL | No       | http://localhost:11434 | Base URL of the local Ollama server               |
+ * | OLLAMA_MODEL    | No       | gemma4:latest          | Model tag to load for local inference             |
+ * | GOOGLE_API_KEY  | No       | —                      | Google AI Studio API key for cloud fallback       |
+ * | GOOGLE_MODEL    | No       | gemini-2.0-flash       | Gemini model to use for cloud inference           |
  *
  * All variables are optional at the module level. The application degrades
  * gracefully: if only Ollama config is present, cloud is skipped; if only
- * cloud config is present, Ollama health checks will fail and cloud is used.
+ * Google config is present, Ollama health checks will fail and cloud is used.
  * If neither is configured, inference calls throw `AIServiceError`.
  */
+const _googleApiKey = process.env.GOOGLE_API_KEY ?? '';
+
+// Startup diagnostic — logs key presence without exposing the value.
+console.log(
+  '[ai:config] GOOGLE_API_KEY present:',
+  _googleApiKey.length > 0,
+  '| length:',
+  _googleApiKey.length,
+);
+
 export const aiConfig = {
   ollama: {
     /** Base URL for the local Ollama server. */
@@ -31,21 +39,14 @@ export const aiConfig = {
   },
   cloud: {
     /**
-     * Full URL of the cloud endpoint.
+     * Google AI Studio API key.
      * Empty string means no cloud provider is configured.
      */
-    endpoint: process.env.GEMMA_CLOUD_ENDPOINT ?? '',
+    apiKey: _googleApiKey,
     /**
-     * Bearer token / API key.
-     * Empty string means no cloud provider is configured.
+     * Gemini model to use for cloud inference.
+     * Defaults to gemini-2.5-flash — Google's current recommended model (June 2026).
      */
-    apiKey: process.env.GEMMA_CLOUD_API_KEY ?? '',
-    /**
-     * Optional model name to include in cloud request body.
-     * Leave unset if the endpoint infers the model from the URL.
-     */
-    model: process.env.GEMMA_CLOUD_MODEL,
-    /** Human-readable label used in logs and error messages. */
-    name: process.env.GEMMA_CLOUD_NAME ?? 'cloud-gemma',
+    model: process.env.GOOGLE_MODEL ?? 'gemini-2.5-flash',
   },
 } as const;
