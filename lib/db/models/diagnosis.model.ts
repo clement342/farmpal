@@ -1,10 +1,11 @@
-import mongoose, { Schema, type Document, type Model } from 'mongoose';
+import mongoose, { Schema, type Document, type Model, type Types } from 'mongoose';
 
 /**
  * Mongoose document interface for a Diagnosis.
  * Mirrors the shared Diagnosis type while adding Mongoose-specific fields.
  */
 export interface DiagnosisDocument extends Document {
+  _id: Types.ObjectId;
   diseaseName: string;
   cropName: string;
   cropId: string;

@@ -1,9 +1,10 @@
-import mongoose, { Schema, type Document, type Model } from 'mongoose';
+import mongoose, { Schema, type Document, type Model, type Types } from 'mongoose';
 
 /**
  * Mongoose document interface for a Disease.
  */
 export interface DiseaseDocument extends Document {
+  _id: Types.ObjectId;
   name: string;
   scientificName?: string;
   affectedCrops: string[];

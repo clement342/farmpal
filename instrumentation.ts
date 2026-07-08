@@ -70,8 +70,7 @@ async function runStartupChecks(): Promise<void> {
     log.info('FarmPal AI startup check beginning', {
       ollamaBaseUrl: aiConfig.ollama.baseUrl,
       ollamaModel: aiConfig.ollama.model,
-      cloudConfigured:
-        aiConfig.cloud.endpoint.length > 0 && aiConfig.cloud.apiKey.length > 0,
+      cloudConfigured: aiConfig.cloud.apiKey.length > 0,
     });
 
     // -----------------------------------------------------------------------
@@ -109,13 +108,11 @@ async function runStartupChecks(): Promise<void> {
     // -----------------------------------------------------------------------
     // 2. Cloud fallback status (config-only check, no network call)
     // -----------------------------------------------------------------------
-    const cloudConfigured =
-      aiConfig.cloud.endpoint.length > 0 && aiConfig.cloud.apiKey.length > 0;
+    const cloudConfigured = aiConfig.cloud.apiKey.length > 0;
 
     if (cloudConfigured) {
-      log.info('Cloud fallback: configured', {
-        name: aiConfig.cloud.name,
-        endpoint: aiConfig.cloud.endpoint,
+      log.info('Cloud fallback: configured (Google AI Studio)', {
+        model: aiConfig.cloud.model,
       });
     } else {
       log.info('Cloud fallback: not configured (offline-only mode)');

@@ -119,7 +119,7 @@ export class InferenceRouter {
     throw new AIServiceError(
       `No AI provider could serve the request. ${attemptedList} ` +
         `Registered providers: ${providerList}. ` +
-        `Ensure Ollama is running with the configured model, or set GEMMA_CLOUD_ENDPOINT and GEMMA_CLOUD_API_KEY.`,
+        `Ensure Ollama is running with the configured model, or set GOOGLE_API_KEY for Google AI Studio fallback.`,
     );
   }
 }

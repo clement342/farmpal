@@ -1,4 +1,4 @@
-import mongoose, { Schema, type Document, type Model } from 'mongoose';
+import mongoose, { Schema, type Document, type Model, type Types } from 'mongoose';
 
 /**
  * Sub-document interface for a single chat message within a conversation.
@@ -18,6 +18,7 @@ export type ConversationStatus = 'ACTIVE' | 'COMPLETED' | 'ABANDONED';
  * Mongoose document interface for a Conversation.
  */
 export interface ConversationDocument extends Document {
+  _id: Types.ObjectId;
   messages: MessageSubDocument[];
   cropId?: string;
   cropName?: string;

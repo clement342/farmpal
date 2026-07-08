@@ -10,6 +10,10 @@ import type { DiagnosisDocument } from '@/lib/db/models/diagnosis.model';
 import type { CropDocument } from '@/lib/db/models/crop.model';
 import { NotFoundError } from '@/utils/errors';
 import { knowledgeService } from '@/services/knowledge.service';
+import { generateOfflineDiagnosis, OFFLINE_PROVIDER_NAME } from '@/services/offline-diagnosis.service';
+import { createLogger } from '@/lib/ai/logger';
+
+const log = createLogger('diagnose:service');
 
 const diagnosisRepository = new DiagnosisRepository();
 const conversationRepository = new ConversationRepository();
@@ -74,11 +78,22 @@ export async function createDiagnosis(
   });
 
   // -----------------------------------------------------------------------
-  // Call AI adapter with full conversation history
+  // Call AI adapter — fall back to offline KB if all providers fail
   // -----------------------------------------------------------------------
-  const generateDiagnosis = await getDiagnosisAdapter();
-  const aiProvider = getAdapterProviderName();
-  const response = await generateDiagnosis(request, mappedCrop, existingMessages);
+  let response: Awaited<ReturnType<typeof generateOfflineDiagnosis>>;
+  let aiProvider: string;
+
+  try {
+    const generateDiagnosis = await getDiagnosisAdapter();
+    aiProvider = getAdapterProviderName();
+    response = await generateDiagnosis(request, mappedCrop, existingMessages);
+  } catch (aiError) {
+    log.warn('All AI providers failed — falling back to offline knowledge base', {
+      error: aiError instanceof Error ? aiError.message : String(aiError),
+    });
+    aiProvider = OFFLINE_PROVIDER_NAME;
+    response = generateOfflineDiagnosis(request);
+  }
 
   // -----------------------------------------------------------------------
   // Persist AI response and handle completion
@@ -204,66 +219,22 @@ export async function streamDiagnosis(
         }
 
         const response = mapToDiagnosisResponse(parsed.data);
-
-        const displayText =
-          response.status === 'follow_up'
-            ? response.question
-            : response.diagnosis.reasoning;
-
-        // Stream the human-readable text to the client
-        controller.enqueue(encodeSSE('chunk', { text: displayText }));
-
-        if (response.status === 'diagnosis') {
-          const topCause = response.diagnosis.possibleCauses[0];
-
-          await conversationRepository.appendMessage(conversationId, {
-            role: 'assistant',
-            content: response.diagnosis.reasoning,
-          });
-
-          const diagnosisData: CreateDiagnosisData = {
-            diseaseName: topCause.name,
-            cropName,
-            cropId: request.cropId ?? '',
-            confidence: topCause.confidence,
-            reasoning: response.diagnosis.reasoning,
-            severity: mapUrgencyToSeverity(response.diagnosis.urgency),
-            immediateActions: response.diagnosis.recommendations
-              .filter((r) => r.category === 'immediate_action')
-              .map((r) => r.text),
-            preventiveMeasures: response.diagnosis.recommendations
-              .filter((r) => r.category === 'preventive')
-              .map((r) => r.text),
-            extensionOfficerAdvice: response.diagnosis.extensionOfficerAdvice,
-            symptoms: request.symptoms,
-            conversationId,
-            aiProvider,
-          };
-
-          const diagnosisDoc = await diagnosisRepository.create(diagnosisData);
-          await conversationRepository.completeConversation(conversationId, String(diagnosisDoc._id));
-
-          controller.enqueue(encodeSSE('result', {
-            conversationId,
-            status: 'COMPLETED',
-            response,
-          }));
-        } else {
-          await conversationRepository.appendMessage(conversationId, {
-            role: 'assistant',
-            content: response.question,
-          });
-
-          controller.enqueue(encodeSSE('result', {
-            conversationId,
-            status: 'ACTIVE',
-            response,
+        await persistAndEmit(response, aiProvider, cropName, request, conversationId, controller);
+      } catch (err) {
+        // AI stream failed — attempt offline KB fallback before giving up
+        log.warn('Streaming AI failed — falling back to offline knowledge base', {
+          error: err instanceof Error ? err.message : String(err),
+        });
+        try {
+          const offlineResponse = generateOfflineDiagnosis(request);
+          await persistAndEmit(offlineResponse, OFFLINE_PROVIDER_NAME, cropName, request, conversationId, controller);
+        } catch (offlineErr) {
+          controller.enqueue(encodeSSE('error', {
+            message: offlineErr instanceof Error
+              ? offlineErr.message
+              : 'An unexpected error occurred during diagnosis',
           }));
         }
-      } catch (err) {
-        controller.enqueue(encodeSSE('error', {
-          message: err instanceof Error ? err.message : 'An unexpected error occurred during streaming',
-        }));
       } finally {
         controller.close();
       }
@@ -277,6 +248,76 @@ export async function streamDiagnosis(
 function encodeSSE(type: string, data: unknown): Uint8Array {
   const payload = `data: ${JSON.stringify({ type, ...(data as Record<string, unknown>) })}\n\n`;
   return new TextEncoder().encode(payload);
+}
+
+/**
+ * Persists a DiagnosisResponse and emits SSE events to the stream controller.
+ *
+ * Shared between the AI streaming path and the offline KB fallback so
+ * both paths produce identical SSE output and MongoDB records.
+ */
+async function persistAndEmit(
+  response: ReturnType<typeof generateOfflineDiagnosis>,
+  provider: string,
+  cropName: string,
+  request: DiagnosisRequest,
+  conversationId: string,
+  controller: ReadableStreamDefaultController<Uint8Array>,
+): Promise<void> {
+  const displayText =
+    response.status === 'follow_up'
+      ? response.question
+      : response.diagnosis.reasoning;
+
+  controller.enqueue(encodeSSE('chunk', { text: displayText }));
+
+  if (response.status === 'diagnosis') {
+    const topCause = response.diagnosis.possibleCauses[0];
+
+    await conversationRepository.appendMessage(conversationId, {
+      role: 'assistant',
+      content: response.diagnosis.reasoning,
+    });
+
+    const diagnosisData: CreateDiagnosisData = {
+      diseaseName: topCause.name,
+      cropName,
+      cropId: request.cropId ?? '',
+      confidence: topCause.confidence,
+      reasoning: response.diagnosis.reasoning,
+      severity: mapUrgencyToSeverity(response.diagnosis.urgency),
+      immediateActions: response.diagnosis.recommendations
+        .filter((r) => r.category === 'immediate_action')
+        .map((r) => r.text),
+      preventiveMeasures: response.diagnosis.recommendations
+        .filter((r) => r.category === 'preventive')
+        .map((r) => r.text),
+      extensionOfficerAdvice: response.diagnosis.extensionOfficerAdvice,
+      symptoms: request.symptoms,
+      conversationId,
+      aiProvider: provider,
+    };
+
+    const diagnosisDoc = await diagnosisRepository.create(diagnosisData);
+    await conversationRepository.completeConversation(conversationId, String(diagnosisDoc._id));
+
+    controller.enqueue(encodeSSE('result', {
+      conversationId,
+      status: 'COMPLETED',
+      response,
+    }));
+  } else {
+    await conversationRepository.appendMessage(conversationId, {
+      role: 'assistant',
+      content: response.question,
+    });
+
+    controller.enqueue(encodeSSE('result', {
+      conversationId,
+      status: 'ACTIVE',
+      response,
+    }));
+  }
 }
 
 /**
