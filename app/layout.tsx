@@ -2,8 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { InstallPrompt } from "@/components/pwa/InstallPrompt";
-import { UpdateNotification } from "@/components/pwa/UpdateNotification";
 import { OfflineDetector } from "@/components/pwa/OfflineDetector";
+import { SWRegister } from "@/components/pwa/SWRegister";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -53,14 +53,11 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <head>
-        <link rel="manifest" href="/manifest.json" />
-      </head>
       <body className="min-h-full flex flex-col">
+        <SWRegister />
         <OfflineDetector />
         {children}
         <InstallPrompt />
-        <UpdateNotification />
       </body>
     </html>
   );

@@ -46,7 +46,6 @@ export function InstallPrompt() {
     };
 
     window.addEventListener('beforeinstallprompt', handler);
-
     window.addEventListener('appinstalled', () => {
       setIsInstalled(true);
       setIsVisible(false);
@@ -61,13 +60,11 @@ export function InstallPrompt() {
   const handleInstall = async () => {
     if (!deferredPrompt) return;
     deferredPrompt.prompt();
-    const result = await deferredPrompt.userChoice;
-    if (result.outcome === 'dismissed') {
+    const { outcome } = await deferredPrompt.userChoice;
+    if (outcome === 'dismissed') {
       try {
         localStorage.setItem(DISMISSAL_KEY, String(Date.now()));
-      } catch {
-        // localStorage unavailable
-      }
+      } catch { /* noop */ }
     }
     setDeferredPrompt(null);
     setIsVisible(false);
@@ -78,9 +75,7 @@ export function InstallPrompt() {
     setDeferredPrompt(null);
     try {
       localStorage.setItem(DISMISSAL_KEY, String(Date.now()));
-    } catch {
-      // localStorage unavailable
-    }
+    } catch { /* noop */ }
   };
 
   if (!isVisible || isInstalled) return null;
@@ -93,9 +88,7 @@ export function InstallPrompt() {
             🌱
           </div>
           <div className="min-w-0 flex-1">
-            <p className="text-sm font-semibold text-accent-text">
-              Install FarmPal
-            </p>
+            <p className="text-sm font-semibold text-accent-text">Install FarmPal</p>
             <p className="mt-0.5 text-xs text-text-secondary">
               Install for faster access and offline crop diagnosis.
             </p>
