@@ -7,14 +7,18 @@ describe('ConfidenceEvaluator', () => {
 
   it('returns high confidence when many diseases match with symptoms', () => {
     const result: KnowledgeSearchResult = {
-      diseases: [{ id: 'd1', name: 'Disease 1', symptoms: ['yellow'] } as any],
+      diseases: [
+        { id: 'd1', name: 'Disease 1', symptoms: ['yellow spots'] } as any,
+        { id: 'd2', name: 'Disease 2', symptoms: ['yellow mosaic'] } as any,
+        { id: 'd3', name: 'Disease 3', symptoms: ['yellow leaves'] } as any,
+      ],
       deficiencies: [],
       matchedSymptomCount: 3,
-      totalKeywordHits: 5,
+      totalKeywordHits: 6,
     };
     const evaluation = evaluator.evaluate(result, 'cassava');
     expect(evaluation.isHighConfidence).toBe(true);
-    expect(evaluation.score).toBeGreaterThanOrEqual(0.7);
+    expect(evaluation.score).toBeGreaterThanOrEqual(0.85);
   });
 
   it('returns low confidence when no diseases match', () => {

@@ -15,19 +15,19 @@ export class ConfidenceEvaluator {
     let score = 0;
 
     if (result.diseases.length > 0) {
-      score += Math.min(result.diseases.length * 0.25, 0.5);
+      score += Math.min(result.diseases.length * 0.2, 0.45);
     }
 
     if (result.matchedSymptomCount > 0) {
-      score += Math.min(result.matchedSymptomCount * 0.15, 0.3);
+      score += Math.min(result.matchedSymptomCount * 0.12, 0.3);
     }
 
     if (result.totalKeywordHits > 0) {
-      score += Math.min(result.totalKeywordHits * 0.05, 0.2);
+      score += Math.min(result.totalKeywordHits * 0.04, 0.25);
     }
 
     if (result.diseases.length === 0 && result.deficiencies.length > 0) {
-      score = Math.min(score, 0.4);
+      score = Math.min(score, 0.3);
     }
 
     if (!cropId) {

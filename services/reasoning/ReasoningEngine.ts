@@ -14,7 +14,7 @@ export class ReasoningEngine {
   private confidenceEvaluator: ConfidenceEvaluator;
 
   constructor(options?: { threshold?: number }) {
-    this.confidenceEvaluator = new ConfidenceEvaluator({ threshold: options?.threshold ?? 0.7 });
+    this.confidenceEvaluator = new ConfidenceEvaluator({ threshold: options?.threshold ?? 0.85 });
   }
 
   async answerDiagnosis(params: AnswerDiagnosisParams): Promise<DiagnosisResponse> {
@@ -36,7 +36,14 @@ export class ReasoningEngine {
         response = await this.invokeAI(request, crop, params.existingMessages, knowledgeResult);
       } catch {
         fallbackTriggered = true;
-        response = this.knowledgeBuilder.buildDiagnosisResponse(knowledgeResult, crop?.name);
+        if (evaluation.score >= 0.9) {
+          response = this.knowledgeBuilder.buildDiagnosisResponse(knowledgeResult, crop?.name);
+        } else {
+          response = this.knowledgeBuilder.buildFollowUpResponse(
+            this.buildFallbackQuestion(knowledgeResult, crop?.name),
+            ['Leaves have spots or discoloration', 'Roots are rotting or mushy', 'Whole plant looks unhealthy'],
+          );
+        }
       }
     }
 
@@ -291,6 +298,15 @@ export class ReasoningEngine {
       parts.push('', '**Safety:**', remedy.safetyInterval);
     }
     return parts.join('\n');
+  }
+
+  private buildFallbackQuestion(knowledge: KnowledgeSearchResult, cropName?: string): string {
+    const crop = cropName ? ` regarding your ${cropName}` : '';
+    if (knowledge.diseases.length > 0) {
+      const possible = knowledge.diseases.slice(0, 3).map(d => d.name).join(', ');
+      return `I found some possible conditions (${possible}) that could match your description${crop}, but I need more details to narrow it down.\n\n1. What exactly do the affected leaves look like — dark spots, yellowing, wilting, or drying?\n2. Are the symptoms on old leaves, new leaves, or the whole plant?\n3. Have there been recent changes in weather or watering?\n4. How long ago did the symptoms first appear?`;
+    }
+    return `Thank you for the details${crop}. I need a bit more information to identify the problem:\n\n1. Which part of the plant is affected — leaves, stem, roots, or fruit?\n2. What do the symptoms look like — spots, wilting, rot, or discoloration?\n3. How long have you noticed these symptoms?\n4. Have there been recent weather changes like heavy rain or drought?`;
   }
 
   private log(entry: ReasoningLogEntry): void {
