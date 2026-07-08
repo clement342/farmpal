@@ -1,0 +1,10 @@
+{
+  "id": "mancozeb",
+  "name": "Mancozeb",
+  "type": "chemical",
+  "description": "A broad-spectrum contact fungicide from the dithiocarbamate group. It controls many fungal diseases including leaf spots, blights, rusts, and downy mildew. Mancozeb works by inhibiting multiple enzyme systems in fungi, making resistance development very slow. It is available as wettable powder or dispersible granule formulations.",
+  "applicationMethod": "Mix at 2-3g per litre of water. Apply as a protective spray before disease develops. Ensure thorough coverage of all plant parts. Reapply every 7-10 days or after rainfall. Compatible with most other fungicides and insecticides.",
+  "safetyInterval": "7-14 days before harvest",
+  "targetIds": [],
+  "targetType": "disease"
+}

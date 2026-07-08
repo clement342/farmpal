@@ -96,12 +96,9 @@ function getCandidateDiseases(cropId?: string, symptoms?: string): KnowledgeDise
     const words = extractKeywords(symptoms);
     const found = new Map<string, KnowledgeDisease>();
     for (const word of words) {
-      const results = knowledgeService.search(word);
-      for (const r of results) {
-        // search() returns mixed types — keep only KnowledgeDisease (have cropId)
-        if ('cropId' in r && 'treatments' in r) {
-          found.set((r as KnowledgeDisease).id, r as KnowledgeDisease);
-        }
+      const { diseases } = knowledgeService.search(word);
+      for (const r of diseases) {
+        found.set(r.id, r);
       }
     }
     return Array.from(found.values());

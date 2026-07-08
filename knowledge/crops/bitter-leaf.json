@@ -1,0 +1,12 @@
+{
+  "id": "bitter-leaf",
+  "name": "Bitter Leaf",
+  "scientificName": "Vernonia amygdalina",
+  "aliases": ["Bitterleaf", "Onugbu (Igbo)", "Ewuro (Yoruba)", "Shuwaka (Hausa)", "Ndole (Cameroon)", "Bitter tea", "Bitter vegetable"],
+  "description": "Bitter leaf is a perennial herb or shrub widely cultivated in West and Central Africa for its edible leaves. The leaves are used in soups (egusi, bitter leaf soup), stews, and herbal medicine. It has a characteristic bitter taste. The plant is hardy, fast-growing, and regenerates after cutting.",
+  "growingRegions": ["West Africa", "Central Africa", "East Africa", "Nigeria", "Ghana", "Cameroon", "DRC", "Uganda", "Sierra Leone", "Togo", "Benin"],
+  "growthStages": ["Seedling", "Vegetative", "Mature Leaf Production", "Flowering", "Seed Setting"],
+  "commonDiseaseIds": ["bitter-leaf-cercospora-leaf-spot", "bitter-leaf-root-rot", "bitter-leaf-powdery-mildew", "bitter-leaf-anthracnose"],
+  "commonPestIds": ["aphids", "nematodes", "thrips", "leaf-miner", "whitefly"],
+  "commonDeficiencyIds": ["nitrogen-deficiency", "potassium-deficiency", "magnesium-deficiency", "zinc-deficiency"]
+}

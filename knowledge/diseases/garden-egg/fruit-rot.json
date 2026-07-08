@@ -1,0 +1,40 @@
+{
+  "id": "garden-egg-fruit-rot",
+  "cropId": "garden-egg",
+  "name": "Garden Egg Fruit Rot",
+  "scientificName": "Phytophthora spp., Fusarium spp., Phomopsis vexans",
+  "aliases": ["Fruit rot", "Blossom end rot", "Phytophthora fruit rot", "Phomopsis blight"],
+  "description": "A complex of fungal diseases causing rotting of garden egg fruits both in the field and after harvest. The fruit becomes soft, water-soaked, and covered with fungal growth. Losses can be severe during wet weather.",
+  "symptoms": [
+    "Water-soaked spots on fruits that enlarge rapidly",
+    "Fruits developing soft, sunken rotten areas",
+    "White or grey fungal growth on rotting fruit",
+    "Fruits dropping prematurely from the plant",
+    "Dark lesions on fruit stems spreading to fruit",
+    "Rot continuing in stored fruits after harvest"
+  ],
+  "causes": [
+    "Fungal spores splashed onto fruits by rain",
+    "Prolonged wet weather during fruiting",
+    "Poor air circulation in dense plantings",
+    "Fruits touching wet soil",
+    "Harvesting during wet conditions"
+  ],
+  "severity": "high",
+  "seasonality": ["Rainy season", "Harvest period in wet weather"],
+  "treatments": [
+    "Remove and destroy infected fruits immediately",
+    "Apply copper-based fungicide spray to fruits and foliage",
+    "Spray mancozeb or metalaxyl at first sign of infection",
+    "Improve air circulation by pruning excess foliage"
+  ],
+  "prevention": [
+    "Harvest fruits promptly at maturity",
+    "Avoid harvesting during or immediately after rain",
+    "Keep fruits off soil surface using mulch or stakes",
+    "Ensure good air circulation through proper spacing",
+    "Practice crop rotation with non-solanaceous crops",
+    "Store harvested fruits in cool, dry, well-ventilated area"
+  ],
+  "references": ["CABI Crop Protection Compendium", "IITA Post-Harvest Management Guide"]
+}

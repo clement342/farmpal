@@ -1,0 +1,10 @@
+{
+  "id": "neem-oil",
+  "name": "Neem Oil",
+  "type": "organic",
+  "description": "A natural pesticide and fungicide extracted from neem tree seeds (Azadirachta indica). Contains azadirachtin which disrupts insect feeding, growth, and reproduction. Also has antifungal properties against powdery mildew, rust, and leaf spots. Safe for beneficial insects when used correctly. Commonly available as cold-pressed neem oil.",
+  "applicationMethod": "Mix 5ml of neem oil with 1 litre of warm water. Add a few drops of mild soap as emulsifier. Shake well and spray on all leaf surfaces. Apply in early morning or late evening. Reapply every 7-14 days. Use within 24 hours of mixing.",
+  "safetyInterval": "0 days — safe for use up to day of harvest",
+  "targetIds": [],
+  "targetType": "disease"
+}

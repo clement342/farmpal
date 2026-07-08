@@ -1,0 +1,38 @@
+{
+  "id": "garden-egg-leaf-spot",
+  "cropId": "garden-egg",
+  "name": "Garden Egg Leaf Spot",
+  "scientificName": "Cercospora solani, Alternaria solani",
+  "aliases": ["Leaf spot", "Brown spot", "Early blight", "Target spot"],
+  "description": "A fungal leaf disease that causes circular brown spots with target-like concentric rings on garden egg leaves. It reduces photosynthetic area and causes premature leaf drop, leading to smaller fruits and lower yields.",
+  "symptoms": [
+    "Small circular brown spots with concentric rings",
+    "Spots surrounded by yellow halos",
+    "Spots enlarge and merge forming large dead areas",
+    "Lower leaves affected first, then spreading upward",
+    "Severely affected leaves turn yellow and drop",
+    "Fruits may develop sunken spots near the stem end"
+  ],
+  "causes": [
+    "Fungal spores from infected plant debris",
+    "High humidity and warm temperatures",
+    "Prolonged leaf wetness from rain or overhead irrigation",
+    "Poor air circulation from dense planting"
+  ],
+  "severity": "moderate",
+  "seasonality": ["Rainy season", "Humid periods"],
+  "treatments": [
+    "Remove and destroy infected lower leaves",
+    "Apply copper-based fungicide spray weekly",
+    "Spray mancozeb or chlorothalonil at 7-10 day intervals",
+    "Apply neem oil solution (5ml/L water) as organic treatment"
+  ],
+  "prevention": [
+    "Space plants adequately for good airflow",
+    "Water at the base of plants, avoid wetting leaves",
+    "Mulch around plants to prevent soil splash",
+    "Practice crop rotation with non-solanaceous crops",
+    "Remove crop debris after harvest"
+  ],
+  "references": ["IITA Plant Health Management", "CABI Crop Protection Compendium"]
+}

@@ -1,0 +1,40 @@
+{
+  "id": "garden-egg-bacterial-wilt",
+  "cropId": "garden-egg",
+  "name": "Bacterial Wilt",
+  "scientificName": "Ralstonia solanacearum",
+  "aliases": ["Wilt", "Bacterial wilt", "Ralstonia wilt", "Southern bacterial wilt"],
+  "description": "A devastating bacterial disease affecting garden egg and other solanaceous crops. The bacteria invade the vascular system, blocking water transport and causing sudden wilting. It is most severe in warm, wet conditions and can persist in soil for years.",
+  "symptoms": [
+    "Sudden wilting of leaves starting with lower leaves",
+    "Wilting persists even after watering",
+    "Leaves turning yellow then brown without spotting",
+    "Brown discoloration inside the stem when cut",
+    "White bacterial ooze from cut stems placed in water",
+    "Plant collapsing and dying within days"
+  ],
+  "causes": [
+    "Bacteria surviving in contaminated soil for years",
+    "Infected transplant seedlings from nurseries",
+    "Contaminated irrigation water",
+    "Root damage from cultivation or nematodes",
+    "Warm temperatures (25-35°C) with high soil moisture"
+  ],
+  "severity": "critical",
+  "seasonality": ["Rainy season", "Warm wet periods"],
+  "treatments": [
+    "Remove and burn infected plants immediately",
+    "Apply copper-based bactericide as soil drench",
+    "No curative treatment — focus on prevention",
+    "Solarize soil by covering with clear plastic for 4-6 weeks"
+  ],
+  "prevention": [
+    "Use disease-free seedlings from reputable nurseries",
+    "Practice long crop rotation (3-4 years) with non-solanaceous crops",
+    "Plant resistant varieties where available",
+    "Avoid damaging roots during transplanting and weeding",
+    "Improve drainage to reduce soil moisture",
+    "Graft susceptible varieties onto resistant rootstocks"
+  ],
+  "references": ["IITA Bacterial Wilt Management Guide", "CABI Crop Protection Compendium", "Nigeria Agricultural Research Council"]
+}

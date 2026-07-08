@@ -1,0 +1,12 @@
+{
+  "id": "scent-leaf",
+  "name": "Scent Leaf",
+  "scientificName": "Ocimum gratissimum",
+  "aliases": ["Scent Leave", "Nchanwu (Igbo)", "Efirin (Yoruba)", "Daidoya (Hausa)", "African Basil", "Clove Basil", "Wild Basil"],
+  "description": "Scent leaf is a highly aromatic leafy vegetable and medicinal herb widely cultivated across West Africa, especially in Nigeria. It is used as a flavoring in soups and stews and has antimicrobial and insect-repelling properties. The plant thrives in warm, humid climates and is typically grown in home gardens and smallholder farms.",
+  "growingRegions": ["West Africa", "East Africa", "Central Africa", "Nigeria", "Ghana", "Benin", "Cameroon", "Togo", "Senegal", "Anambra"],
+  "growthStages": ["Seedling", "Vegetative", "Flowering", "Seed Set"],
+  "commonDiseaseIds": [],
+  "commonPestIds": ["aphids", "thrips"],
+  "commonDeficiencyIds": ["nitrogen-deficiency"]
+}

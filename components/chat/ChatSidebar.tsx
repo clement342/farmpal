@@ -4,6 +4,12 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { fetchHistory } from '@/lib/api/history';
+import {
+  formatRelativeTime,
+  getHistorySubtitle,
+  getHistoryTitle,
+  isResolvedCropName,
+} from '@/lib/crop-display';
 import type { HistoryRecord } from '@/types';
 
 interface ChatSidebarProps {
@@ -12,6 +18,76 @@ interface ChatSidebarProps {
   open: boolean;
   onClose: () => void;
   refreshKey?: number;
+}
+
+function HistoryItem({
+  record,
+  isActive,
+  onClose,
+}: {
+  record: HistoryRecord;
+  isActive: boolean;
+  onClose: () => void;
+}) {
+  const lastMsg = record.conversation.messages?.[record.conversation.messages.length - 1];
+  const title = getHistoryTitle({
+    cropName: record.cropName,
+    diseaseName: record.diagnosis?.diseaseName,
+    initialSymptoms: record.initialSymptoms,
+  });
+  const subtitle = getHistorySubtitle({
+    cropName: record.cropName,
+    diseaseName: record.diagnosis?.diseaseName,
+    initialSymptoms: record.initialSymptoms,
+  });
+  const preview = lastMsg?.content || record.initialSymptoms || 'No messages yet';
+  const hasCrop = isResolvedCropName(record.cropName);
+  const isCompleted = Boolean(record.diagnosis);
+
+  return (
+    <Link
+      href={`/conversation/${record.conversation.id}`}
+      onClick={onClose}
+      className={`block p-3 rounded-xl transition-colors group ${
+        isActive
+          ? 'bg-accent-subtle border border-accent/20'
+          : 'hover:bg-surface border border-transparent hover:border-border-subtle'
+      }`}
+    >
+      <div className="flex items-start justify-between gap-2 mb-1.5">
+        <p className="text-sm font-medium text-text-primary truncate leading-snug flex-1">
+          {title}
+        </p>
+        <span className="text-[10px] text-text-muted shrink-0 pt-0.5">
+          {formatRelativeTime(record.updatedAt || record.createdAt)}
+        </span>
+      </div>
+
+      {subtitle && (
+        <p className="text-xs text-accent-text truncate mb-1.5">{subtitle}</p>
+      )}
+
+      <p className="text-xs text-text-muted truncate leading-relaxed mb-2">
+        {preview}
+      </p>
+
+      <div className="flex items-center gap-2">
+        {hasCrop && (
+          <span className="inline-flex items-center px-1.5 py-0.5 rounded-md bg-surface border border-border-subtle text-[10px] text-text-secondary">
+            {record.cropName}
+          </span>
+        )}
+        <span className={`inline-flex items-center gap-1 text-[10px] ${
+          isCompleted ? 'text-accent-text' : 'text-yellow-500/90'
+        }`}>
+          <span className={`w-1.5 h-1.5 rounded-full ${
+            isCompleted ? 'bg-accent' : 'bg-yellow-500'
+          }`} />
+          {isCompleted ? 'Completed' : 'Active'}
+        </span>
+      </div>
+    </Link>
+  );
 }
 
 export function ChatSidebar({ activeConversationId, onNewChat, open, onClose, refreshKey }: ChatSidebarProps) {
@@ -60,7 +136,7 @@ export function ChatSidebar({ activeConversationId, onNewChat, open, onClose, re
         {loading ? (
           <div className="space-y-2 p-2">
             {Array.from({ length: 4 }).map((_, i) => (
-              <div key={i} className="h-14 rounded-lg bg-surface animate-pulse" />
+              <div key={i} className="h-[88px] rounded-xl bg-surface animate-pulse" />
             ))}
           </div>
         ) : conversations.length === 0 ? (
@@ -71,42 +147,24 @@ export function ChatSidebar({ activeConversationId, onNewChat, open, onClose, re
                 <path d="M7 11V7a5 5 0 0 1 10 0v4" />
               </svg>
             </div>
-            <p className="text-sm text-text-primary font-medium mb-1">Sync your history</p>
+            <p className="text-sm text-text-primary font-medium mb-1">No diagnoses yet</p>
             <p className="text-xs text-text-muted leading-relaxed">
-              Sign in to save and access your diagnosis history across devices.
+              Start a new diagnosis and your sessions will appear here.
             </p>
           </div>
         ) : (
           <div className="space-y-1">
-            {conversations.map((record) => {
-              const isActive = record.conversation.id === activeConversationId;
-              const lastMsg = record.conversation.messages?.[record.conversation.messages.length - 1];
-              return (
-                <Link
-                  key={record.id}
-                  href={`/conversation/${record.conversation.id}`}
-                  onClick={onClose}
-                  className={`block p-3 rounded-xl transition-colors ${
-                    isActive
-                      ? 'bg-accent-subtle border border-accent/20'
-                      : 'hover:bg-surface border border-transparent'
-                  }`}
-                >
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="text-xs font-medium text-accent-text">{record.cropName || 'Unidentified crop'}</span>
-                    <span className={`w-1.5 h-1.5 rounded-full ${
-                      record.diagnosis ? 'bg-accent' : 'bg-yellow-500'
-                    }`} />
-                    <span className="text-[10px] text-text-muted">
-                      {record.diagnosis ? 'Completed' : 'Active'}
-                    </span>
-                  </div>
-                  <p className="text-xs text-text-muted truncate">
-                    {lastMsg?.content || record.initialSymptoms || 'No messages'}
-                  </p>
-                </Link>
-              );
-            })}
+            <p className="px-3 pt-1 pb-2 text-[11px] font-medium uppercase tracking-wider text-text-muted">
+              Recent
+            </p>
+            {conversations.map((record) => (
+              <HistoryItem
+                key={record.id}
+                record={record}
+                isActive={record.conversation.id === activeConversationId}
+                onClose={onClose}
+              />
+            ))}
           </div>
         )}
       </div>

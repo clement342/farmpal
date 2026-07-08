@@ -1,25 +1,9 @@
-import type { DiagnosisRequest, ConversationDiagnosisResponse } from '@/types';
-import { createDiagnosis, streamDiagnosis } from '@/services/diagnose.service';
+import type { ConversationDiagnosisResponse, DiagnosisRequest } from '@/types';
+import { conversationOrchestrator } from '@/services/conversation/ConversationOrchestrator';
+import { createDiagnosis, processFollowUp, streamDiagnosis } from '@/services/diagnose.service';
 import { validateDiagnosisRequest, validateCropExists } from '@/lib/validation';
 import { knowledgeService } from '@/services/knowledge.service';
 
-/**
- * Diagnosis controller.
- *
- * Handles incoming diagnosis requests. Validates the input,
- * verifies the crop exists (if provided or auto-detected), and
- * delegates to the diagnosis service.
- *
- * Controllers remain thin — no business logic, no database access,
- * no AI calls.
- */
-
-/**
- * Initiates or continues a crop disease diagnosis (non-streaming).
- *
- * @param body - The raw request body containing symptoms, crop info, and optional conversationId
- * @returns A conversation-aware diagnosis response
- */
 export async function handleDiagnosisRequest(
   body: unknown,
 ): Promise<ConversationDiagnosisResponse> {
@@ -36,18 +20,17 @@ export async function handleDiagnosisRequest(
     await validateCropExists(request.cropId);
   }
 
-  return createDiagnosis(request);
+  const { decision } = await conversationOrchestrator.execute(request);
+
+  switch (decision.nextAction) {
+    case 'ANSWER_FOLLOWUP':
+      return processFollowUp(request);
+
+    default:
+      return createDiagnosis(request);
+  }
 }
 
-/**
- * Initiates or continues a crop disease diagnosis with streaming.
- *
- * Returns a `ReadableStream` that the route handler should return
- * as the HTTP response with `Content-Type: text/event-stream`.
- *
- * @param body - The raw request body
- * @returns A ReadableStream of SSE events
- */
 export async function handleStreamDiagnosis(
   body: unknown,
 ): Promise<ReadableStream<Uint8Array>> {
@@ -71,7 +54,20 @@ export async function handleStreamDiagnosis(
     await validateCropExists(request.cropId);
   }
 
-  const stream = await streamDiagnosis(request);
+  const { decision } = await conversationOrchestrator.execute(request);
+
+  let stream: ReadableStream<Uint8Array>;
+
+  switch (decision.nextAction) {
+    case 'ANSWER_FOLLOWUP': {
+      const result = await processFollowUp(request);
+      stream = createSimpleStream(result);
+      break;
+    }
+
+    default:
+      stream = await streamDiagnosis(request);
+  }
 
   if (detectedCropInfo) {
     return prependCropDetectedEvent(stream, detectedCropInfo);
@@ -85,20 +81,36 @@ function prependCropDetectedEvent(
   info: { cropId: string; cropName: string; confidence: string },
 ): ReadableStream<Uint8Array> {
   const encoder = new TextEncoder();
-  let headerSent = false;
+  const reader = original.getReader();
 
   return new ReadableStream<Uint8Array>({
     async start(controller) {
       const event = `data: ${JSON.stringify({ type: 'crop_detected', ...info })}\n\n`;
       controller.enqueue(encoder.encode(event));
-      headerSent = true;
 
-      const reader = original.getReader();
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
         controller.enqueue(value);
       }
+      controller.close();
+    },
+  });
+}
+
+function createSimpleStream(
+  response: ConversationDiagnosisResponse,
+): ReadableStream<Uint8Array> {
+  const encoder = new TextEncoder();
+  const text =
+    response.response.status === 'follow_up'
+      ? response.response.question
+      : response.response.diagnosis.reasoning;
+
+  return new ReadableStream<Uint8Array>({
+    start(controller) {
+      controller.enqueue(encoder.encode(`data: ${JSON.stringify({ type: 'chunk', text })}\n\n`));
+      controller.enqueue(encoder.encode(`data: ${JSON.stringify({ type: 'result', ...response })}\n\n`));
       controller.close();
     },
   });

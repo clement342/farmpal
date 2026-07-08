@@ -1,0 +1,38 @@
+{
+  "id": "bitter-leaf-anthracnose",
+  "cropId": "bitter-leaf",
+  "name": "Bitter Leaf Anthracnose",
+  "scientificName": "Colletotrichum spp.",
+  "aliases": ["Leaf blight", "Anthracnose", "Leaf scorch"],
+  "description": "A fungal disease causing dark sunken lesions on bitter leaf stems and leaves. It is spread by rain splash and is most severe during prolonged wet periods. The disease can cause significant leaf loss and stem dieback.",
+  "symptoms": [
+    "Dark brown to black sunken spots on stems",
+    "Irregular brown patches with dark borders on leaves",
+    "Leaf edges turning brown and scorched-looking",
+    "Stems developing cankers that girdle and kill branches",
+    "Premature leaf drop and defoliation",
+    "Dieback of shoot tips in severe infections"
+  ],
+  "causes": [
+    "Fungal spores surviving on plant debris",
+    "Spread by rain splash during heavy rains",
+    "Wounds from insect feeding or harvesting",
+    "Continuous wet weather for extended periods"
+  ],
+  "severity": "moderate",
+  "seasonality": ["Rainy season", "Periods of prolonged rainfall"],
+  "treatments": [
+    "Prune and destroy infected stems and branches",
+    "Apply copper-based fungicide spray at weekly intervals",
+    "Spray carbendazim or mancozeb at first symptoms",
+    "Apply neem oil (5ml/L water) as organic preventive"
+  ],
+  "prevention": [
+    "Avoid working in the field when leaves are wet",
+    "Use clean pruning tools disinfected between plants",
+    "Remove and destroy crop debris after harvest",
+    "Maintain adequate spacing between plants",
+    "Rotate with non-solanaceous crops"
+  ],
+  "references": ["CABI Crop Protection Compendium", "IITA Vegetable Disease Guide"]
+}

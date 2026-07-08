@@ -1,7 +1,10 @@
-import type { HistoryQuery, HistoryRecord } from '@/types';
+import type { HistoryQuery, HistoryRecord, ChatMessage } from '@/types';
 import { HistoryRepository } from '@/repositories/history.repository';
 import { DiagnosisRepository, type CreateDiagnosisData } from '@/repositories/diagnosis.repository';
 import type { DiagnosisDocument } from '@/lib/db/models/diagnosis.model';
+import { ConversationModel } from '@/lib/db/models/conversation.model';
+import { connectToDatabase } from '@/lib/db/connection';
+import { enrichCropName } from '@/lib/crop-resolver';
 
 /**
  * History service.
@@ -37,7 +40,9 @@ export async function getHistory(
     sortOrder: query.sortOrder,
   });
 
-  const records: HistoryRecord[] = data.map((doc) => mapToHistoryRecord(doc));
+  let records: HistoryRecord[] = data.map((doc) => mapToHistoryRecord(doc));
+
+  records = await populateConversationData(records);
 
   return { records, total };
 }
@@ -52,7 +57,8 @@ export async function getHistoryById(id: string): Promise<HistoryRecord | null> 
   const doc = await historyRepository.findById(id);
   if (!doc) return null;
 
-  return mapToHistoryRecord(doc);
+  const [record] = await populateConversationData([mapToHistoryRecord(doc)]);
+  return record ?? null;
 }
 
 /**
@@ -98,22 +104,32 @@ export async function saveHistoryRecord(
 }
 
 /**
- * Maps a Mongoose diagnosis document to a HistoryRecord.
+ * Maps a Mongoose diagnosis document to a HistoryRecord,
+ * loading the conversation messages from the Conversation collection.
  */
-function mapToHistoryRecord(doc: DiagnosisDocument): HistoryRecord {
+function mapToHistoryRecord(
+  doc: DiagnosisDocument,
+  conversationCrop?: { cropId?: string; cropName?: string },
+): HistoryRecord {
   const isoCreated = doc.createdAt instanceof Date ? doc.createdAt.toISOString() : String(doc.createdAt);
   const isoUpdated = doc.updatedAt instanceof Date ? doc.updatedAt.toISOString() : String(doc.updatedAt);
+
+  const conversationId = doc.conversationId ?? '';
+  const cropName = enrichCropName(doc.cropId, doc.cropName, conversationCrop);
+  const cropId = doc.cropId && doc.cropId !== 'Unknown' && doc.cropId !== 'unspecified'
+    ? doc.cropId
+    : conversationCrop?.cropId;
 
   return {
     id: String(doc._id),
     conversation: {
-      id: doc.conversationId || String(doc._id),
-      messages: [],
+      id: conversationId || String(doc._id),
+      messages: [], // populated async below
     },
     diagnosis: {
       id: String(doc._id),
       diseaseName: doc.diseaseName,
-      cropName: doc.cropName,
+      cropName: cropName || doc.cropName,
       confidence: doc.confidence,
       reasoning: doc.reasoning,
       severity: doc.severity,
@@ -122,9 +138,62 @@ function mapToHistoryRecord(doc: DiagnosisDocument): HistoryRecord {
       extensionOfficerAdvice: doc.extensionOfficerAdvice,
       createdAt: isoCreated,
     },
-    cropName: doc.cropName,
+    cropName: cropName || '',
+    cropId,
     initialSymptoms: doc.symptoms,
     createdAt: isoCreated,
     updatedAt: isoUpdated,
   };
+}
+
+/**
+ * Loads conversation messages and crop context for a batch of history records.
+ */
+async function populateConversationData(
+  records: HistoryRecord[],
+): Promise<HistoryRecord[]> {
+  const convIds = [...new Set(records.map((r) => r.conversation.id).filter(Boolean))];
+  if (convIds.length === 0) return records;
+
+  await connectToDatabase();
+  const conversations = await ConversationModel.find(
+    { _id: { $in: convIds } },
+    { messages: 1, cropId: 1, cropName: 1 },
+  ).lean().exec();
+
+  const msgMap = new Map<string, ChatMessage[]>();
+  const cropMap = new Map<string, { cropId?: string; cropName?: string }>();
+  for (const conv of conversations) {
+    const id = String(conv._id);
+    const messages: ChatMessage[] = (conv.messages ?? []).map((m: { role: string; content: string; createdAt?: Date }) => ({
+      id: crypto.randomUUID(),
+      role: m.role as ChatMessage['role'],
+      content: m.content,
+      createdAt: m.createdAt instanceof Date ? m.createdAt.toISOString() : new Date().toISOString(),
+    }));
+    msgMap.set(id, messages);
+    cropMap.set(id, { cropId: conv.cropId, cropName: conv.cropName });
+  }
+
+  return records.map((r) => {
+    const msgs = msgMap.get(r.conversation.id);
+    const convCrop = cropMap.get(r.conversation.id);
+    const enrichedCropName = enrichCropName(r.cropId, r.cropName, convCrop);
+
+    const updated: HistoryRecord = {
+      ...r,
+      cropName: enrichedCropName || r.cropName,
+      cropId: r.cropId || convCrop?.cropId,
+      conversation: {
+        ...r.conversation,
+        messages: msgs ?? r.conversation.messages,
+      },
+    };
+
+    if (updated.diagnosis && enrichedCropName) {
+      updated.diagnosis = { ...updated.diagnosis, cropName: enrichedCropName };
+    }
+
+    return updated;
+  });
 }

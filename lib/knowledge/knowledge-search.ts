@@ -4,6 +4,7 @@ import type {
   KnowledgeDisease,
   KnowledgePest,
   KnowledgeDeficiency,
+  KnowledgeRemedy,
 } from '@/types/knowledge';
 import { getKnowledge } from './knowledge-cache';
 
@@ -108,6 +109,30 @@ export function findDeficiency(id: string): KnowledgeDeficiency | undefined {
 }
 
 /**
+ * Returns all deficiencies known to affect a given crop.
+ */
+export function findDeficienciesByCrop(cropId: string): KnowledgeDeficiency[] {
+  return getKnowledge().deficiencies.filter((d) =>
+    d.affectedCrops.includes(cropId),
+  );
+}
+
+/**
+ * Searches all remedy entries for matches against the given keywords.
+ * Matches name, description, and application method.
+ */
+export function findRemedies(keywords: string[]): KnowledgeRemedy[] {
+  const kb = getKnowledge();
+  return kb.remedies.filter(r =>
+    keywords.some(kw =>
+      r.name.toLowerCase().includes(kw) ||
+      r.description.toLowerCase().includes(kw) ||
+      r.applicationMethod.toLowerCase().includes(kw),
+    ),
+  );
+}
+
+/**
  * Searches the entire knowledge base for a keyword.
  *
  * Checks crops, diseases, pests, deficiencies, and glossary
@@ -120,6 +145,7 @@ export function findByKeyword(keyword: string): {
   diseases: KnowledgeDisease[];
   pests: KnowledgePest[];
   deficiencies: KnowledgeDeficiency[];
+  remedies: KnowledgeRemedy[];
 } {
   const lower = keyword.toLowerCase().trim();
   const kb: KnowledgeBase = getKnowledge();
@@ -153,10 +179,15 @@ export function findByKeyword(keyword: string): {
     .filter((d) => score(d.name) > 0 || d.symptoms.some((s) => score(s) > 0))
     .sort((a, b) => Math.max(score(b.name)) - Math.max(score(a.name)));
 
+  const remedyResults = kb.remedies
+    .filter((r) => score(r.name) > 0 || score(r.description) > 0)
+    .sort((a, b) => Math.max(score(b.name)) - Math.max(score(a.name)));
+
   return {
     crops: cropResults,
     diseases: diseaseResults,
     pests: pestResults,
     deficiencies: deficiencyResults,
+    remedies: remedyResults,
   };
 }

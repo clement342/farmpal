@@ -1,10 +1,10 @@
 {
-  "version": "2.0.0",
-  "lastUpdated": "2026-07-05",
-  "cropCount": 16,
-  "diseaseCount": 78,
+  "version": "2.1.0",
+  "lastUpdated": "2026-07-08",
+  "cropCount": 19,
+  "diseaseCount": 86,
   "pestCount": 23,
   "deficiencyCount": 8,
-  "remedyCount": 0,
+  "remedyCount": 6,
   "glossaryCount": 41
 }
