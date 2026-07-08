@@ -48,8 +48,8 @@ export async function createDiagnosis(
     conversationId = request.conversationId;
     existingMessages = existing.messages.map(mapMessageSubDoc);
 
-    // Inherit crop context from the conversation if not explicitly provided
-    if (!request.cropId && existing.cropId) {
+    // Inherit crop context from the conversation if still actively diagnosing
+    if (!request.cropId && existing.cropId && existing.status === 'ACTIVE') {
       request.cropId = existing.cropId;
     }
   } else {
@@ -182,7 +182,7 @@ export async function streamDiagnosis(
     conversationId = request.conversationId;
     existingMessages = existing.messages.map(mapMessageSubDoc);
 
-    if (!request.cropId && existing.cropId) {
+    if (!request.cropId && existing.cropId && existing.status === 'ACTIVE') {
       request.cropId = existing.cropId;
     }
   } else {
