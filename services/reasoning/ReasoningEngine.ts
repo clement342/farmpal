@@ -22,7 +22,7 @@ export class ReasoningEngine {
     const { request, crop } = params;
 
     const knowledgeResult = this.searchKnowledge(request.symptoms, request.cropId);
-    const evaluation = this.confidenceEvaluator.evaluate(knowledgeResult);
+    const evaluation = this.confidenceEvaluator.evaluate(knowledgeResult, request.cropId);
 
     let response: DiagnosisResponse;
     let usedAI = false;
@@ -58,8 +58,9 @@ export class ReasoningEngine {
     const { messages, cropContext } = params;
 
     const lastUserMessage = [...messages].reverse().find(m => m.role === 'user')?.content ?? '';
-    const knowledgeResult = this.searchKnowledge(lastUserMessage, cropContext?.cropId);
-    const evaluation = this.confidenceEvaluator.evaluate(knowledgeResult);
+    const cropId = cropContext?.cropId;
+    const knowledgeResult = this.searchKnowledge(lastUserMessage, cropId);
+    const evaluation = this.confidenceEvaluator.evaluate(knowledgeResult, cropId);
 
     let response: ChatResponse;
     let usedAI = false;
@@ -146,10 +147,15 @@ export class ReasoningEngine {
   private searchKnowledge(symptoms: string, cropId?: string): KnowledgeSearchResult {
     const keywords = this.extractKeywords(symptoms);
 
+    if (keywords.length === 0) {
+      return { diseases: [], deficiencies: [], matchedSymptomCount: 0, totalKeywordHits: 0 };
+    }
+
     if (cropId) {
       return this.searchWithCrop(keywords, cropId);
     }
-    return this.searchWithoutCrop(keywords);
+
+    return this.searchWithoutCrop(keywords, symptoms);
   }
 
   private searchWithCrop(
@@ -166,62 +172,43 @@ export class ReasoningEngine {
       ),
     );
 
-    const keywordDiseaseIds = new Set(diseaseMatches.map(d => d.id));
+    const defMatches = knowledgeService.getDeficienciesForCrop(cropId).filter(d =>
+      keywords.some(kw =>
+        d.name.toLowerCase().includes(kw) ||
+        d.description.toLowerCase().includes(kw) ||
+        d.symptoms.some(s => s.toLowerCase().includes(kw)),
+      ),
+    );
 
-    for (const kw of keywords) {
-      const result = knowledgeService.search(kw);
-      for (const d of result.diseases) {
-        if (!keywordDiseaseIds.has(d.id)) {
-          diseaseMatches.push(d);
-          keywordDiseaseIds.add(d.id);
-        }
-      }
-    }
-
-    const allDefficiencies: KnowledgeDeficiency[] = [];
-    const defIds = new Set<string>();
-    for (const kw of keywords) {
-      const result = knowledgeService.search(kw);
-      for (const def of result.deficiencies) {
-        if (!defIds.has(def.id)) {
-          allDefficiencies.push(def);
-          defIds.add(def.id);
-        }
-      }
-    }
-
-    const totalHits = diseaseMatches.length + allDefficiencies.length;
+    const totalHits = diseaseMatches.length + defMatches.length;
+    const matchedKeywords = keywords.filter(kw =>
+      diseaseMatches.some(d =>
+        d.name.toLowerCase().includes(kw) ||
+        d.symptoms.some(s => s.toLowerCase().includes(kw)),
+      ) || defMatches.some(d =>
+        d.name.toLowerCase().includes(kw) ||
+        d.symptoms.some(s => s.toLowerCase().includes(kw)),
+      ),
+    );
 
     return {
       diseases: diseaseMatches,
-      deficiencies: allDefficiencies,
-      matchedSymptomCount: keywords.length,
+      deficiencies: defMatches,
+      matchedSymptomCount: matchedKeywords.length,
       totalKeywordHits: totalHits,
     };
   }
 
   private searchWithoutCrop(
     keywords: string[],
+    symptoms: string,
   ): KnowledgeSearchResult {
-    const diseaseMap = new Map<string, KnowledgeDisease>();
-    const defMap = new Map<string, KnowledgeDeficiency>();
-
-    for (const kw of keywords) {
-      const result = knowledgeService.search(kw);
-      for (const d of result.diseases) {
-        diseaseMap.set(d.id, d);
-      }
-      for (const def of result.deficiencies) {
-        defMap.set(def.id, def);
-      }
+    const cropInference = knowledgeService.inferCrop(symptoms);
+    if (cropInference.detected && cropInference.crop) {
+      return this.searchWithCrop(keywords, cropInference.crop.id);
     }
 
-    return {
-      diseases: Array.from(diseaseMap.values()),
-      deficiencies: Array.from(defMap.values()),
-      matchedSymptomCount: keywords.length,
-      totalKeywordHits: diseaseMap.size + defMap.size,
-    };
+    return { diseases: [], deficiencies: [], matchedSymptomCount: 0, totalKeywordHits: 0 };
   }
 
   private async invokeAI(

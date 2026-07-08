@@ -1,0 +1,12 @@
+{
+  "id": "garden-egg",
+  "name": "Garden Egg (Eggplant)",
+  "scientificName": "Solanum aethiopicum / Solanum melongena",
+  "aliases": ["Eggplant", "Aubergine", "Gauta (Hausa)", "Igba (Yoruba)", "Afufa (Igbo)", "Garden egg", "Brinjal", "Gboma"],
+  "description": "Garden egg is a widely cultivated vegetable crop in West Africa, producing small egg-shaped fruits that are white, green, or purple. It is a member of the nightshade family like tomato and pepper. The fruits are used in stews, soups, and eaten raw. The plant is susceptible to many of the same diseases as tomato and pepper.",
+  "growingRegions": ["West Africa", "East Africa", "Central Africa", "Nigeria", "Ghana", "Benin", "Cameroon", "Uganda", "Kenya", "India", "Southeast Asia"],
+  "growthStages": ["Seedling", "Transplanting", "Vegetative", "Flowering", "Fruit Set", "Fruit Maturation"],
+  "commonDiseaseIds": ["garden-egg-bacterial-wilt", "garden-egg-leaf-spot", "garden-egg-powdery-mildew", "garden-egg-fruit-rot"],
+  "commonPestIds": ["aphids", "whitefly", "thrips", "nematodes", "fruitworm", "fruit-fly"],
+  "commonDeficiencyIds": ["nitrogen-deficiency", "potassium-deficiency", "calcium-deficiency", "magnesium-deficiency"]
+}

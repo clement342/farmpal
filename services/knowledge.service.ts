@@ -10,6 +10,7 @@ import {
   findPest,
   findPestsByCrop,
   findDeficiency,
+  findDeficienciesByCrop,
   findByKeyword,
 } from '@/lib/knowledge/knowledge-search';
 import { buildKnowledgeContext } from '@/lib/knowledge/knowledge-context';
@@ -95,6 +96,13 @@ export class KnowledgeService {
    */
   getDeficiency(id: string) {
     return findDeficiency(id);
+  }
+
+  /**
+   * Returns all nutrient deficiencies known to affect a given crop.
+   */
+  getDeficienciesForCrop(cropId: string) {
+    return findDeficienciesByCrop(cropId);
   }
 
   /**

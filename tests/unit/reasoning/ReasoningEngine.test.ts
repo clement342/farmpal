@@ -1,14 +1,18 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
-const { mockSearch, mockGetDiseasesForCrop } = vi.hoisted(() => ({
+const { mockSearch, mockGetDiseasesForCrop, mockGetDeficienciesForCrop, mockInferCrop } = vi.hoisted(() => ({
   mockSearch: vi.fn(),
   mockGetDiseasesForCrop: vi.fn(),
+  mockGetDeficienciesForCrop: vi.fn(),
+  mockInferCrop: vi.fn(),
 }));
 
 vi.mock('@/services/knowledge.service', () => ({
   knowledgeService: {
     search: mockSearch,
     getDiseasesForCrop: mockGetDiseasesForCrop,
+    getDeficienciesForCrop: mockGetDeficienciesForCrop,
+    inferCrop: mockInferCrop,
   },
 }));
 
@@ -35,6 +39,8 @@ describe('ReasoningEngine', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
+    mockGetDeficienciesForCrop.mockReturnValue([]);
+    mockInferCrop.mockReturnValue({ detected: false, crop: undefined, confidence: 'low' as const, candidates: [] });
     engine = new ReasoningEngine({ threshold: 0.7 });
   });
 
@@ -45,7 +51,7 @@ describe('ReasoningEngine', () => {
         cropId: 'cassava',
         name: 'Cassava Mosaic Disease',
         description: 'Viral disease causing mosaic pattern on leaves.',
-        symptoms: ['mosaic', 'yellow'],
+        symptoms: ['mosaic pattern on leaves', 'yellow leaves'],
         causes: ['Virus'],
         severity: 'high',
         treatments: ['Remove infected plants', 'Use resistant varieties'],

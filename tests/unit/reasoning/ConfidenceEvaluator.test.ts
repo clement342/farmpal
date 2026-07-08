@@ -12,7 +12,7 @@ describe('ConfidenceEvaluator', () => {
       matchedSymptomCount: 3,
       totalKeywordHits: 5,
     };
-    const evaluation = evaluator.evaluate(result);
+    const evaluation = evaluator.evaluate(result, 'cassava');
     expect(evaluation.isHighConfidence).toBe(true);
     expect(evaluation.score).toBeGreaterThanOrEqual(0.7);
   });

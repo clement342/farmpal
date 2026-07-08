@@ -108,6 +108,15 @@ export function findDeficiency(id: string): KnowledgeDeficiency | undefined {
 }
 
 /**
+ * Returns all deficiencies known to affect a given crop.
+ */
+export function findDeficienciesByCrop(cropId: string): KnowledgeDeficiency[] {
+  return getKnowledge().deficiencies.filter((d) =>
+    d.affectedCrops.includes(cropId),
+  );
+}
+
+/**
  * Searches the entire knowledge base for a keyword.
  *
  * Checks crops, diseases, pests, deficiencies, and glossary

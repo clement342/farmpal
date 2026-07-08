@@ -1,0 +1,39 @@
+{
+  "id": "bitter-leaf-root-rot",
+  "cropId": "bitter-leaf",
+  "name": "Bitter Leaf Root Rot",
+  "scientificName": "Pythium spp., Fusarium spp., Rhizoctonia spp.",
+  "aliases": ["Root rot", "Damping off", "Stem rot", "Collar rot"],
+  "description": "A soil-borne fungal disease complex that causes root and stem decay in bitter leaf. It is most severe in waterlogged soils and during heavy rains. Infected plants wilt suddenly and collapse as the root system rots away.",
+  "symptoms": [
+    "Sudden wilting of leaves even when soil is moist",
+    "Leaves turning yellow then brown from bottom up",
+    "Stems near soil level becoming soft and water-soaked",
+    "Roots turning brown to black and decaying",
+    "Foul smell from rotting roots",
+    "Plant collapses and dies within days of first symptoms"
+  ],
+  "causes": [
+    "Waterlogged or poorly drained soils",
+    "Overwatering during rainy season",
+    "Soil-borne fungal pathogens in continuous cropping",
+    "Damage to roots from cultivation tools",
+    "Nematode infestation weakening roots"
+  ],
+  "severity": "high",
+  "seasonality": ["Rainy season", "Flood periods"],
+  "treatments": [
+    "Remove and destroy severely affected plants",
+    "Improve drainage by creating raised beds",
+    "Drench soil with copper-based fungicide",
+    "Apply Trichoderma biocontrol agent to soil"
+  ],
+  "prevention": [
+    "Plant on raised beds or ridges",
+    "Avoid waterlogging during irrigation",
+    "Rotate with non-host crops like cereals or legumes",
+    "Use disease-free planting material from healthy plants",
+    "Apply well-decomposed organic matter to improve soil structure"
+  ],
+  "references": ["IITA Disease Management Guide", "University of Ghana Plant Pathology Reports"]
+}

@@ -11,7 +11,7 @@ export class ConfidenceEvaluator {
     this.threshold = options?.threshold ?? 0.7;
   }
 
-  evaluate(result: KnowledgeSearchResult): ConfidenceEvaluation {
+  evaluate(result: KnowledgeSearchResult, cropId?: string): ConfidenceEvaluation {
     let score = 0;
 
     if (result.diseases.length > 0) {
@@ -28,6 +28,10 @@ export class ConfidenceEvaluator {
 
     if (result.diseases.length === 0 && result.deficiencies.length > 0) {
       score = Math.min(score, 0.4);
+    }
+
+    if (!cropId) {
+      score = Math.min(score, 0.3);
     }
 
     const clamped = Math.min(Math.max(score, 0), 1);

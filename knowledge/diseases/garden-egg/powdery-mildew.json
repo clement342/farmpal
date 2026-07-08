@@ -1,0 +1,37 @@
+{
+  "id": "garden-egg-powdery-mildew",
+  "cropId": "garden-egg",
+  "name": "Powdery Mildew of Garden Egg",
+  "scientificName": "Erysiphe spp., Leveillula taurica",
+  "aliases": ["Powdery mildew", "White mold", "Powdery leaf"],
+  "description": "A common fungal disease that appears as a white powdery coating on garden egg leaves. The disease thrives in warm, dry weather and can significantly reduce yields by stressing the plant and reducing fruit size.",
+  "symptoms": [
+    "White powdery patches on upper leaf surfaces",
+    "Powdery coating spreading to cover entire leaves",
+    "Leaves turning yellow and drying from edges",
+    "Stunted growth of new leaves and shoots",
+    "Premature leaf drop in severe cases",
+    "Reduced fruit size and number"
+  ],
+  "causes": [
+    "Fungal spores spread by wind",
+    "Warm dry days with cool humid nights",
+    "Dense planting with poor air circulation",
+    "Excessive nitrogen fertiliser"
+  ],
+  "severity": "moderate",
+  "seasonality": ["Dry season", "Warm periods with cool nights"],
+  "treatments": [
+    "Apply sulfur-based fungicide spray",
+    "Spray neem oil solution (5ml/L water) weekly",
+    "Apply potassium bicarbonate solution (1 tsp/L water)",
+    "Use wettable sulfur or trifloxystrobin"
+  ],
+  "prevention": [
+    "Maintain proper plant spacing for air flow",
+    "Avoid excessive nitrogen fertilisation",
+    "Remove and destroy infected leaves promptly",
+    "Plant in well-ventilated areas"
+  ],
+  "references": ["IITA Vegetable Production Guide", "Nigeria Agricultural Research Council"]
+}

@@ -1,0 +1,38 @@
+{
+  "id": "bitter-leaf-powdery-mildew",
+  "cropId": "bitter-leaf",
+  "name": "Powdery Mildew",
+  "scientificName": "Erysiphe cichoracearum, Oidium spp.",
+  "aliases": ["Powdery mildew", "White powdery coating", "White leaf fungus"],
+  "description": "A fungal disease that appears as a white powdery coating on the upper surface of bitter leaf leaves. It stunts growth and reduces leaf quality. The disease is most active during warm, dry weather with high humidity at night.",
+  "symptoms": [
+    "White powdery patches on upper leaf surface",
+    "Powdery coating spreading to cover entire leaves",
+    "Leaves turning yellow around infected areas",
+    "Leaf edges curling upward and drying",
+    "New leaves and shoots becoming stunted",
+    "Reduced leaf size and lower harvest yield"
+  ],
+  "causes": [
+    "Fungal spores spread by wind",
+    "Warm days (22-30°C) with cool humid nights",
+    "Dense planting with poor air flow",
+    "Excessive nitrogen fertiliser encouraging soft growth"
+  ],
+  "severity": "moderate",
+  "seasonality": ["Late rainy season", "Dry season with cool nights"],
+  "treatments": [
+    "Apply sulfur-based fungicide spray",
+    "Spray neem oil solution (5ml/L water) weekly",
+    "Apply potassium bicarbonate solution (1 tsp/L water)",
+    "Use wettable sulfur at first sign of infection"
+  ],
+  "prevention": [
+    "Space plants for good air circulation",
+    "Avoid overhead watering in late afternoon",
+    "Prune overcrowded branches to improve airflow",
+    "Avoid excessive nitrogen fertiliser",
+    "Plant resistant varieties if available"
+  ],
+  "references": ["ICRISAT Crop Protection Guide", "Nigeria Agricultural Research Council"]
+}

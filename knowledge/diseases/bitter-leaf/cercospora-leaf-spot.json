@@ -1,0 +1,37 @@
+{
+  "id": "bitter-leaf-cercospora-leaf-spot",
+  "cropId": "bitter-leaf",
+  "name": "Cercospora Leaf Spot",
+  "scientificName": "Cercospora spp.",
+  "aliases": ["Leaf spot", "Brown leaf spot", "Angular leaf spot"],
+  "description": "A fungal disease causing circular to angular brown spots on bitter leaf, especially during the rainy season. The spots have greyish centres with dark brown borders and can merge, causing large dead patches and premature leaf drop.",
+  "symptoms": [
+    "Small circular brown spots with grey centres on leaves",
+    "Angular brown patches between leaf veins",
+    "Spots merging into large necrotic areas",
+    "Yellowing around spot margins",
+    "Leaves drying up and falling prematurely",
+    "Defoliation starting from lower leaves upward"
+  ],
+  "causes": [
+    "Fungal spores spread by rain splash",
+    "High humidity and warm temperatures (25-30°C)",
+    "Overcrowded planting with poor air circulation",
+    "Continuous bitter leaf cultivation in same area"
+  ],
+  "severity": "moderate",
+  "seasonality": ["Rainy season", "Humid periods"],
+  "treatments": [
+    "Remove and destroy affected leaves",
+    "Apply copper-based fungicide spray weekly",
+    "Spray mancozeb at 7-10 day intervals",
+    "Apply neem oil solution (5ml/L water) as organic option"
+  ],
+  "prevention": [
+    "Space plants adequately for air circulation",
+    "Avoid overhead watering in the evening",
+    "Mulch to prevent soil splash onto leaves",
+    "Practice crop rotation with non-host crops"
+  ],
+  "references": ["IITA Plant Health Management Guide", "Nigeria Agricultural Quarantine Service"]
+}
