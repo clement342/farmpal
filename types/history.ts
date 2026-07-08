@@ -16,6 +16,8 @@ export interface HistoryRecord {
   diagnosis?: Diagnosis;
   /** Crop involved */
   cropName: string;
+  /** Crop identifier (when known) */
+  cropId?: string;
   /** Initial symptoms described */
   initialSymptoms: string;
   /** Whether the farmer found this helpful */

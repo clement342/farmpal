@@ -1,0 +1,10 @@
+{
+  "id": "copper-fungicide",
+  "name": "Copper-based Fungicide",
+  "type": "chemical",
+  "description": "A broad-spectrum fungicide containing copper compounds (copper oxychloride, copper hydroxide, or Bordeaux mixture). It works by releasing copper ions that damage fungal cell membranes and prevent spore germination. Effective against leaf spots, blights, anthracnose, and mildew. Commonly sold as Kocide, Champion, or Copper S. Safe for use on most vegetables and fruits with proper application.",
+  "applicationMethod": "Mix according to label instructions (typically 2-5g per litre of water). Spray thoroughly on all leaf surfaces, especially the undersides. Reapply every 7-14 days or after heavy rain. Do not apply during flowering. Use protective equipment when handling.",
+  "safetyInterval": "7-14 days before harvest (varies by crop and product)",
+  "targetIds": [],
+  "targetType": "disease"
+}

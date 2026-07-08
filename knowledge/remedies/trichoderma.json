@@ -1,0 +1,10 @@
+{
+  "id": "trichoderma",
+  "name": "Trichoderma (Biocontrol Agent)",
+  "type": "biological",
+  "description": "A beneficial fungus used as a biological control agent against soil-borne plant diseases. Trichoderma species colonise plant roots and outcompete pathogenic fungi through competition, antibiosis, and mycoparasitism. It is effective against root rots, damping-off, and wilt diseases caused by Fusarium, Pythium, Rhizoctonia, and Sclerotium. Available as powder or granular formulations.",
+  "applicationMethod": "Mix Trichoderma powder with well-decomposed compost or farmyard manure at 100g per 10kg of compost. Apply to seedbed or planting hole at transplanting. Can also be applied as soil drench at 10g per litre of water. Apply in the evening to avoid UV damage to spores.",
+  "safetyInterval": "0 days — completely safe biological product",
+  "targetIds": [],
+  "targetType": "disease"
+}

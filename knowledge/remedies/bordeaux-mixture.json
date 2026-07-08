@@ -1,0 +1,10 @@
+{
+  "id": "bordeaux-mixture",
+  "name": "Bordeaux Mixture",
+  "type": "chemical",
+  "description": "A traditional copper-based fungicide made by mixing copper sulfate with hydrated lime. It creates a protective coating on plant surfaces that prevents fungal spores from germinating. Effective against blights, downy mildew, leaf spots, and anthracnose. Farmers can prepare it at home using copper sulfate and agricultural lime.",
+  "applicationMethod": "For homemade Bordeaux: Dissolve 100g copper sulfate in 5L water in a plastic container. In another container, dissolve 100g hydrated lime in 5L water. Slowly pour copper solution into lime solution while stirring. Use immediately. Spray thoroughly on all plant parts. Do not store mixed solution.",
+  "safetyInterval": "14-21 days before harvest",
+  "targetIds": [],
+  "targetType": "disease"
+}

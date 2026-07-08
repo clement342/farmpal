@@ -75,6 +75,22 @@ export class ConversationRepository {
   }
 
   /**
+   * Updates the crop context on an existing conversation.
+   */
+  async updateCropContext(
+    id: string,
+    cropId: string,
+    cropName: string,
+  ): Promise<ConversationDocument | null> {
+    await connectToDatabase();
+    return ConversationModel.findByIdAndUpdate(
+      id,
+      { $set: { cropId, cropName } },
+      { new: true },
+    ).lean().exec();
+  }
+
+  /**
    * Marks a conversation as COMPLETED and optionally links a diagnosis.
    *
    * @param id          - The MongoDB ObjectId string

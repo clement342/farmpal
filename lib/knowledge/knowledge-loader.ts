@@ -6,6 +6,7 @@ import type {
   KnowledgeDisease,
   KnowledgePest,
   KnowledgeDeficiency,
+  KnowledgeRemedy,
   KnowledgeGlossaryTerm,
   KnowledgeMetadata,
 } from '@/types/knowledge';
@@ -34,7 +35,7 @@ export function loadKnowledge(): KnowledgeBase {
   const diseases = loadDiseases(path.join(basePath, 'diseases'));
   const pests = loadFromDirectory<KnowledgePest>(path.join(basePath, 'pests'), []);
   const deficiencies = loadFromDirectory<KnowledgeDeficiency>(path.join(basePath, 'deficiencies'), []);
-  const remedies: [] = [];
+  const remedies = loadFromDirectory<KnowledgeRemedy>(path.join(basePath, 'remedies'), []);
 
   const glossary = loadGlossary(path.join(basePath, 'glossary.json'));
   const metadata = loadMetadata(path.join(basePath, 'metadata.json'));

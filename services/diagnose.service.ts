@@ -7,18 +7,11 @@ import { reasoningEngine } from '@/services/reasoning/ReasoningEngine';
 import type { DiagnosisDocument } from '@/lib/db/models/diagnosis.model';
 import type { CropDocument } from '@/lib/db/models/crop.model';
 import { NotFoundError } from '@/utils/errors';
-import { knowledgeService } from '@/services/knowledge.service';
+import { resolveCropName, resolveDiagnosisCropContext } from '@/lib/crop-resolver';
 
 const diagnosisRepository = new DiagnosisRepository();
 const conversationRepository = new ConversationRepository();
 const cropRepository = new CropRepository();
-
-function resolveCropName(cropId?: string, mongoCrop?: { name?: string }): string {
-  if (mongoCrop?.name) return mongoCrop.name;
-  if (!cropId) return '';
-  const kbCrop = knowledgeService.getCrop(cropId);
-  return kbCrop?.name ?? '';
-}
 
 /**
  * Initiates or continues a diagnosis conversation.
@@ -60,10 +53,11 @@ export async function createDiagnosis(
       request.cropId = existing.cropId;
     }
   } else {
+    const initialCropName = resolveCropName(request.cropId, crop ?? undefined);
     const created = await conversationRepository.createConversation({
       messages: [],
       cropId: request.cropId,
-      cropName: crop?.name,
+      cropName: initialCropName || undefined,
     });
     conversationId = String(created._id);
   }
@@ -75,6 +69,13 @@ export async function createDiagnosis(
     role: 'user',
     content: request.symptoms,
   });
+
+  if (request.cropId) {
+    const resolvedName = resolveCropName(request.cropId, crop ?? undefined);
+    if (resolvedName) {
+      await conversationRepository.updateCropContext(conversationId, request.cropId, resolvedName);
+    }
+  }
 
   // -----------------------------------------------------------------------
   // Reasoning Engine with knowledge-first adaptive pipeline
@@ -96,12 +97,20 @@ export async function createDiagnosis(
       content: response.diagnosis.reasoning,
     });
 
-    const resolvedCropName = resolveCropName(request.cropId, crop ?? undefined) || 'Unknown';
-    const resolvedCropId = request.cropId || 'Unknown';
+    const existingConv = await conversationRepository.findById(conversationId);
+    const { cropId: resolvedCropId, cropName: resolvedCropName } = resolveDiagnosisCropContext(
+      request.cropId,
+      existingConv,
+      crop ?? undefined,
+    );
+
+    if (resolvedCropName) {
+      await conversationRepository.updateCropContext(conversationId, resolvedCropId, resolvedCropName);
+    }
 
     const diagnosisData: CreateDiagnosisData = {
       diseaseName: topCause.name,
-      cropName: resolvedCropName,
+      cropName: resolvedCropName || 'Not specified',
       cropId: resolvedCropId,
       confidence: topCause.confidence,
       reasoning: response.diagnosis.reasoning,
@@ -180,7 +189,7 @@ export async function streamDiagnosis(
     const created = await conversationRepository.createConversation({
       messages: [],
       cropId: request.cropId,
-      cropName,
+      cropName: cropName || undefined,
     });
     conversationId = String(created._id);
   }
@@ -189,6 +198,13 @@ export async function streamDiagnosis(
     role: 'user',
     content: request.symptoms,
   });
+
+  if (request.cropId) {
+    const resolvedName = resolveCropName(request.cropId, mongoCrop ?? undefined);
+    if (resolvedName) {
+      await conversationRepository.updateCropContext(conversationId, request.cropId, resolvedName);
+    }
+  }
 
   // -----------------------------------------------------------------------
   // Reasoning Engine with knowledge-first adaptive pipeline
@@ -217,12 +233,20 @@ export async function streamDiagnosis(
             content: response.diagnosis.reasoning,
           });
 
-          const resolvedCropName = cropName || 'Unknown';
-          const resolvedCropId = request.cropId || 'Unknown';
+          const existingConv = await conversationRepository.findById(conversationId);
+          const { cropId: resolvedCropId, cropName: resolvedCropName } = resolveDiagnosisCropContext(
+            request.cropId,
+            existingConv,
+            mongoCrop ?? undefined,
+          );
+
+          if (resolvedCropName) {
+            await conversationRepository.updateCropContext(conversationId, resolvedCropId, resolvedCropName);
+          }
 
           const diagnosisData: CreateDiagnosisData = {
             diseaseName: topCause.name,
-            cropName: resolvedCropName,
+            cropName: resolvedCropName || 'Not specified',
             cropId: resolvedCropId,
             confidence: topCause.confidence,
             reasoning: response.diagnosis.reasoning,

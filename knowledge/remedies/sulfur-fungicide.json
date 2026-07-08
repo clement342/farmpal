@@ -1,0 +1,10 @@
+{
+  "id": "sulfur-fungicide",
+  "name": "Sulfur-based Fungicide",
+  "type": "chemical",
+  "description": "A contact fungicide available as wettable sulfur or dusting sulfur. Effective primarily against powdery mildews, rusts, and some leaf spots. Sulfur works by interfering with fungal respiration. It is one of the oldest known fungicides and is acceptable in organic farming. Do not apply in hot weather (above 30°C) as it can burn leaves.",
+  "applicationMethod": "Mix wettable sulfur at 3-5g per litre of water. Spray thoroughly on all plant surfaces, especially upper leaf surfaces where powdery mildew develops. Apply when temperatures are below 30°C. Reapply every 10-14 days. Do not apply within 2 weeks of oil sprays.",
+  "safetyInterval": "1-7 days before harvest",
+  "targetIds": [],
+  "targetType": "disease"
+}

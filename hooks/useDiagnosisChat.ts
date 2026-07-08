@@ -4,6 +4,7 @@ import type { ChatMessage, ConversationDiagnosisResponse } from '@/types';
 import type { DiagnosisResult } from '@/types/diagnosis';
 import { useStreaming } from './useStreaming';
 import { fetchHistory } from '@/lib/api/history';
+import { isResolvedCropId, isResolvedCropName } from '@/lib/crop-display';
 
 export interface ChatMessageDisplay {
   id: string;
@@ -125,14 +126,23 @@ export function useDiagnosisChat(options?: UseDiagnosisChatOptions): UseDiagnosi
             });
           }
 
-          if (!options?.crop && match.cropName && match.cropName !== 'Unknown') {
-            setSelectedCrop({
-              id: match.cropName.toLowerCase(),
-              name: match.cropName,
-              regions: [],
-              growthStages: [],
-              commonDiseaseIds: [],
-            });
+          if (!options?.crop) {
+            const cropId = match.cropId && isResolvedCropId(match.cropId)
+              ? match.cropId
+              : isResolvedCropName(match.cropName)
+                ? match.cropName.toLowerCase().replace(/\s+/g, '-')
+                : null;
+            const cropName = isResolvedCropName(match.cropName) ? match.cropName : null;
+
+            if (cropId && cropName) {
+              setSelectedCrop({
+                id: cropId,
+                name: cropName,
+                regions: [],
+                growthStages: [],
+                commonDiseaseIds: [],
+              });
+            }
           }
 
           setStatus('completed');

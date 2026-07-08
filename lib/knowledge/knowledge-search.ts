@@ -4,6 +4,7 @@ import type {
   KnowledgeDisease,
   KnowledgePest,
   KnowledgeDeficiency,
+  KnowledgeRemedy,
 } from '@/types/knowledge';
 import { getKnowledge } from './knowledge-cache';
 
@@ -129,6 +130,7 @@ export function findByKeyword(keyword: string): {
   diseases: KnowledgeDisease[];
   pests: KnowledgePest[];
   deficiencies: KnowledgeDeficiency[];
+  remedies: KnowledgeRemedy[];
 } {
   const lower = keyword.toLowerCase().trim();
   const kb: KnowledgeBase = getKnowledge();
@@ -162,10 +164,15 @@ export function findByKeyword(keyword: string): {
     .filter((d) => score(d.name) > 0 || d.symptoms.some((s) => score(s) > 0))
     .sort((a, b) => Math.max(score(b.name)) - Math.max(score(a.name)));
 
+  const remedyResults = kb.remedies
+    .filter((r) => score(r.name) > 0 || score(r.description) > 0)
+    .sort((a, b) => Math.max(score(b.name)) - Math.max(score(a.name)));
+
   return {
     crops: cropResults,
     diseases: diseaseResults,
     pests: pestResults,
     deficiencies: deficiencyResults,
+    remedies: remedyResults,
   };
 }
