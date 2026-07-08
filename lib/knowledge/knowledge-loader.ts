@@ -83,9 +83,34 @@ function loadDiseases(baseDir: string): KnowledgeDisease[] {
         diseases.push(JSON.parse(content) as KnowledgeDisease);
       }
     }
+
+    const expansions = loadSymptomExpansions();
+    for (const disease of diseases) {
+      const extra = expansions[disease.id];
+      if (extra && extra.length > 0) {
+        const seen = new Set(disease.symptoms.map(s => s.toLowerCase()));
+        for (const variant of extra) {
+          if (!seen.has(variant.toLowerCase())) {
+            disease.symptoms.push(variant);
+            seen.add(variant.toLowerCase());
+          }
+        }
+      }
+    }
+
     return diseases;
   } catch {
     return [];
+  }
+}
+
+function loadSymptomExpansions(): Record<string, string[]> {
+  const expansionsPath = path.join(process.cwd(), 'knowledge', 'symptom-expansions.json');
+  try {
+    const content = fs.readFileSync(expansionsPath, 'utf-8');
+    return JSON.parse(content);
+  } catch {
+    return {};
   }
 }
 
