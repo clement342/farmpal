@@ -51,11 +51,13 @@ export async function handleDiagnosisRequest(
 export async function handleStreamDiagnosis(
   body: unknown,
 ): Promise<ReadableStream<Uint8Array>> {
+  console.log('[stream:controller] validating request');
   const request: DiagnosisRequest = validateDiagnosisRequest(body);
 
   let detectedCropInfo: { cropId: string; cropName: string; confidence: string } | undefined;
 
   if (!request.cropId) {
+    console.log('[stream:controller] no cropId — running inferCrop');
     const inference = knowledgeService.inferCrop(request.symptoms);
     if (inference.detected && inference.crop) {
       request.cropId = inference.crop.id;
@@ -64,14 +66,21 @@ export async function handleStreamDiagnosis(
         cropName: inference.crop.name,
         confidence: inference.confidence,
       };
+      console.log('[stream:controller] inferCrop detected:', detectedCropInfo);
+    } else {
+      console.log('[stream:controller] inferCrop: no crop detected');
     }
   }
 
   if (request.cropId) {
+    console.log('[stream:controller] validating crop exists:', request.cropId);
     await validateCropExists(request.cropId);
+    console.log('[stream:controller] crop validated');
   }
 
+  console.log('[stream:controller] calling streamDiagnosis');
   const stream = await streamDiagnosis(request);
+  console.log('[stream:controller] streamDiagnosis returned ReadableStream');
 
   if (detectedCropInfo) {
     return prependCropDetectedEvent(stream, detectedCropInfo);

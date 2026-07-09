@@ -37,7 +37,11 @@ export function inferCropFromSymptoms(
   crops: KnowledgeCrop[],
 ): CropInferenceResult {
   const lower = symptoms.toLowerCase().trim();
+
+  console.log('[inferCrop] input:', JSON.stringify(symptoms));
+
   if (!lower) {
+    console.log('[inferCrop] empty input — returning not detected');
     return { detected: false, confidence: 'low', candidates: [] };
   }
 
@@ -45,30 +49,38 @@ export function inferCropFromSymptoms(
 
   for (const crop of crops) {
     let score = 0;
+    let matchReason = '';
 
     // 3 — exact crop name found in text
     if (lower.includes(crop.name.toLowerCase())) {
       score = 3;
+      matchReason = `name match ("${crop.name.toLowerCase()}")`;
     }
 
     // 2 — alias found in text
-    if (score < 3 && crop.aliases.some((a) => lower.includes(a.toLowerCase()))) {
-      score = 2;
+    if (score < 3) {
+      const matchedAlias = crop.aliases.find((a) => lower.includes(a.toLowerCase()));
+      if (matchedAlias) {
+        score = 2;
+        matchReason = `alias match ("${matchedAlias}")`;
+      }
     }
 
     // 1 — partial/substring match via first 4 chars of any alias
     if (score < 2) {
-      const hasPartial = crop.aliases.some((a) => {
+      const matchedPartial = crop.aliases.find((a) => {
         const aliasLower = a.toLowerCase();
         const prefix = aliasLower.substring(0, 4);
         return prefix.length >= 4 && lower.includes(prefix);
       });
-      if (hasPartial) {
+      if (matchedPartial) {
         score = 1;
+        matchReason = `partial alias match ("${matchedPartial.substring(0, 4)}..." from "${matchedPartial}")`;
       }
     }
 
     if (score > 0) {
+      console.log(`[inferCrop]   crop="${crop.id}" score=${score} reason=${matchReason}`);
       scored.push({ crop, score });
     }
   }
@@ -76,14 +88,20 @@ export function inferCropFromSymptoms(
   scored.sort((a, b) => b.score - a.score);
   const candidates = scored.slice(0, MAX_CANDIDATES);
 
+  console.log('[inferCrop] all candidates:', candidates.map((c) => `${c.crop.id}=${c.score}`).join(', ') || '(none)');
+
   if (candidates.length === 0) {
+    console.log('[inferCrop] result: not detected');
     return { detected: false, confidence: 'low', candidates: [] };
   }
 
   const topScore = candidates[0].score;
   const isUniqueTop = candidates.length === 1 || candidates[0].score > candidates[1].score;
 
+  console.log(`[inferCrop] top: "${candidates[0].crop.id}" score=${topScore} unique=${isUniqueTop}`);
+
   if (topScore >= 2 && isUniqueTop) {
+    console.log(`[inferCrop] result: detected "${candidates[0].crop.id}" confidence=high`);
     return {
       detected: true,
       crop: candidates[0].crop,
@@ -93,6 +111,7 @@ export function inferCropFromSymptoms(
   }
 
   if (topScore >= 2) {
+    console.log(`[inferCrop] result: detected "${candidates[0].crop.id}" confidence=medium`);
     return {
       detected: true,
       crop: candidates[0].crop,
@@ -101,5 +120,6 @@ export function inferCropFromSymptoms(
     };
   }
 
+  console.log(`[inferCrop] result: not detected (top score ${topScore} < 2)`);
   return { detected: false, confidence: 'low', candidates };
 }

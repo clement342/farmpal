@@ -44,9 +44,10 @@ export const aiConfig = {
      */
     apiKey: _googleApiKey,
     /**
-     * Gemini model to use for cloud inference.
-     * Defaults to gemini-2.5-flash — Google's current recommended model (June 2026).
+     * Gemini/Gemma model to use for cloud inference.
+     * Defaults to gemma-4-26b-a4b-it — hosted Gemma available via the Gemini API.
+     * Also supported: gemma-4-31b-it, gemini-2.5-flash
      */
-    model: process.env.GOOGLE_MODEL ?? 'gemini-2.5-flash',
+    model: process.env.GOOGLE_MODEL ?? 'gemma-4-26b-a4b-it',
   },
 } as const;

@@ -42,13 +42,12 @@ export const OFFLINE_PROVIDER_NAME = 'offline-kb';
  *          follow-up question when no knowledge-base entry matches.
  */
 export function generateOfflineDiagnosis(request: DiagnosisRequest): DiagnosisResponse {
-  const candidates = getCandidateDiseases(request.cropId, request.symptoms);
+  const { candidates, anchorCropId } = getCandidateDiseases(request.cropId, request.symptoms);
 
   if (candidates.length === 0) {
-    // No KB data for this crop at all — ask the farmer for more detail
     return {
       status: 'follow_up',
-      question: buildFallbackQuestion(request.cropId),
+      question: buildFallbackQuestion(request.cropId ?? anchorCropId ?? undefined),
       options: [
         'Yellowing or wilting leaves',
         'Spots or lesions on leaves',
@@ -66,13 +65,30 @@ export function generateOfflineDiagnosis(request: DiagnosisRequest): DiagnosisRe
   if (top.score === 0) {
     return {
       status: 'follow_up',
-      question: buildClarifyingQuestion(candidates),
+      question: buildClarifyingQuestion(candidates, anchorCropId),
       options: candidates.slice(0, 5).map((d) => d.name),
     };
   }
 
-  const response = buildDiagnosisResponse(scored, request);
-  return response;
+  // Safeguard: if a crop was identified (explicitly or via inference), the top
+  // result MUST belong to that crop. If it doesn't (can only happen when
+  // candidates came from the global keyword search), return a follow-up rather
+  // than a disease from the wrong crop.
+  if (anchorCropId && top.disease.cropId !== anchorCropId) {
+    return {
+      status: 'follow_up',
+      question: buildFallbackQuestion(anchorCropId),
+      options: [
+        'Yellowing or wilting leaves',
+        'Spots or lesions on leaves',
+        'Holes in leaves',
+        'Rotting stems or roots',
+        'Stunted growth',
+      ],
+    };
+  }
+
+  return buildDiagnosisResponse(scored, request);
 }
 
 // ---------------------------------------------------------------------------
@@ -80,34 +96,77 @@ export function generateOfflineDiagnosis(request: DiagnosisRequest): DiagnosisRe
 // ---------------------------------------------------------------------------
 
 /**
- * Returns the disease candidates to score.
+ * Result of candidate disease selection.
  *
- * If a cropId is given, returns diseases registered for that crop.
- * Otherwise falls back to a keyword search across the full KB.
+ * `anchorCropId` is non-null whenever a crop was positively identified —
+ * either from the explicit request field or from symptom text inference.
+ * When set, the scorer must only return diseases belonging to that crop.
  */
-function getCandidateDiseases(cropId?: string, symptoms?: string): KnowledgeDisease[] {
+interface CandidateResult {
+  candidates: KnowledgeDisease[];
+  /** The crop ID that was used to scope the candidates, or null for global search. */
+  anchorCropId: string | null;
+}
+
+/**
+ * Returns the disease candidates to score, and the crop anchor used.
+ *
+ * Resolution order:
+ * 1. Explicit `cropId` from the request — most reliable, use directly.
+ * 2. Crop inferred from symptom text via `inferCrop()` — medium/high
+ *    confidence only. This handles "My cassava has..." when no cropId
+ *    is set on the request.
+ * 3. Full-KB keyword search — last resort when no crop can be identified.
+ *    `anchorCropId` is null in this case; the safeguard in the caller
+ *    prevents cross-crop results from being returned as a diagnosis.
+ */
+function getCandidateDiseases(cropId?: string, symptoms?: string): CandidateResult {
+  // --- 1. Explicit cropId ---
   if (cropId) {
     const byCrop = knowledgeService.getDiseasesForCrop(cropId);
-    if (byCrop.length > 0) return byCrop;
+    if (byCrop.length > 0) return { candidates: byCrop, anchorCropId: cropId };
+    // Crop is known but has no diseases in KB — return empty with anchor so
+    // the caller asks a follow-up rather than searching cross-crop.
+    return { candidates: [], anchorCropId: cropId };
   }
 
-  // No cropId or crop has no diseases — search by symptom keywords
+  // --- 2. Infer crop from symptom text ---
+  if (symptoms) {
+    const inference = knowledgeService.inferCrop(symptoms);
+    const byInferredCropPreview = inference.detected && inference.crop
+      ? knowledgeService.getDiseasesForCrop(inference.crop.id)
+      : [];
+    console.log('[offline-diagnosis] inferCrop result:', {
+      input: symptoms,
+      detectedCropId: inference.crop?.id ?? null,
+      detectedCropName: inference.crop?.name ?? null,
+      confidence: inference.confidence,
+      candidateDiseaseCount: byInferredCropPreview.length,
+    });
+    if (inference.detected && inference.crop && inference.confidence !== 'low') {
+      const inferredId = inference.crop.id;
+      const byInferredCrop = knowledgeService.getDiseasesForCrop(inferredId);
+      // Return even if empty — anchorCropId being set blocks cross-crop fallback
+      return { candidates: byInferredCrop, anchorCropId: inferredId };
+    }
+  }
+
+  // --- 3. Full-KB keyword search (no crop anchor) ---
   if (symptoms) {
     const words = extractKeywords(symptoms);
     const found = new Map<string, KnowledgeDisease>();
     for (const word of words) {
       const results = knowledgeService.search(word);
-      for (const r of results) {
-        // search() returns mixed types — keep only KnowledgeDisease (have cropId)
+      for (const r of results.diseases) {
         if ('cropId' in r && 'treatments' in r) {
-          found.set((r as KnowledgeDisease).id, r as KnowledgeDisease);
+          found.set(r.id, r);
         }
       }
     }
-    return Array.from(found.values());
+    return { candidates: Array.from(found.values()), anchorCropId: null };
   }
 
-  return [];
+  return { candidates: [], anchorCropId: null };
 }
 
 // ---------------------------------------------------------------------------
@@ -238,9 +297,10 @@ function buildFallbackQuestion(cropId?: string): string {
   return 'Could you describe the symptoms in more detail? Which part of the plant is affected and when did you first notice the problem?';
 }
 
-function buildClarifyingQuestion(candidates: KnowledgeDisease[]): string {
+function buildClarifyingQuestion(candidates: KnowledgeDisease[], anchorCropId: string | null): string {
+  const cropLabel = anchorCropId ? (knowledgeService.getCrop(anchorCropId)?.name ?? anchorCropId) : 'your crop';
   const names = candidates.slice(0, 3).map((d) => d.name).join(', ');
-  return `Based on your crop, the most common issues are: ${names}. Which of the following best describes the symptoms you are seeing?`;
+  return `Based on ${cropLabel}, the most common issues are: ${names}. Which of the following best describes the symptoms you are seeing?`;
 }
 
 // ---------------------------------------------------------------------------

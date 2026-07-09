@@ -44,38 +44,67 @@ function resolveCropName(cropId?: string, mongoCrop?: { name?: string }): string
 export async function createDiagnosis(
   request: DiagnosisRequest,
 ): Promise<ConversationDiagnosisResponse> {
-  const crop = request.cropId ? await cropRepository.findById(request.cropId) : null;
+  // -----------------------------------------------------------------------
+  // Resolve crop — optional, failure is non-fatal
+  // -----------------------------------------------------------------------
+  let crop: Awaited<ReturnType<typeof cropRepository.findById>> = null;
+  try {
+    crop = request.cropId ? await cropRepository.findById(request.cropId) : null;
+  } catch (err) {
+    log.warn('Could not load crop from DB — continuing without crop context', {
+      cropId: request.cropId,
+      error: err instanceof Error ? err.message : String(err),
+    });
+  }
   const mappedCrop: Crop | undefined = crop ? mapCropDocument(crop) : undefined;
 
   // -----------------------------------------------------------------------
-  // Resolve or create conversation
+  // Resolve or create conversation — optional, failure is non-fatal
   // -----------------------------------------------------------------------
-  let conversationId: string;
+  let conversationId: string = crypto.randomUUID(); // fallback offline id
   let existingMessages: ChatMessage[] = [];
+  let dbAvailable = true;
 
-  if (request.conversationId) {
-    const existing = await conversationRepository.findById(request.conversationId);
-    if (!existing) {
-      throw new NotFoundError('Conversation');
+  try {
+    if (request.conversationId) {
+      const existing = await conversationRepository.findById(request.conversationId);
+      if (!existing) {
+        throw new NotFoundError('Conversation');
+      }
+      conversationId = request.conversationId;
+      existingMessages = existing.messages.map(mapMessageSubDoc);
+    } else {
+      const created = await conversationRepository.createConversation({
+        messages: [],
+        cropId: request.cropId,
+        cropName: crop?.name,
+      });
+      conversationId = String(created._id);
     }
-    conversationId = request.conversationId;
-    existingMessages = existing.messages.map(mapMessageSubDoc);
-  } else {
-    const created = await conversationRepository.createConversation({
-      messages: [],
-      cropId: request.cropId,
-      cropName: crop?.name,
+  } catch (err) {
+    if (err instanceof NotFoundError) throw err; // real 404 — rethrow
+    dbAvailable = false;
+    log.warn('Could not resolve conversation in DB — continuing in offline mode', {
+      error: err instanceof Error ? err.message : String(err),
     });
-    conversationId = String(created._id);
   }
 
   // -----------------------------------------------------------------------
-  // Append user message to conversation
+  // Append user message — optional
   // -----------------------------------------------------------------------
-  await conversationRepository.appendMessage(conversationId, {
-    role: 'user',
-    content: request.symptoms,
-  });
+  if (dbAvailable) {
+    try {
+      await conversationRepository.appendMessage(conversationId, {
+        role: 'user',
+        content: request.symptoms,
+      });
+    } catch (err) {
+      dbAvailable = false;
+      log.warn('Could not append user message to DB — continuing without persistence', {
+        error: err instanceof Error ? err.message : String(err),
+      });
+    }
+  }
 
   // -----------------------------------------------------------------------
   // Call AI adapter — fall back to offline KB if all providers fail
@@ -96,56 +125,64 @@ export async function createDiagnosis(
   }
 
   // -----------------------------------------------------------------------
-  // Persist AI response and handle completion
+  // Persist response — optional
   // -----------------------------------------------------------------------
   if (response.status === 'diagnosis') {
     const topCause = response.diagnosis.possibleCauses[0];
 
-    await conversationRepository.appendMessage(conversationId, {
-      role: 'assistant',
-      content: response.diagnosis.reasoning,
-    });
+    if (dbAvailable) {
+      try {
+        await conversationRepository.appendMessage(conversationId, {
+          role: 'assistant',
+          content: response.diagnosis.reasoning,
+        });
 
-    const diagnosisData: CreateDiagnosisData = {
-      diseaseName: topCause.name,
-      cropName: resolveCropName(request.cropId, crop ?? undefined),
-      cropId: request.cropId ?? '',
-      confidence: topCause.confidence,
-      reasoning: response.diagnosis.reasoning,
-      severity: mapUrgencyToSeverity(response.diagnosis.urgency),
-      immediateActions: response.diagnosis.recommendations
-        .filter((r) => r.category === 'immediate_action')
-        .map((r) => r.text),
-      preventiveMeasures: response.diagnosis.recommendations
-        .filter((r) => r.category === 'preventive')
-        .map((r) => r.text),
-      extensionOfficerAdvice: response.diagnosis.extensionOfficerAdvice,
-      symptoms: request.symptoms,
-      conversationId,
-      aiProvider,
-    };
+        const diagnosisData: CreateDiagnosisData = {
+          diseaseName: topCause.name,
+          cropName: resolveCropName(request.cropId, crop ?? undefined),
+          cropId: request.cropId ?? '',
+          confidence: topCause.confidence,
+          reasoning: response.diagnosis.reasoning,
+          severity: mapUrgencyToSeverity(response.diagnosis.urgency),
+          immediateActions: response.diagnosis.recommendations
+            .filter((r) => r.category === 'immediate_action')
+            .map((r) => r.text),
+          preventiveMeasures: response.diagnosis.recommendations
+            .filter((r) => r.category === 'preventive')
+            .map((r) => r.text),
+          extensionOfficerAdvice: response.diagnosis.extensionOfficerAdvice,
+          symptoms: request.symptoms,
+          conversationId,
+          aiProvider,
+        };
 
-    const diagnosisDoc = await diagnosisRepository.create(diagnosisData);
-    await conversationRepository.completeConversation(conversationId, String(diagnosisDoc._id));
+        const diagnosisDoc = await diagnosisRepository.create(diagnosisData);
+        await conversationRepository.completeConversation(conversationId, String(diagnosisDoc._id));
+      } catch (err) {
+        log.warn('Could not persist diagnosis to DB — returning result without saving', {
+          error: err instanceof Error ? err.message : String(err),
+        });
+      }
+    }
 
-    return {
-      conversationId,
-      status: 'COMPLETED',
-      response,
-    };
+    return { conversationId, status: 'COMPLETED', response };
   }
 
-  // Follow-up — leave conversation ACTIVE, persist AI question
-  await conversationRepository.appendMessage(conversationId, {
-    role: 'assistant',
-    content: response.question,
-  });
+  // Follow-up — append AI question, leave conversation ACTIVE
+  if (dbAvailable) {
+    try {
+      await conversationRepository.appendMessage(conversationId, {
+        role: 'assistant',
+        content: response.question,
+      });
+    } catch (err) {
+      log.warn('Could not persist follow-up message to DB', {
+        error: err instanceof Error ? err.message : String(err),
+      });
+    }
+  }
 
-  return {
-    conversationId,
-    status: 'ACTIVE',
-    response,
-  };
+  return { conversationId, status: 'ACTIVE', response };
 }
 
 /**
@@ -165,34 +202,62 @@ export async function createDiagnosis(
 export async function streamDiagnosis(
   request: DiagnosisRequest,
 ): Promise<ReadableStream<Uint8Array>> {
-  const mongoCrop = request.cropId ? await cropRepository.findById(request.cropId) : null;
+  // -----------------------------------------------------------------------
+  // Resolve crop — optional
+  // -----------------------------------------------------------------------
+  let mongoCrop: Awaited<ReturnType<typeof cropRepository.findById>> = null;
+  try {
+    mongoCrop = request.cropId ? await cropRepository.findById(request.cropId) : null;
+  } catch (err) {
+    log.warn('Could not load crop from DB for streaming — continuing without crop context', {
+      error: err instanceof Error ? err.message : String(err),
+    });
+  }
   const cropName = resolveCropName(request.cropId, mongoCrop ?? undefined);
   const mappedCrop: Crop | undefined = mongoCrop ? mapCropDocument(mongoCrop) : undefined;
 
   // -----------------------------------------------------------------------
-  // Resolve or create conversation
+  // Resolve or create conversation — optional
   // -----------------------------------------------------------------------
-  let conversationId: string;
+  let conversationId: string = crypto.randomUUID();
   let existingMessages: ChatMessage[] = [];
+  let dbAvailable = true;
 
-  if (request.conversationId) {
-    const existing = await conversationRepository.findById(request.conversationId);
-    if (!existing) throw new NotFoundError('Conversation');
-    conversationId = request.conversationId;
-    existingMessages = existing.messages.map(mapMessageSubDoc);
-  } else {
-    const created = await conversationRepository.createConversation({
-      messages: [],
-      cropId: request.cropId,
-      cropName,
+  try {
+    if (request.conversationId) {
+      const existing = await conversationRepository.findById(request.conversationId);
+      if (!existing) throw new NotFoundError('Conversation');
+      conversationId = request.conversationId;
+      existingMessages = existing.messages.map(mapMessageSubDoc);
+    } else {
+      const created = await conversationRepository.createConversation({
+        messages: [],
+        cropId: request.cropId,
+        cropName,
+      });
+      conversationId = String(created._id);
+    }
+  } catch (err) {
+    if (err instanceof NotFoundError) throw err;
+    dbAvailable = false;
+    log.warn('Could not resolve conversation in DB for streaming — offline mode', {
+      error: err instanceof Error ? err.message : String(err),
     });
-    conversationId = String(created._id);
   }
 
-  await conversationRepository.appendMessage(conversationId, {
-    role: 'user',
-    content: request.symptoms,
-  });
+  if (dbAvailable) {
+    try {
+      await conversationRepository.appendMessage(conversationId, {
+        role: 'user',
+        content: request.symptoms,
+      });
+    } catch (err) {
+      dbAvailable = false;
+      log.warn('Could not append user message to DB for streaming', {
+        error: err instanceof Error ? err.message : String(err),
+      });
+    }
+  }
 
   // -----------------------------------------------------------------------
   // Create the stream
@@ -203,13 +268,11 @@ export async function streamDiagnosis(
   return new ReadableStream<Uint8Array>({
     async start(controller) {
       try {
-        // --- Buffer the full AI response first ---
         let fullText = '';
         for await (const chunk of streamAdapter(request, mappedCrop, existingMessages)) {
           fullText += chunk;
         }
 
-        // --- Parse and persist ---
         const parsed = parseDiagnosisResponse(fullText);
 
         if (!parsed.success) {
@@ -219,15 +282,14 @@ export async function streamDiagnosis(
         }
 
         const response = mapToDiagnosisResponse(parsed.data);
-        await persistAndEmit(response, aiProvider, cropName, request, conversationId, controller);
+        await persistAndEmit(response, aiProvider, cropName, request, conversationId, controller, dbAvailable);
       } catch (err) {
-        // AI stream failed — attempt offline KB fallback before giving up
         log.warn('Streaming AI failed — falling back to offline knowledge base', {
           error: err instanceof Error ? err.message : String(err),
         });
         try {
           const offlineResponse = generateOfflineDiagnosis(request);
-          await persistAndEmit(offlineResponse, OFFLINE_PROVIDER_NAME, cropName, request, conversationId, controller);
+          await persistAndEmit(offlineResponse, OFFLINE_PROVIDER_NAME, cropName, request, conversationId, controller, dbAvailable);
         } catch (offlineErr) {
           controller.enqueue(encodeSSE('error', {
             message: offlineErr instanceof Error
@@ -253,8 +315,10 @@ function encodeSSE(type: string, data: unknown): Uint8Array {
 /**
  * Persists a DiagnosisResponse and emits SSE events to the stream controller.
  *
- * Shared between the AI streaming path and the offline KB fallback so
- * both paths produce identical SSE output and MongoDB records.
+ * All database writes are best-effort — if MongoDB is unreachable the
+ * diagnosis is still emitted to the client. Pass `dbAvailable = false`
+ * to skip persistence entirely (e.g. when the connection already failed
+ * during conversation setup).
  */
 async function persistAndEmit(
   response: ReturnType<typeof generateOfflineDiagnosis>,
@@ -263,6 +327,7 @@ async function persistAndEmit(
   request: DiagnosisRequest,
   conversationId: string,
   controller: ReadableStreamDefaultController<Uint8Array>,
+  dbAvailable = true,
 ): Promise<void> {
   const displayText =
     response.status === 'follow_up'
@@ -274,32 +339,40 @@ async function persistAndEmit(
   if (response.status === 'diagnosis') {
     const topCause = response.diagnosis.possibleCauses[0];
 
-    await conversationRepository.appendMessage(conversationId, {
-      role: 'assistant',
-      content: response.diagnosis.reasoning,
-    });
+    if (dbAvailable) {
+      try {
+        await conversationRepository.appendMessage(conversationId, {
+          role: 'assistant',
+          content: response.diagnosis.reasoning,
+        });
 
-    const diagnosisData: CreateDiagnosisData = {
-      diseaseName: topCause.name,
-      cropName,
-      cropId: request.cropId ?? '',
-      confidence: topCause.confidence,
-      reasoning: response.diagnosis.reasoning,
-      severity: mapUrgencyToSeverity(response.diagnosis.urgency),
-      immediateActions: response.diagnosis.recommendations
-        .filter((r) => r.category === 'immediate_action')
-        .map((r) => r.text),
-      preventiveMeasures: response.diagnosis.recommendations
-        .filter((r) => r.category === 'preventive')
-        .map((r) => r.text),
-      extensionOfficerAdvice: response.diagnosis.extensionOfficerAdvice,
-      symptoms: request.symptoms,
-      conversationId,
-      aiProvider: provider,
-    };
+        const diagnosisData: CreateDiagnosisData = {
+          diseaseName: topCause.name,
+          cropName,
+          cropId: request.cropId ?? '',
+          confidence: topCause.confidence,
+          reasoning: response.diagnosis.reasoning,
+          severity: mapUrgencyToSeverity(response.diagnosis.urgency),
+          immediateActions: response.diagnosis.recommendations
+            .filter((r) => r.category === 'immediate_action')
+            .map((r) => r.text),
+          preventiveMeasures: response.diagnosis.recommendations
+            .filter((r) => r.category === 'preventive')
+            .map((r) => r.text),
+          extensionOfficerAdvice: response.diagnosis.extensionOfficerAdvice,
+          symptoms: request.symptoms,
+          conversationId,
+          aiProvider: provider,
+        };
 
-    const diagnosisDoc = await diagnosisRepository.create(diagnosisData);
-    await conversationRepository.completeConversation(conversationId, String(diagnosisDoc._id));
+        const diagnosisDoc = await diagnosisRepository.create(diagnosisData);
+        await conversationRepository.completeConversation(conversationId, String(diagnosisDoc._id));
+      } catch (err) {
+        log.warn('Could not persist streaming diagnosis to DB — result already sent to client', {
+          error: err instanceof Error ? err.message : String(err),
+        });
+      }
+    }
 
     controller.enqueue(encodeSSE('result', {
       conversationId,
@@ -307,10 +380,18 @@ async function persistAndEmit(
       response,
     }));
   } else {
-    await conversationRepository.appendMessage(conversationId, {
-      role: 'assistant',
-      content: response.question,
-    });
+    if (dbAvailable) {
+      try {
+        await conversationRepository.appendMessage(conversationId, {
+          role: 'assistant',
+          content: response.question,
+        });
+      } catch (err) {
+        log.warn('Could not persist follow-up message to DB', {
+          error: err instanceof Error ? err.message : String(err),
+        });
+      }
+    }
 
     controller.enqueue(encodeSSE('result', {
       conversationId,

@@ -19,12 +19,15 @@ export const runtime = 'nodejs';
  */
 export async function POST(request: NextRequest) {
   try {
+    console.log('[stream:route] request received');
     const body = await parseBody(request);
     if (!body) {
       return new Response('Invalid JSON body', { status: 400 });
     }
 
+    console.log('[stream:route] calling handleStreamDiagnosis');
     const stream = await handleStreamDiagnosis(body);
+    console.log('[stream:route] stream created — returning SSE response');
 
     return new Response(stream, {
       headers: {
@@ -34,6 +37,9 @@ export async function POST(request: NextRequest) {
       },
     });
   } catch (error) {
+    console.error('[stream:route] UNHANDLED ERROR:', error);
+    console.error('[stream:route] stack:', error instanceof Error ? error.stack : String(error));
+
     if (error instanceof AppError) {
       return new Response(
         `data: ${JSON.stringify({ type: 'error', message: error.message })}\n\n`,

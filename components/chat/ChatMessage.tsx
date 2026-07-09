@@ -31,8 +31,8 @@ export function ChatMessage({ message }: ChatMessageProps) {
             }`}
           >
             {message.diagnosis && !isStreaming ? (
-              <p className="text-text-secondary whitespace-pre-wrap break-words">
-                Diagnosis complete — see details below.
+              <p className="text-xs text-text-muted italic">
+                Analysis complete ↓
               </p>
             ) : message.content || isStreaming ? (
               <p className="whitespace-pre-wrap break-words">

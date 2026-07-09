@@ -4,23 +4,20 @@ import type { AIProvider, CompletionOptions } from './provider.interface';
 
 // ---------------------------------------------------------------------------
 // Google AI Studio REST API types
-//
-// Reference: https://ai.google.dev/api/generate-content
 // ---------------------------------------------------------------------------
 
-/** A single content part (text only — we don't send images). */
+/** A single content part (text only). */
 interface GoogleContentPart {
   text: string;
 }
 
-/** A single turn in the conversation (user or model). */
+/** A single conversation turn. Google uses "model" where OpenAI uses "assistant". */
 interface GoogleContent {
-  /** "user" or "model" — Google uses "model" where OpenAI uses "assistant". */
   role: 'user' | 'model';
   parts: GoogleContentPart[];
 }
 
-/** Full request body for POST generateContent. */
+/** POST body for generateContent. */
 interface GoogleGenerateContentRequest {
   contents: GoogleContent[];
   systemInstruction?: {
@@ -33,7 +30,7 @@ interface GoogleGenerateContentRequest {
   };
 }
 
-/** Minimal subset of the generateContent response we actually need. */
+/** Minimal response shape we need. */
 interface GoogleGenerateContentResponse {
   candidates?: Array<{
     content?: {
@@ -45,34 +42,24 @@ interface GoogleGenerateContentResponse {
 }
 
 // ---------------------------------------------------------------------------
-// CloudProvider — Google AI Studio implementation
+// CloudProvider — Google AI Studio
 // ---------------------------------------------------------------------------
 
 /**
- * AI provider that routes inference to Google AI Studio via the
- * generateContent REST API.
+ * Routes inference to Google AI Studio via the generateContent REST API.
  *
- * ## Configuration (environment variables)
+ * Authentication: x-goog-api-key header (works for both AIza... and AQ... keys).
+ * This matches the official Google AI Studio cURL example:
  *
- * | Variable       | Default            | Description                              |
- * |----------------|--------------------|------------------------------------------|
- * | GOOGLE_API_KEY | —                  | Google AI Studio API key (required)      |
- * | GOOGLE_MODEL   | gemini-2.0-flash   | Gemini model to use for inference        |
+ *   curl "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent" \
+ *     -H "Content-Type: application/json" \
+ *     -H "x-goog-api-key: YOUR_API_KEY" \
+ *     -X POST \
+ *     -d '{"contents":[{"parts":[{"text":"Hello"}]}]}'
  *
- * ## Availability
- *
- * `isAvailable()` is a pure config check — it returns true when
- * `GOOGLE_API_KEY` is set. No network probe is performed so the router
- * can skip cloud quickly in offline-first mode without a TCP timeout.
- *
- * ## Message mapping
- *
- * Google's generateContent API separates system instructions from the
- * conversation turns. This provider:
- *   - Extracts leading `system` messages into `systemInstruction`
- *   - Maps `user` → `role: "user"` and `assistant` → `role: "model"`
- *   - Skips any remaining system messages (after the first non-system turn)
- *     because Google does not allow system turns mid-conversation
+ * Configuration:
+ *   GOOGLE_API_KEY  — API key from Google AI Studio (required)
+ *   GOOGLE_MODEL    — model name, e.g. gemma-4-26b-a4b-it (optional)
  */
 export class CloudProvider implements AIProvider {
   readonly name = 'google-ai-studio';
@@ -81,7 +68,6 @@ export class CloudProvider implements AIProvider {
   private readonly apiKey: string;
   private readonly model: string;
 
-  /** Base URL for the Google AI Studio generateContent endpoint. */
   private static readonly BASE_URL =
     'https://generativelanguage.googleapis.com/v1beta/models';
 
@@ -90,40 +76,22 @@ export class CloudProvider implements AIProvider {
     this.model = model;
   }
 
-  // -------------------------------------------------------------------------
-  // AIProvider: isAvailable
-  // -------------------------------------------------------------------------
-
-  /**
-   * Returns true when a Google API key is configured.
-   * No network call is made — this is intentionally a fast config check.
-   */
   async isAvailable(): Promise<boolean> {
     return this.apiKey.length > 0;
   }
 
-  // -------------------------------------------------------------------------
-  // AIProvider: complete
-  // -------------------------------------------------------------------------
-
-  /**
-   * Sends a generateContent request to Google AI Studio.
-   *
-   * @param messages - Conversation history (system + user/assistant turns).
-   * @param options  - Optional generation parameters.
-   * @returns The model's response text.
-   * @throws AIServiceError on non-2xx response, network failure, or empty reply.
-   */
-  async complete(
+async complete(
     messages: ChatMessage[],
     options?: CompletionOptions,
   ): Promise<string> {
-    const url = `${CloudProvider.BASE_URL}/${this.model}:generateContent`;
+    const url = `${CloudProvider.BASE_URL}/${this.model}:generateContent?key=${encodeURIComponent(this.apiKey)}`;
+
     console.log(
-      '[cloud:complete] POST', url,
-      '| apiKey length:', this.apiKey.length,
+      '[cloud:complete] POST', url.split('?')[0],
+      '| keyPrefix:', this.apiKey.substring(0, 4),
       '| messages:', messages.length,
     );
+
     const body = this.buildRequestBody(messages, options);
 
     let response: Response;
@@ -132,23 +100,24 @@ export class CloudProvider implements AIProvider {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'x-goog-api-key': this.apiKey,
         },
         body: JSON.stringify(body),
       });
     } catch (cause) {
+      console.error("FULL GOOGLE FETCH ERROR:", cause);
+
       throw new AIServiceError(
-        `Google AI Studio request failed: ${cause instanceof Error ? cause.message : String(cause)}`,
+        `Google AI Studio request failed: ${
+          cause instanceof Error ? cause.message : String(cause)
+        }`,
       );
     }
 
     if (!response.ok) {
       const errorText = await response.text().catch(() => 'unknown error');
       console.error(
-        '[cloud:complete] Google AI Studio error | status:',
-        response.status,
-        '| body:',
-        errorText.slice(0, 500),
+        '[cloud:complete] error | status:', response.status,
+        '| body:', errorText.slice(0, 500),
       );
       throw new AIServiceError(
         `Google AI Studio returned ${response.status}: ${errorText}`,
@@ -159,9 +128,7 @@ export class CloudProvider implements AIProvider {
     try {
       data = (await response.json()) as GoogleGenerateContentResponse;
     } catch {
-      throw new AIServiceError(
-        'Google AI Studio returned a non-JSON response',
-      );
+      throw new AIServiceError('Google AI Studio returned a non-JSON response');
     }
 
     const content = this.extractContent(data);
@@ -173,34 +140,31 @@ export class CloudProvider implements AIProvider {
 
     return content.trim();
   }
-
   // -------------------------------------------------------------------------
   // Private helpers
   // -------------------------------------------------------------------------
 
   /**
-   * Converts ChatMessage[] into the Google generateContent request body.
-   *
-   * System messages are pulled out into `systemInstruction` (Google's
-   * preferred location). The remaining messages alternate user/model turns.
+   * Maps ChatMessage[] to Google's contents/parts format.
+   * Leading system messages go into systemInstruction.
+   * Subsequent system messages are dropped (Google rejects mid-turn system roles).
    */
   private buildRequestBody(
     messages: ChatMessage[],
     options?: CompletionOptions,
   ): GoogleGenerateContentRequest {
-    // Collect all leading system messages into systemInstruction
     let i = 0;
     const systemParts: GoogleContentPart[] = [];
+
     while (i < messages.length && messages[i].role === 'system') {
       systemParts.push({ text: messages[i].content });
       i++;
     }
 
-    // Map the remaining turns — skip any stray system messages mid-conversation
     const contents: GoogleContent[] = [];
     for (; i < messages.length; i++) {
       const m = messages[i];
-      if (m.role === 'system') continue; // Google doesn't allow system mid-turn
+      if (m.role === 'system') continue;
       contents.push({
         role: m.role === 'assistant' ? 'model' : 'user',
         parts: [{ text: m.content }],
@@ -228,10 +192,7 @@ export class CloudProvider implements AIProvider {
     return body;
   }
 
-  /**
-   * Extracts the text content from a Google generateContent response.
-   * Path: candidates[0].content.parts[0].text
-   */
+  /** candidates[0].content.parts[0].text */
   private extractContent(data: GoogleGenerateContentResponse): string | undefined {
     return data?.candidates?.[0]?.content?.parts?.[0]?.text;
   }

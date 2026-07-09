@@ -27,19 +27,26 @@ const diagnosisRepository = new DiagnosisRepository();
 export async function getHistory(
   query: HistoryQuery,
 ): Promise<{ records: HistoryRecord[]; total: number }> {
-  const { data, total } = await historyRepository.findAll({
-    cropName: query.cropName,
-    dateFrom: query.dateFrom,
-    dateTo: query.dateTo,
-    page: query.page,
-    limit: query.limit,
-    sortBy: query.sortBy,
-    sortOrder: query.sortOrder,
-  });
+  try {
+    const { data, total } = await historyRepository.findAll({
+      cropName: query.cropName,
+      dateFrom: query.dateFrom,
+      dateTo: query.dateTo,
+      page: query.page,
+      limit: query.limit,
+      sortBy: query.sortBy,
+      sortOrder: query.sortOrder,
+    });
 
-  const records: HistoryRecord[] = data.map((doc) => mapToHistoryRecord(doc));
-
-  return { records, total };
+    const records: HistoryRecord[] = data.map((doc) => mapToHistoryRecord(doc));
+    return { records, total };
+  } catch (err) {
+    console.warn(
+      '[history:service] MongoDB unavailable — returning empty history.',
+      err instanceof Error ? err.message : String(err),
+    );
+    return { records: [], total: 0 };
+  }
 }
 
 /**

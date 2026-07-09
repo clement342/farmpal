@@ -62,8 +62,16 @@ export function validateDiagnosisRequest(data: unknown): DiagnosisRequest {
  */
 export async function validateCropExists(cropId?: string): Promise<void> {
   if (!cropId) return;
-  const dbCrop = await cropRepository.findById(cropId);
-  if (dbCrop) return;
+
+  // Attempt MongoDB first — if the DB is unreachable fall through to the
+  // offline knowledge base rather than throwing a connection error.
+  try {
+    const dbCrop = await cropRepository.findById(cropId);
+    if (dbCrop) return;
+  } catch (err) {
+    console.warn('[validateCropExists] MongoDB unreachable — falling back to knowledge base', err instanceof Error ? err.message : String(err));
+    // fall through to KB check below
+  }
 
   const kbCrop = knowledgeService.getCrop(cropId);
   if (kbCrop) return;
